@@ -1,0 +1,16 @@
+{
+  "name": "kilroy-scout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "first-events-api": "1.0.2",
+    "orig-first-events-api": "github:fisherjacobc/frc-events-api#3cbfdaaf9c0a6a1dff9e7b185cf8caa7602d8e17"
+  }
+}
