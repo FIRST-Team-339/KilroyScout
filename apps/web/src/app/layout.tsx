@@ -18,9 +18,9 @@ export default function RootLayout({
   }) {
     return (
       <html lang="en">
-        <body className="min-h-screen flex">
+        <body className="min-h-screen flex transition-all">
           <Sidebar />
-          <main className="h-screen w-full p-8 flex overflow-scroll">
+          <main className="h-screen w-full p-8 flex overflow-scroll dark:bg-gray-950 dark:text-gray-50">
             {children}
           </main>
           <Toaster />

@@ -36,12 +36,12 @@ export default function Matches() {
                             minute: "2-digit",
                             year: "numeric"
                         })}</TableCell>
-                        <TableCell className="text-blue-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
-                        <TableCell className="text-blue-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
-                        <TableCell className="text-blue-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
-                        <TableCell className="text-red-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
-                        <TableCell className="text-red-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
-                        <TableCell className="text-red-800 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
+                        <TableCell className="text-blue-800 dark:text-blue-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
+                        <TableCell className="text-blue-800 dark:text-blue-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
+                        <TableCell className="text-blue-800 dark:text-blue-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
+                        <TableCell className="text-red-800 dark:text-red-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
+                        <TableCell className="text-red-800 dark:text-red-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
+                        <TableCell className="text-red-800 dark:text-red-400 font-medium"><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
                     </TableRow>
                 ))}
             </TableBody>

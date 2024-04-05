@@ -68,15 +68,15 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
 
     return (
         <>
-            {(!eventData || !teamData) && <span className="text-gray-950 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Team #</span>}
+            {(!eventData || !teamData) && <span className="text-gray-950 dark:text-gray-50 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Team #</span>}
             {(eventData && teamData && teamMatches && matchesScoutingData && teamMatches.length > 0) &&
             <div className="flex flex-col w-full">
                 <section className="flex flex-col">
-                    <span className="text-2xl font-semibold text-gray-950">{teamData.teamNumber} &#x2022; {teamData.name}</span>
-                    <span className="text-lg text-gray-700">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span></span>
+                    <span className="text-2xl font-semibold text-gray-950 dark:text-gray-50">{teamData.teamNumber} &#x2022; {teamData.name}</span>
+                    <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span></span>
                 </section>
                 <section className="flex flex-col">
-                    <span className="text-xl font-semibold text-gray-950">Scouting</span>
+                    <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Scouting</span>
                     <Table>
                         <TableBody>
                             <TableRow>
@@ -123,7 +123,7 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                     </Table>
                 </section>
                 <section>
-                    <span className="text-xl font-semibold text-gray-950">Matches</span>
+                    <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Matches</span>
                     <Table>
                         <TableCaption>Match Schedule for team <span className="font-semibold">{teamNumber}</span> @ <span className="font-semibold">{eventData.event.eventCode.toUpperCase()}</span></TableCaption>
                         <TableHeader>

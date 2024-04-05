@@ -16,7 +16,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
       {(eventData && matchData) && 
         <div className="flex flex-col w-full">
             <div className="flex w-full mb-16 gap-x-24">
-                <section id="blue-alliance" className="flex w-full flex-col text-gray-950 space-y-2">
+                <section id="blue-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
                     <span className="text-2xl font-semibold text-blue-700">Blue Alliance</span>
                     <Table>
                         <TableBody>
@@ -35,7 +35,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                         </TableBody>
                     </Table>
                 </section>
-                <section id="red-alliance" className="flex w-full flex-col text-gray-950 space-y-2">
+                <section id="red-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
                     <span className="text-2xl font-semibold text-red-700">Red Alliance</span>
                     <Table>
                         <TableBody>
@@ -61,7 +61,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                         const teamNumber = matchData.alliances.blue.teams[index];
 
                         return (
-                            <section key={teamNumber} className={`flex flex-col text-gray-950 space-y-2`}>
+                            <section key={teamNumber} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
                                 <Link className="text-2xl font-semibold text-blue-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
                                 <span className="text-xl font-medium">Scouting Points: <span className="font-normal">{calculatePoints(data)}</span></span>
                                 <span className="text-xl font-medium">Autonomous</span>
@@ -136,7 +136,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                         const teamNumber = matchData.alliances.red.teams[index];
 
                         return (
-                            <section key={teamNumber} id={`team${teamNumber}`} className={`flex flex-col text-gray-950 space-y-2`}>
+                            <section key={teamNumber} id={`team${teamNumber}`} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
                                 <Link className="text-2xl font-semibold text-red-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
                                 <span className="text-xl font-medium">Scouting Points: <span className="font-normal">{calculatePoints(data)}</span></span>
                                 <span className="text-xl font-medium">Autonomous</span>
