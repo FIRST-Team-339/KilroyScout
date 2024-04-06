@@ -1,9 +1,11 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MatchScoutingData, useEventData } from "@/hooks/useEventData"
 import { calculateAverage, calculatePoints, calculateRanks } from "@/lib/calculate";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Team({ params: { teamNumber } }: { params: { teamNumber: string } }) {
     const [eventData] = useEventData();
@@ -16,6 +18,7 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
 
         return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex]: teamMatch.scouting.red[redIndex];
     })
+    const router = useRouter();
 
     function getAccuracy(matchesScoutingData: Array<MatchScoutingData>, teleop: true, key: keyof MatchScoutingData["teleop"]): number;
     function getAccuracy(matchesScoutingData: Array<MatchScoutingData>, teleop: false, key: keyof MatchScoutingData["auto"]): number;
@@ -66,6 +69,40 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
         return amount/matches;
     }
 
+    const drivetrainOptions = [
+        {
+            label: "Swerve",
+            value: "swerve"
+        },
+        {
+            label: "Mecanum",
+            value: "mecanum"
+        },
+        {
+            label: "Tank",
+            value: "tank"
+        },
+        {
+            label: "Other",
+            value: "other"
+        }
+    ];
+
+    const programmingLanguageOptions = [
+        {
+            label: "Java",
+            value: "java"
+        },
+        {
+            label: "C++",
+            value: "cpp"
+        },
+        {
+            label: "Python",
+            value: "python"
+        }
+    ];
+
     return (
         <>
             {(!eventData || !teamData) && <span className="text-gray-950 dark:text-gray-50 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Team #</span>}
@@ -75,8 +112,11 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                     <span className="text-2xl font-semibold text-gray-950 dark:text-gray-50">{teamData.teamNumber} &#x2022; {teamData.name}</span>
                     <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span></span>
                 </section>
+                <section className="flex flex-col py-2">
+                    <Button type="button" onClick={() => router.push(`/teams/${teamNumber}/edit`)}>Edit Team Data</Button>
+                </section>
                 <section className="flex flex-col">
-                    <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Scouting</span>
+                    <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Scouting Overview</span>
                     <Table>
                         <TableBody>
                             <TableRow>
@@ -115,10 +155,57 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                 <TableCell><span className="font-medium">Teleop</span> Amp Speaker Notes Average</TableCell>
                                 <TableCell>{getAverage(matchesScoutingData, true, "ampNotesScored")}</TableCell>
                             </TableRow>
-                            {/* <TableRow>
-                                <TableCell>Rank</TableCell>
-                                <TableCell><Checkbox className="pointer-events-none" checked={true}/></TableCell>
-                            </TableRow> */}
+                        </TableBody>
+                    </Table>
+                </section>
+                <section className="flex flex-col">
+                    <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Pre-Scouting Data</span>
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>Drivetrain</TableCell>
+                                <TableCell>{drivetrainOptions.find(d => d.value === teamData.scouting.drivetrain)?.label ?? ""}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Programming Language</TableCell>
+                                <TableCell>{programmingLanguageOptions.find(p => p.value === teamData.scouting.programmingLanguage)?.label ?? ""}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Score Speaker?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreSpeaker}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Score Amp?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAmp}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Estimated Teleop Note Cycle</TableCell>
+                                <TableCell>{teamData.scouting.estimatedTeleopNoteCycle}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Score Speaker Auto?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreSpeakerAuto}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Score Amp Auto?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAmpAuto}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Best Auto Notes</TableCell>
+                                <TableCell>{teamData.scouting.speakerAutoNotes}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Pass Start Line Auto?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canPassStartLineAuto}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Climb?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canClimb}/></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Score Trap?</TableCell>
+                                <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canTrap}/></TableCell>
+                            </TableRow>
                         </TableBody>
                     </Table>
                 </section>
