@@ -25,7 +25,7 @@ const defaultMatchScoutingData: MatchScoutingData = {
 };
 
 export async function initEvent(
-  prevState: any,
+  _: never,
   formData: FormData
 ): Promise<EventData | null> {
   try {
