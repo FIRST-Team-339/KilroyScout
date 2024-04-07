@@ -52,7 +52,7 @@ export default function Home() {
       )}`;
       const link = document.createElement("a");
       link.href = jsonString;
-      link.download = `eventData-${eventData.event.eventCode}.json`;
+      link.download = `${eventData.event.eventCode}.scouting.json`;
   
       link.click();
       toast("Data exported!")
@@ -102,7 +102,7 @@ export default function Home() {
         <section className="flex flex-col space-y-2">
           <span className="text-2xl font-semibold">Data</span>
           <Button type="button" onClick={() => document.getElementById("import")?.click()}>Import Data</Button>
-          <Input id="import" type="file" className="hidden" onChange={importData}/>
+          <Input id="import" type="file" className="hidden" accept=".scouting.json" onChange={importData}/>
           <Button type="button" onClick={exportData}>Export Data</Button>
         </section>
         <section className="flex flex-col space-y-2">
