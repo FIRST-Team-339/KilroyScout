@@ -94,9 +94,9 @@ export default function Home() {
       <div className="flex flex-col space-y-4">
         <section>
           <span className="text-2xl font-semibold">Event</span>
-          <form className="pt-4 flex space-x-2" action={initEventAction}>
+          <form className="pt-4 flex" action={initEventAction}>
             <Input name="eventCode" type="text" placeholder="Type Event Code" value={eventCode} onChange={(e) => setEventCode(e.target.value)} />
-            <Button type="submit" disabled={pending}>{ pending && <Loading  />}Set Event</Button>
+            <Button type="submit" className="ml-2" disabled={pending}>{ pending && <Loading  />}Set Event</Button>
           </form>
         </section>
         <section className="flex flex-col space-y-2">
