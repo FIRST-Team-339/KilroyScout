@@ -1,20 +1,28 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table";
 import { useEventData } from "@/hooks/useEventData";
 import { calculatePoints } from "@/lib/calculate";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function MatchDetails({ params: { matchNumber } }: { params: { matchNumber: string } }) {
   const [eventData] = useEventData();
   const matchData = eventData?.matches.find(match => match.matchNumber === parseInt(matchNumber))
+
+  const router = useRouter();
 
   return (
     <>
       {(!eventData || !matchData) && <span className="text-gray-950 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Match #</span>}
       {(eventData && matchData) && 
         <div className="flex flex-col w-full">
+            <section className="flex flex-col py-2 space-y-2">
+                <span className="font-bold text-3xl text-center">Match {matchNumber}</span>
+                <Button type="button" onClick={() => router.push(`/matches/${matchNumber}/edit`)}>Edit Match Data</Button>
+            </section>
             <div className="flex w-full mb-16 gap-x-24">
                 <section id="blue-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
                     <span className="text-2xl font-semibold text-blue-700">Blue Alliance</span>
