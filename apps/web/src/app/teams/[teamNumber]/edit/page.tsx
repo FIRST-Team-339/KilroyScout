@@ -154,7 +154,7 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This will save over any current team data as it is shown to you currently. This action cannot be undone.
+                            This will save over any and all current team data as it is shown to you currently. This action cannot be undone.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
