@@ -31,6 +31,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
             matches: eventData!.matches.map(match => {
                 if (match.matchNumber === parseInt(matchNumber)) return {
                     ...match,
+                    rankMatchData: true,
                     alliances: matchAllianceDataState,
                     scouting: matchDataState
                 };
