@@ -27,7 +27,10 @@ export default function Rankings() {
                     </TableHeader>
                     <TableBody>
                         {eventData.teams.sort((a, b) => ranks.findIndex(rank => rank === a.teamNumber) - ranks.findIndex(rank => rank === b.teamNumber)).map(team => {
-                            const calculatedTeamMatches = eventData?.matches.filter(match => match.rankMatchData && match.alliances.blue.teams.includes(team.teamNumber) || match.alliances.red.teams.includes(team.teamNumber));
+                            const calculatedTeamMatches = eventData?.matches.filter(match => {
+                                return match.rankMatchData && (match.alliances.blue.teams.includes(team.teamNumber) || match.alliances.red.teams.includes(team.teamNumber))
+                            });
+                            
                             const matchesScoutingData = calculatedTeamMatches?.map(teamMatch => {
                                 const blueIndex = teamMatch.alliances.blue.teams.findIndex((nTeam) => nTeam === team.teamNumber);
                                 const redIndex = teamMatch.alliances.red.teams.findIndex((nTeam) => nTeam === team.teamNumber);
@@ -35,10 +38,12 @@ export default function Rankings() {
                                 return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex]: teamMatch.scouting.red[redIndex];
                             })
 
+                            const average = calculateAverage(matchesScoutingData);
+
                             return (
                                 <TableRow key={team.teamNumber}>
                                     <TableCell className="font-medium">{ranks.findIndex((rankTeamNumber) => rankTeamNumber === team.teamNumber) + 1}</TableCell>
-                                    <TableCell className="font-medium">{calculateAverage(matchesScoutingData)}</TableCell>
+                                    <TableCell className="font-medium">{!Number.isNaN(average) ? average.toFixed(3) : (0).toFixed(3)}</TableCell>
                                     <TableCell><Link href={`/teams/${team.teamNumber}`}>{team.teamNumber}</Link></TableCell>
                                     <TableCell>{team.name}</TableCell>
                                     <TableCell>{team.robotName}</TableCell>

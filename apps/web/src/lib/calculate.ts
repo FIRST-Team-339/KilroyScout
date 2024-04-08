@@ -97,8 +97,8 @@ export function calculateRanks(matches: EventData["matches"]): Array<number> {
   return Array.from(teamMatchesMap)
     .sort(
       (team1, team2) =>
-        team1[1].totalPoints / team1[1].matches -
-        team2[1].totalPoints / team2[1].matches
+        team2[1].totalPoints / team2[1].matches -
+        team1[1].totalPoints / team1[1].matches
     )
     .map((team) => team[0]);
 }
