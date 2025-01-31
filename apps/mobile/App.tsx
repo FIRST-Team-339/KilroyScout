@@ -6,6 +6,7 @@ import { registerRootComponent } from "expo";
 // import ConnectDevice from "./components/ConnectDevice";
 
 import "./styles.css";
+import BluetoothSerial from 'react-native-bluetooth-serial-next';
 
 export default function App() {
   // const {
@@ -35,9 +36,13 @@ export default function App() {
   //   scanForDevices();
   //   setIsModalVisible(true);
   // };
+  const a = async () => {
+    const isEnabled = await BluetoothSerial.isEnabled();
+  }
+  a();
   
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="h-screen w-full p-8 flex overflow-scroll dark:bg-gray-950 dark:text-gray-50">
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
