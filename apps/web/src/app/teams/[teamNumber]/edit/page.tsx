@@ -114,40 +114,44 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                     <TableCell><Combobox placeholder="Select a programming language" emptyResult="Invalid programming language" options={programmingLanguageOptions} defaultValue={programmingLanguageOptions.find(p => p.value === teamData.scouting.programmingLanguage)?.label} onChange={(newValue) => setTeamDataState({ ...teamDataState, programmingLanguage: newValue as "java" })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Speaker?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreSpeaker} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreSpeaker: !!checked })} /></TableCell>
+                                    <TableCell>Can Score Coral?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreCoral} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreCoral: !!checked })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Amp?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreAmp} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreAmp: !!checked })} /></TableCell>
+                                    <TableCell>Can Score Algae?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreAlgae} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreAlgae: !!checked })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Estimated Teleop Note Cycle</TableCell>
-                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={teamDataState.estimatedTeleopNoteCycle} onChange={(e) => setTeamDataState({ ...teamDataState, estimatedTeleopNoteCycle: e.target.valueAsNumber })} /></TableCell>
+                                    <TableCell>Average Coral Cycled</TableCell>
+                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={teamDataState.averageCoralCycled} onChange={(e) => setTeamDataState({ ...teamDataState, averageCoralCycled: e.target.valueAsNumber })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Speaker Auto?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreSpeakerAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreSpeakerAuto: !!checked })} /></TableCell>
+                                    <TableCell>Most Coral Cycled</TableCell>
+                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={teamDataState.mostCoralCycled} onChange={(e) => setTeamDataState({ ...teamDataState, mostCoralCycled: e.target.valueAsNumber })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Amp Auto?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreAmpAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreAmpAuto: !!checked })} /></TableCell>
+                                    <TableCell>Max Coral Cycled in Auto</TableCell>
+                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={teamDataState.maxCoralScoredInAuto} onChange={(e) => setTeamDataState({ ...teamDataState, maxCoralScoredInAuto: e.target.valueAsNumber })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Best Auto Notes</TableCell>
-                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={teamDataState.speakerAutoNotes} onChange={(e) => setTeamDataState({ ...teamDataState, speakerAutoNotes: e.target.valueAsNumber })} /></TableCell>
+                                    <TableCell>Can Score Coral in Auto?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreCoralInAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreCoralInAuto: !!checked })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Pass Start Line Auto?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canPassStartLineAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canPassStartLineAuto: !!checked })} /></TableCell>
+                                    <TableCell>Can Score Algae in Auto?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canScoreAlgaeInAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canScoreAlgaeInAuto: !!checked })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Climb?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canClimb} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canClimb: !!checked })} /></TableCell>
+                                    <TableCell>Can Leave in Auto?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canLeaveInAuto} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canLeaveInAuto: !!checked })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Trap?</TableCell>
-                                    <TableCell><Checkbox defaultChecked={teamDataState.canTrap} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canTrap: !!checked })} /></TableCell>
+                                    <TableCell>Can Shallow Cage Climb?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canShallowCageClimb} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canShallowCageClimb: !!checked })} /></TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can Deep Cage Climb?</TableCell>
+                                    <TableCell><Checkbox defaultChecked={teamDataState.canDeepCageClimb} onCheckedChange={(checked) => setTeamDataState({ ...teamDataState, canDeepCageClimb: !!checked })} /></TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

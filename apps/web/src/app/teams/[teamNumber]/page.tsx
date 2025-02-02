@@ -208,23 +208,23 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                     <TableCell>{teamData.scouting.maxCoralScoredInAuto}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Coral in Auto?</TableCell>
+                                    <TableCell>Can Score Coral in Auto?</TableCell>
                                     <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreCoralInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Algae in Auto?</TableCell>
+                                    <TableCell>Can Score Algae in Auto?</TableCell>
                                     <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAlgaeInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Leave in Auto?</TableCell>
+                                    <TableCell>Can Leave in Auto?</TableCell>
                                     <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canLeaveInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Shallow Cage Climb?</TableCell>
+                                    <TableCell>Can Shallow Cage Climb?</TableCell>
                                     <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canShallowCageClimb} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Deep Cage Climb?</TableCell>
+                                    <TableCell>Can Deep Cage Climb?</TableCell>
                                     <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canDeepCageClimb} /></TableCell>
                                 </TableRow>
                             </TableBody>
