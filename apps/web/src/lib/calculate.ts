@@ -5,56 +5,63 @@ import {
 } from "@/hooks/useEventData";
 
 /**
- * @see https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf p. 48
+ * @see https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf#page=49
  *
  * MODIFIED POINT VALUES - NOT ENTIRELY THE SAME
  */
 export const pointValues = {
 	auto: {
-		passStartLine: 2,
-		ampNote: 4,
-		speakerNote: 5,
-	},
-	teleop: {
-		ampNote: 2,
-		speakerNote: 2,
-		amplifiedSpeakerNote: 5,
-		park: 1,
-		onStage: 3,
-		alsoSpotlit: 1,
-		harmony: 2,
-		trapNote: 5,
-	},
+		leave: 1,
+		coralL1: 3,
+		coralL2: 4,
+		coralL3: 5,
+		coralL4: 7,
+		algaeProcessor: 4,
+		allianceGotAutoRP: 10,
+	  },
+	  teleop: {
+		coralL1: 1,
+		coralL2: 2,
+		coralL3: 3,
+		coralL4: 5,
+		algaeProcessor: 2,
+		algaeNet: 4,
+		parked: 1,
+		shallowCageClimbed: 3,
+		deepCageClimbed: 5,
+		allianceGotCoralRP: 10,
+		allianceGotBargeRP: 10,
+	  },
 } as const;
 
 export function calculatePoints(matchScoutingData: MatchScoutingData) {
-	const autoPoints =
-		(matchScoutingData.auto.passedStartLine
-			? pointValues.auto.passStartLine
-			: 0) +
-		matchScoutingData.auto.speakerNotesScored * pointValues.auto.speakerNote;
-	matchScoutingData.auto.ampNotesScored * pointValues.auto.ampNote;
+	let points = 0;
 
-	const teleopPoints =
-		matchScoutingData.teleop.speakerNotesScored *
-			pointValues.teleop.speakerNote +
-		matchScoutingData.teleop.amplifiedSpeakerNotesScored *
-			pointValues.teleop.amplifiedSpeakerNote +
-		matchScoutingData.teleop.ampNotesScored * pointValues.teleop.ampNote;
+	// Auto
+	points += +matchScoutingData.auto.leave * pointValues.auto.leave;
+	points += matchScoutingData.auto.coralL1 * pointValues.auto.coralL1;
+	points += matchScoutingData.auto.coralL2 * pointValues.auto.coralL2;
+	points += matchScoutingData.auto.coralL3 * pointValues.auto.coralL3;
+	points += matchScoutingData.auto.coralL4 * pointValues.auto.coralL4;
+	points += matchScoutingData.auto.algaeProcessor * pointValues.auto.algaeProcessor;
+	points += +matchScoutingData.auto.allianceGotAutoRP * pointValues.auto.allianceGotAutoRP;
 
-	const endGamePoints =
-		(matchScoutingData.teleop.parked && !matchScoutingData.teleop.climbed
-			? pointValues.teleop.park
-			: 0) +
-		(matchScoutingData.teleop.climbed ? pointValues.teleop.onStage : 0) +
-		(matchScoutingData.teleop.climbed && matchScoutingData.teleop.spotlit
-			? pointValues.teleop.alsoSpotlit
-			: 0) +
-		(matchScoutingData.teleop.harmonizing ? pointValues.teleop.harmony : 0) +
-		(matchScoutingData.teleop.scoredTrap ? pointValues.teleop.trapNote : 0) +
-		matchScoutingData.teleop.defense;
+	// Teleop
+	points += matchScoutingData.teleop.coralL1 * pointValues.teleop.coralL1;
+	points += matchScoutingData.teleop.coralL2 * pointValues.teleop.coralL2;
+	points += matchScoutingData.teleop.coralL3 * pointValues.teleop.coralL3;
+	points += matchScoutingData.teleop.coralL4 * pointValues.teleop.coralL4;
+	points += matchScoutingData.teleop.algaeProcessor * pointValues.teleop.algaeProcessor;
+	points += matchScoutingData.teleop.algaeNet * pointValues.teleop.algaeNet;
+	points += +matchScoutingData.teleop.allianceGotCoralRP * pointValues.teleop.allianceGotCoralRP;
+	points += +matchScoutingData.teleop.allianceGotBargeRP * pointValues.teleop.allianceGotBargeRP;
+	
+	// Endgame
+	points += +matchScoutingData.teleop.parked * pointValues.teleop.parked;
+	points += +matchScoutingData.teleop.shallowCageClimbed * pointValues.teleop.shallowCageClimbed;
+	points += +matchScoutingData.teleop.deepCageClimbed * pointValues.teleop.deepCageClimbed;
 
-	return autoPoints + teleopPoints + endGamePoints;
+	return points;
 }
 
 export function calculateAverage(

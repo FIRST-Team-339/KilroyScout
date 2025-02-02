@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function Team({ params: { teamNumber } }: { params: { teamNumber: string } }) {
     const [eventData] = useEventData();
     const teamData = eventData?.teams.find(team => team.teamNumber === parseInt(teamNumber));
-    const teamMatches = eventData?.matches.filter(match => match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)));
+    const teamMatches = eventData?.matches.filter(match => match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)))!;
     const calculatedTeamMatches = eventData?.matches.filter(match => match.rankMatchData && match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)));
     const matchesScoutingData = calculatedTeamMatches?.map(teamMatch => {
         const blueIndex = teamMatch.alliances.blue.teams.findIndex((team) => team === parseInt(teamNumber));
@@ -50,12 +50,13 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
         let amount = 0;
         let matches = 0;
 
-        matchesScoutingData.forEach(matchScoutingData => {
+        matchesScoutingData?.forEach(matchScoutingData => {
             if (teleop === "reliability") {
                 if (!matchScoutingData.brokeDown) amount++;
             } else if (teleop) {
                 const teleopKey = key as keyof MatchScoutingData["teleop"];
 
+                console.log(typeof matchScoutingData.teleop[teleopKey] === "number")
                 amount += typeof matchScoutingData.teleop[teleopKey] === "number" ? matchScoutingData.teleop[teleopKey] as number : 1;
             } else {
                 const autoKey = key as keyof MatchScoutingData["auto"];
@@ -114,7 +115,7 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                 <div className="flex flex-col w-full">
                     <section className="flex flex-col">
                         <span className="text-2xl font-semibold text-gray-950 dark:text-gray-50">{teamData.teamNumber} &#x2022; {teamData.name}</span>
-                        <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span></span>
+                        <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span> &#x2022; Rookie Year: <span className="font-medium">{teamData.rookieYear}</span></span>
                     </section>
                     <section className="flex flex-col py-2">
                         <Button type="button" onClick={() => router.push(`/teams/${teamNumber}/edit`)}>Edit Team Data</Button>
@@ -137,27 +138,39 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Climb Accuracy</TableCell>
-                                    <TableCell>{getAccuracy(matchesScoutingData, true, "climbed") * 100}%</TableCell>
+                                    <TableCell>{(getAccuracy(matchesScoutingData, true, "shallowCageClimbed") + getAccuracy(matchesScoutingData, true, "deepCageClimbed")) * 100}%</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell><span className="font-medium">Auto</span> Amplified Speaker Notes Average</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, false, "speakerNotesScored")}</TableCell>
+                                    <TableCell><span className="font-medium">Auto</span> Coral Average</TableCell>
+                                    <TableCell>{
+                                        (getAverage(matchesScoutingData, false, "coralL1") +
+                                            getAverage(matchesScoutingData, false, "coralL2") +
+                                            getAverage(matchesScoutingData, false, "coralL3") +
+                                            getAverage(matchesScoutingData, false, "coralL4")) /
+                                        matchesScoutingData.length
+                                    }</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell><span className="font-medium">Auto</span> Amp Speaker Notes Average</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, false, "ampNotesScored")}</TableCell>
+                                    <TableCell><span className="font-medium">Auto</span> Algae Average</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, false, "algaeProcessor")}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell><span className="font-medium">Teleop</span> Speaker Notes Average (includes non-amplified <span className="font-bold">and</span> amplified)</TableCell>
-                                    <TableCell>{((getAverage(matchesScoutingData, true, "speakerNotesScored") * matchesScoutingData.length) + (getAverage(matchesScoutingData, true, "amplifiedSpeakerNotesScored") * matchesScoutingData.length)) / matchesScoutingData.length}</TableCell>
+                                    <TableCell><span className="font-medium">Teleop</span> Coral Notes Average</TableCell>
+                                    <TableCell>{
+                                        (getAverage(matchesScoutingData, true, "coralL1") +
+                                            getAverage(matchesScoutingData, true, "coralL2") +
+                                            getAverage(matchesScoutingData, true, "coralL3") +
+                                            getAverage(matchesScoutingData, true, "coralL4")) /
+                                        matchesScoutingData.length
+                                    }</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell><span className="font-medium">Teleop</span> Amplified Speaker Notes Average</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, true, "speakerNotesScored")}</TableCell>
+                                    <TableCell><span className="font-medium">Teleop</span> Algae Average [Processor]</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeProcessor")}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell><span className="font-medium">Teleop</span> Amp Speaker Notes Average</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, true, "ampNotesScored")}</TableCell>
+                                    <TableCell><span className="font-medium">Teleop</span> Algae Average [Net]</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeNet")}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -175,40 +188,44 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                     <TableCell>{programmingLanguageOptions.find(p => p.value === teamData.scouting.programmingLanguage)?.label ?? ""}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Speaker?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreSpeaker} /></TableCell>
+                                    <TableCell>Can Score Coral?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreCoral} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Amp?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAmp} /></TableCell>
+                                    <TableCell>Can Score Algae?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAlgae} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Estimated Teleop Note Cycle</TableCell>
-                                    <TableCell>{teamData.scouting.estimatedTeleopNoteCycle}</TableCell>
+                                    <TableCell>Average Coral Cycled</TableCell>
+                                    <TableCell>{teamData.scouting.averageCoralCycled}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Speaker Auto?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreSpeakerAuto} /></TableCell>
+                                    <TableCell>Most Coral Cycled</TableCell>
+                                    <TableCell>{teamData.scouting.mostCoralCycled}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Amp Auto?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAmpAuto} /></TableCell>
+                                    <TableCell>Max Coral Scored in Auto</TableCell>
+                                    <TableCell>{teamData.scouting.maxCoralScoredInAuto}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Best Auto Notes</TableCell>
-                                    <TableCell>{teamData.scouting.speakerAutoNotes}</TableCell>
+                                    <TableCell>Score Coral in Auto?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreCoralInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Pass Start Line Auto?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canPassStartLineAuto} /></TableCell>
+                                    <TableCell>Score Algae in Auto?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canScoreAlgaeInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Climb?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canClimb} /></TableCell>
+                                    <TableCell>Leave in Auto?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canLeaveInAuto} /></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Score Trap?</TableCell>
-                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canTrap} /></TableCell>
+                                    <TableCell>Shallow Cage Climb?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canShallowCageClimb} /></TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Deep Cage Climb?</TableCell>
+                                    <TableCell><Checkbox className="pointer-events-none" checked={teamData.scouting.canDeepCageClimb} /></TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
