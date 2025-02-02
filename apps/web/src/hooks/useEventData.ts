@@ -32,8 +32,9 @@ export type TeamData = z.TypeOf<typeof teamDataSchema>;
 export const matchAlliancesDataSchema = z.object({
   teams: z.tuple([z.number(), z.number(), z.number()]),
   didCoopertition: z.boolean(),
-  melody: z.boolean(),
-  ensemble: z.boolean(),
+  autoRP: z.boolean(),
+  coralRP: z.boolean(),
+  bargeRP: z.boolean(),
 });
 export type MatchAlliancesData = z.TypeOf<typeof matchAlliancesDataSchema>;
 
