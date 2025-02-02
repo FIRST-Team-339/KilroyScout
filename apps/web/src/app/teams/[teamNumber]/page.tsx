@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MatchScoutingData } from "@/lib/eventDataSchemas"
-import { calculateAverage, calculatePoints, calculateRanks } from "@/lib/calculate";
+import { calculatePoints, calculateRanks, calculateScoutingPointsAverage } from "@/lib/calculate";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEventData } from "@/app/context/EventDataContext";
@@ -130,47 +130,47 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Scouting Points Average</TableCell>
-                                    <TableCell>{calculateAverage(matchesScoutingData)}</TableCell>
+                                    <TableCell>{calculateScoutingPointsAverage(matchesScoutingData).toFixed(3)}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Reliability</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, "reliability") * 100}%</TableCell>
+                                    <TableCell>{(getAverage(matchesScoutingData, "reliability") * 100).toFixed(2)}%</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Climb Accuracy</TableCell>
-                                    <TableCell>{(getAccuracy(matchesScoutingData, true, "shallowCageClimbed") + getAccuracy(matchesScoutingData, true, "deepCageClimbed")) * 100}%</TableCell>
+                                    <TableCell>{((getAccuracy(matchesScoutingData, true, "shallowCageClimbed") + getAccuracy(matchesScoutingData, true, "deepCageClimbed")) * 100).toFixed(2)}%</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell><span className="font-medium">Auto</span> Coral Average</TableCell>
                                     <TableCell>{
-                                        (getAverage(matchesScoutingData, false, "coralL1") +
+                                        ((getAverage(matchesScoutingData, false, "coralL1") +
                                             getAverage(matchesScoutingData, false, "coralL2") +
                                             getAverage(matchesScoutingData, false, "coralL3") +
                                             getAverage(matchesScoutingData, false, "coralL4")) /
-                                        matchesScoutingData.length
+                                            matchesScoutingData.length).toFixed(2)
                                     }</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell><span className="font-medium">Auto</span> Algae Average</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, false, "algaeProcessor")}</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, false, "algaeProcessor").toFixed(2)}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell><span className="font-medium">Teleop</span> Coral Notes Average</TableCell>
                                     <TableCell>{
-                                        (getAverage(matchesScoutingData, true, "coralL1") +
+                                        ((getAverage(matchesScoutingData, true, "coralL1") +
                                             getAverage(matchesScoutingData, true, "coralL2") +
                                             getAverage(matchesScoutingData, true, "coralL3") +
                                             getAverage(matchesScoutingData, true, "coralL4")) /
-                                        matchesScoutingData.length
+                                            matchesScoutingData.length).toFixed(2)
                                     }</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell><span className="font-medium">Teleop</span> Algae Average [Processor]</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeProcessor")}</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeProcessor").toFixed(2)}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell><span className="font-medium">Teleop</span> Algae Average [Net]</TableCell>
-                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeNet")}</TableCell>
+                                    <TableCell>{getAverage(matchesScoutingData, true, "algaeNet").toFixed(2)}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -248,31 +248,43 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {teamMatches.map(match => (
-                                    <TableRow key={match.matchNumber}>
-                                        <TableCell className="font-medium"><Link href={`/matches/${match.matchNumber}`}>{match.matchNumber}</Link></TableCell>
-                                        <TableCell>{new Date(match.startTime).toLocaleTimeString(undefined, {
-                                            month: "long",
-                                            day: "2-digit",
-                                            hourCycle: "h12",
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                            year: "numeric"
-                                        })}</TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
-                                        <TableCell className="font-medium">{calculatePoints(match.scouting.blue.find(matchScoutingData => match.alliances.blue.teams.findIndex(team => team === parseInt(teamNumber)) !== -1) || match.scouting.red.find(matchScoutingData => match.alliances.red.teams.findIndex(team => team === parseInt(teamNumber)) !== -1)!)}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {teamMatches.map(match => {
+                                    let alliance: "blue" | "red" = "blue";
+                                    let teamIndex = match.alliances.blue.teams.findIndex(team => team === parseInt(teamNumber));
+                                    if (teamIndex === -1) {
+                                        alliance = "red";
+                                        teamIndex = match.alliances.red.teams.findIndex(team => team === parseInt(teamNumber));
+                                    }
+
+                                    const teamPoints = teamIndex === -1 ? 0 : calculatePoints(match.scouting[alliance][teamIndex]);
+
+                                    return (
+                                        <TableRow key={match.matchNumber}>
+                                            <TableCell className="font-medium"><Link href={`/matches/${match.matchNumber}`}>{match.matchNumber}</Link></TableCell>
+                                            <TableCell>{new Date(match.startTime).toLocaleTimeString(undefined, {
+                                                month: "long",
+                                                day: "2-digit",
+                                                hourCycle: "h12",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                                year: "numeric"
+                                            })}</TableCell>
+                                            <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
+                                            <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
+                                            <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
+                                            <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
+                                            <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
+                                            <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
+                                            <TableCell className="font-medium">
+                                                {teamPoints}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
                             </TableBody>
                         </Table>
                     </section>
-                </div>
+                </div >
             }
         </>
     )

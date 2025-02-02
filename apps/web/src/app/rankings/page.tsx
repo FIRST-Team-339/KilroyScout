@@ -1,6 +1,6 @@
 "use client";
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { calculateAverage, calculateRanks } from "@/lib/calculate";
+import { calculateRanks, calculateScoutingPointsAverage } from "@/lib/calculate";
 import Link from "next/link";
 import { useEventData } from "../context/EventDataContext";
 
@@ -38,7 +38,7 @@ export default function Rankings() {
                                 return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex] : teamMatch.scouting.red[redIndex];
                             })
 
-                            const average = calculateAverage(matchesScoutingData);
+                            const average = calculateScoutingPointsAverage(matchesScoutingData);
 
                             return (
                                 <TableRow key={team.teamNumber}>
