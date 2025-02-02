@@ -71,7 +71,7 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                             </Table>
                         </section>
                     </div>
-                    <div className="w-full grid grid-cols-2 gap-x-24">
+                    <div className="w-full grid grid-cols-2 pb-24 gap-x-24">
                         <div className="w-full grid grid-rows-3 gap-y-16">
                             {matchData.scouting.blue.map((data, index) => {
                                 const teamNumber = matchData.alliances.blue.teams[index];
