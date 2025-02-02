@@ -12,8 +12,8 @@ export const teamDataSchema = z.object({
     .gte(1989, "Must be a year greater than or equal to 1989"),
   robotName: z.string(),
   scouting: z.object({
-    drivetrain: z.enum(["swerve", "mecanum", "tank", "other"]),
-    programmingLanguage: z.enum(["java", "kotlin", "cpp", "python"]),
+    drivetrain: z.enum(["swerve", "mecanum", "tank", "other", ""]),
+    programmingLanguage: z.enum(["java", "kotlin", "cpp", "python", ""]),
     canScoreCoral: z.boolean(),
     canScoreAlgae: z.boolean(),
     averageCoralCycled: z.number().int().nonnegative(),

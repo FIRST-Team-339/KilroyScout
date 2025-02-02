@@ -27,7 +27,7 @@ export default function Home() {
     if ((initEventState?.event.eventCode !== eventData?.event.eventCode) || eventData == null) {
       setConfirmSetEvent(true)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initEventState])
 
   const importData = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +53,7 @@ export default function Home() {
       const link = document.createElement("a");
       link.href = jsonString;
       link.download = `${eventData.event.eventCode}.scouting.json`;
-  
+
       link.click();
       toast("Data exported!")
     } else {
@@ -73,7 +73,7 @@ export default function Home() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setConfirmSetEvent(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {setConfirmSetEvent(false); setEventData(initEventState); toast(`Initialized event data using event code ${initEventState?.event.eventCode.toUpperCase() ?? ""}`)}}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => { setConfirmSetEvent(false); setEventData(initEventState); toast(`Initialized event data using event code ${initEventState?.event.eventCode.toUpperCase() ?? ""}`) }}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -87,7 +87,7 @@ export default function Home() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setConfirmImportEvent(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {setConfirmImportEvent(false); setEventData(importEventState); setEventCode(importEventState?.event.eventCode.toUpperCase() ?? eventCode); toast(`Imported event data using event code ${importEventState?.event.eventCode ?? ""}`)}}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => { setConfirmImportEvent(false); setEventData(importEventState); setEventCode(importEventState?.event.eventCode.toUpperCase() ?? eventCode); toast(`Imported event data from file with event code ${importEventState?.event.eventCode ?? ""}`) }}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -96,13 +96,13 @@ export default function Home() {
           <span className="text-2xl font-semibold">Event</span>
           <form className="pt-4 flex" action={initEventAction}>
             <Input name="eventCode" type="text" placeholder="Type Event Code" value={eventCode} onChange={(e) => setEventCode(e.target.value)} />
-            <Button type="submit" className="ml-2" disabled={pending}>{ pending && <Loading  />}Set Event</Button>
+            <Button type="submit" className="ml-2" disabled={pending}>{pending && <Loading />}Set Event</Button>
           </form>
         </section>
         <section className="flex flex-col space-y-2">
           <span className="text-2xl font-semibold">Data</span>
           <Button type="button" onClick={() => document.getElementById("import")?.click()}>Import Data</Button>
-          <Input id="import" type="file" className="hidden" accept=".scouting.json" onChange={importData}/>
+          <Input id="import" type="file" className="hidden" accept=".scouting.json" onChange={importData} />
           <Button type="button" onClick={exportData}>Export Data</Button>
         </section>
         <section className="flex flex-col space-y-2">
