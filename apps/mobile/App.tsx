@@ -1,52 +1,118 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { registerRootComponent } from "expo";
-// import useBLE from './hooks/useBLE';
-// import { useState } from 'react';
-// import ConnectDevice from "./components/ConnectDevice";
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
 
-import "./styles.css";
-import BluetoothSerial from 'react-native-bluetooth-serial-next';
+import React from 'react';
+import type { PropsWithChildren } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
-export default function App() {
-  // const {
-  //   requestPermissions,
-  //   scanForPeripherals,
-  //   allDevices,
-  //   connectToDevice,
-  //   connectedDevice,
-  //   heartRate,
-  //   disconnectFromDevice,
-  // } = useBLE();
+import {
+  Colors,
+  DebugInstructions,
+  Header,
+  LearnMoreLinks,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 
-  // const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+type SectionProps = PropsWithChildren<{
+  title: string;
+}>;
 
-  // const scanForDevices = async () => {
-  //   const isPermissionsEnabled = await requestPermissions();
-  //   if (isPermissionsEnabled) {
-  //     scanForPeripherals();
-  //   }
-  // };
-
-  // const hideModal = () => {
-  //   setIsModalVisible(false);
-  // };
-
-  // const openModal = async () => {
-  //   scanForDevices();
-  //   setIsModalVisible(true);
-  // };
-  const a = async () => {
-    const isEnabled = await BluetoothSerial.isEnabled();
-  }
-  a();
-  
+function Section({ children, title }: SectionProps): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View className="h-screen w-full p-8 flex overflow-scroll dark:bg-gray-950 dark:text-gray-50">
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.sectionContainer}>
+      <Text
+        style={[
+          styles.sectionTitle,
+          {
+            color: isDarkMode ? Colors.white : Colors.black,
+          },
+        ]}>
+        {title}
+      </Text>
+      <Text
+        style={[
+          styles.sectionDescription,
+          {
+            color: isDarkMode ? Colors.light : Colors.dark,
+          },
+        ]}>
+        {children}
+      </Text>
     </View>
   );
 }
 
-registerRootComponent(App);
+function App(): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        <Header />
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}>
+          <Section title="Step One">
+            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            screen and then come back to see your edits.
+          </Section>
+          <Section title="See Your Changes">
+            <ReloadInstructions />
+          </Section>
+          <Section title="Debug">
+            <DebugInstructions />
+          </Section>
+          <Section title="Learn More">
+            Read the docs to discover what to do next:
+          </Section>
+          <LearnMoreLinks />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+});
+
+export default App;
