@@ -1,4 +1,5 @@
 "use client";
+import { useEventData } from "@/app/context/EventDataContext";
 import Savebar from "@/components/savebar";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -6,36 +7,36 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { MatchData, MatchAlliancesData, useEventData, MatchScoutingData } from "@/hooks/useEventData";
+import { MatchData, MatchAlliancesData, MatchScoutingData } from "@/lib/eventDataSchemas";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function MatchDetails({ params: { matchNumber } }: { params: { matchNumber: string } }) {
-  const [eventData, setEventData] = useEventData();
-  const matchData = eventData?.matches.find(match => match.matchNumber === parseInt(matchNumber));
+    const { eventData, updateData } = useEventData();
+    const matchData = eventData?.matches.find(match => match.matchNumber === parseInt(matchNumber));
 
-  const [showSaveBar, setShowSaveBar] = useState(false);
-  const [confirmSave, setConfirmSave] = useState(false);
-  const [matchAllianceDataState, setMatchAllianceDataState] = useState<MatchData["alliances"]>(matchData?.alliances ?? ({} as unknown as MatchData["alliances"]));
-  const [matchDataState, setMatchDataState] = useState<MatchData["scouting"]>(structuredClone(matchData?.scouting) ?? ({} as unknown as MatchData["scouting"]));
+    const [showSaveBar, setShowSaveBar] = useState(false);
+    const [confirmSave, setConfirmSave] = useState(false);
+    const [matchAllianceDataState, setMatchAllianceDataState] = useState<MatchData["alliances"] | undefined>();
+    const [matchDataState, setMatchDataState] = useState<MatchData["scouting"] | undefined>();
 
-  const cancelSaveCallback = () => {
+    const cancelSaveCallback = () => {
         setMatchDataState(matchData!.scouting);
         location.reload();
     };
 
     const saveCallback = () => {
-        setEventData({
+        updateData({
             ...eventData!,
             matches: eventData!.matches.map(match => {
                 if (match.matchNumber === parseInt(matchNumber)) return {
                     ...match,
                     rankMatchData: true,
-                    alliances: matchAllianceDataState,
-                    scouting: matchDataState
+                    alliances: matchAllianceDataState!,
+                    scouting: matchDataState!
                 };
-                
+
                 return match;
             })
         })
@@ -43,6 +44,13 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
     }
 
     useEffect(() => {
+        if (!matchData) return;
+        setMatchDataState(structuredClone(matchData.scouting));
+        setMatchAllianceDataState(structuredClone(matchData.alliances));
+    }, [matchData])
+
+    useEffect(() => {
+        if (!matchData || !matchDataState || !matchAllianceDataState) return;
         let valueModified = false;
 
         matchDataState.blue.forEach((blueMatchDataState, index) => {
@@ -74,16 +82,16 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
         });
 
         Object.keys(matchAllianceDataState.blue).forEach(key => {
-            if (matchAllianceDataState.blue[key as keyof MatchAlliancesData] !== matchData!.alliances.blue[key as keyof MatchAlliancesData]) valueModified = true;
+            if (JSON.stringify(matchAllianceDataState.blue[key as keyof MatchAlliancesData]) !== JSON.stringify(matchData!.alliances.blue[key as keyof MatchAlliancesData])) valueModified = true;
         });
 
         Object.keys(matchAllianceDataState.red).forEach(key => {
-            if (matchAllianceDataState.red[key as keyof MatchAlliancesData] !== matchData!.alliances.red[key as keyof MatchAlliancesData]) valueModified = true;
+            if (JSON.stringify(matchAllianceDataState.red[key as keyof MatchAlliancesData]) !== JSON.stringify(matchData!.alliances.red[key as keyof MatchAlliancesData])) valueModified = true;
         });
 
         setShowSaveBar(valueModified);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDataState, matchAllianceDataState])
+
+    }, [matchData, matchDataState, matchAllianceDataState])
 
     type DeepPartial<T> = T extends object ? {
         [P in keyof T]?: DeepPartial<T[P]>;
@@ -94,19 +102,26 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
 
         array[index] = {
             auto: {
-                passedStartLine: dataToMerge.auto?.passedStartLine ?? original.auto.passedStartLine,
-                speakerNotesScored: dataToMerge.auto?.speakerNotesScored ?? original.auto.speakerNotesScored,
-                ampNotesScored: dataToMerge.auto?.ampNotesScored ?? original.auto.ampNotesScored
+                leave: dataToMerge.auto?.leave ?? original.auto.leave,
+                coralL1: dataToMerge.auto?.coralL1 ?? original.auto.coralL1,
+                coralL2: dataToMerge.auto?.coralL2 ?? original.auto.coralL2,
+                coralL3: dataToMerge.auto?.coralL3 ?? original.auto.coralL3,
+                coralL4: dataToMerge.auto?.coralL4 ?? original.auto.coralL4,
+                algaeProcessor: dataToMerge.auto?.algaeProcessor ?? original.auto.algaeProcessor,
+                allianceGotAutoRP: dataToMerge.auto?.allianceGotAutoRP ?? original.auto.allianceGotAutoRP,
             },
             teleop: {
-                speakerNotesScored: dataToMerge.teleop?.speakerNotesScored ?? original.teleop.speakerNotesScored,
-                amplifiedSpeakerNotesScored: dataToMerge.teleop?.amplifiedSpeakerNotesScored ?? original.teleop.amplifiedSpeakerNotesScored,
-                ampNotesScored: dataToMerge.teleop?.ampNotesScored ?? original.teleop.ampNotesScored,
+                coralL1: dataToMerge.teleop?.coralL1 ?? original.teleop.coralL1,
+                coralL2: dataToMerge.teleop?.coralL2 ?? original.teleop.coralL2,
+                coralL3: dataToMerge.teleop?.coralL3 ?? original.teleop.coralL3,
+                coralL4: dataToMerge.teleop?.coralL4 ?? original.teleop.coralL4,
+                algaeProcessor: dataToMerge.teleop?.algaeProcessor ?? original.teleop.algaeProcessor,
+                algaeNet: dataToMerge.teleop?.algaeNet ?? original.teleop.algaeNet,
                 parked: dataToMerge.teleop?.parked ?? original.teleop.parked,
-                climbed: dataToMerge.teleop?.climbed ?? original.teleop.climbed,
-                spotlit: dataToMerge.teleop?.spotlit ?? original.teleop.spotlit,
-                harmonizing: dataToMerge.teleop?.harmonizing ?? original.teleop.harmonizing,
-                scoredTrap: dataToMerge.teleop?.scoredTrap ?? original.teleop.scoredTrap,
+                shallowCageClimbed: dataToMerge.teleop?.shallowCageClimbed ?? original.teleop.shallowCageClimbed,
+                deepCageClimbed: dataToMerge.teleop?.deepCageClimbed ?? original.teleop.deepCageClimbed,
+                allianceGotCoralRP: dataToMerge.teleop?.allianceGotCoralRP ?? original.teleop.allianceGotCoralRP,
+                allianceGotBargeRP: dataToMerge.teleop?.allianceGotBargeRP ?? original.teleop.allianceGotBargeRP,
                 defense: dataToMerge.teleop?.defense ?? original.teleop.defense,
             },
             brokeDown: dataToMerge.brokeDown ?? original.brokeDown,
@@ -116,219 +131,259 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
         return array;
     }
 
-  return (
-    <>
-      {(!eventData || !matchData) && <span className="text-gray-950 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Match #</span>}
-      {(eventData && matchData) && 
-        <div className="flex flex-col w-full">
-            <section className="flex flex-col py-2">
-                <span className="font-bold text-3xl text-center">Match {matchNumber}</span>
-            </section>
-            <div className="flex w-full mb-16 gap-x-24">
-                <section id="blue-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
-                    <span className="text-2xl font-semibold text-blue-700">Blue Alliance</span>
-                    <Table>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Did Coopertition</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.blue.didCoopertition} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, didCoopertition: !!checked } })}/></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Melody Bonus</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.blue.melody} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, melody: !!checked } })}/></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Ensemble Bonus</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.blue.ensemble} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, ensemble: !!checked } })}/></TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </section>
-                <section id="red-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
-                    <span className="text-2xl font-semibold text-red-700">Red Alliance</span>
-                    <Table>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Did Coopertition</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.red.didCoopertition} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, didCoopertition: !!checked } })}/></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Melody Bonus</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.red.melody} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, melody: !!checked } })}/></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Ensemble Bonus</TableCell>
-                                <TableCell><Checkbox defaultChecked={matchData.alliances.red.ensemble} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, ensemble: !!checked } })}/></TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </section>
-            </div>
-            <div className="w-full grid grid-cols-2 gap-x-24">
-                <div className="w-full grid grid-rows-3 gap-y-16">
-                    {matchData.scouting.blue.map((data, index) => {
-                        const teamNumber = matchData.alliances.blue.teams[index];
+    return (
+        <>
+            {(!eventData || !matchData) && <span className="text-gray-950 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Match #</span>}
+            {(eventData && matchData && matchDataState && matchAllianceDataState) &&
+                <div className="flex flex-col w-full">
+                    <section className="flex flex-col py-2">
+                        <span className="font-bold text-3xl text-center">Match {matchNumber}</span>
+                    </section>
+                    <div className="flex w-full mb-16 gap-x-24">
+                        <section id="blue-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
+                            <span className="text-2xl font-semibold text-blue-700">Blue Alliance</span>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Did Coopertition</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.blue.didCoopertition} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, didCoopertition: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Auto RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.blue.autoRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, autoRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Coral RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.blue.coralRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, coralRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Barge RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.blue.bargeRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, blue: { ...matchAllianceDataState.blue, bargeRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </section>
+                        <section id="red-alliance" className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2">
+                            <span className="text-2xl font-semibold text-red-700">Red Alliance</span>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Did Coopertition</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.red.didCoopertition} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, didCoopertition: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Auto RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.red.autoRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, autoRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Coral RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.red.coralRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, coralRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Barge RP</TableCell>
+                                        <TableCell><Checkbox defaultChecked={matchData.alliances.red.bargeRP} onCheckedChange={(checked) => setMatchAllianceDataState({ ...matchAllianceDataState, red: { ...matchAllianceDataState.red, bargeRP: !!checked } })} /></TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </section>
+                    </div>
+                    <div className="w-full grid grid-cols-2 gap-x-24">
+                        <div className="w-full grid grid-rows-3 gap-y-16">
+                            {matchData.scouting.blue.map((data, index) => {
+                                const teamNumber = matchData.alliances.blue.teams[index];
 
-                        return (
-                            <section key={teamNumber} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
-                                <Link className="text-2xl font-semibold text-blue-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
-                                <span className="text-xl font-medium">Autonomous</span>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>Passed Start Line</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.auto.passedStartLine} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { passedStartLine: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.speakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { speakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amp Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.ampNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { ampNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                                <span className="text-xl font-medium">Teleop</span>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.speakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { speakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amplified Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.amplifiedSpeakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { amplifiedSpeakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amp Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.ampNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { ampNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Parked</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.parked} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { parked: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Climbed</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.climbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { climbed: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Spotlit</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.spotlit} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { spotlit: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Harmonizing</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.harmonizing} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { harmonizing: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Scored Trap</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.scoredTrap} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { scoredTrap: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Defense (0-5)</TableCell>
-                                            <TableCell className="flex flex-row items-center">
-                                            <Input type="number" className="w-min" min={0} max={5} defaultValue={data.teleop.defense} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { defense: e.target.valueAsNumber } }, index) })}/>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                                <span className="text-xl font-medium">Comments</span>
-                                <Textarea defaultValue={data.comments} className="resize-y min-h-10 max-h-40" onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { comments: e.target.value }, index) })}/>
-                            </section>
-                        )
-                    })}
-                </div>
-                <div className="w-full grid grid-rows-3 gap-16">
-                    {matchData.scouting.red.map((data, index) => {
-                        const teamNumber = matchData.alliances.red.teams[index];
+                                return (
+                                    <section key={teamNumber} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
+                                        <Link className="text-2xl font-semibold text-blue-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
+                                        <span className="text-xl font-medium">Autonomous</span>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>Leave</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.auto.leave} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { leave: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL1} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { coralL1: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL2} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { coralL2: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL3} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { coralL3: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL4} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { coralL4: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.algaeProcessor} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { auto: { algaeProcessor: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                        <span className="text-xl font-medium">Teleop</span>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL1} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { coralL1: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL2} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { coralL2: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL3} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { coralL3: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL4} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { coralL4: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Processor]</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.algaeProcessor} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { algaeProcessor: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Net]</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.algaeNet} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { algaeNet: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Parked</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.parked} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { parked: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Shallow Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.shallowCageClimbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { shallowCageClimbed: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Deep Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.deepCageClimbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { deepCageClimbed: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Defense (0-5)</TableCell>
+                                                    <TableCell className="flex flex-row items-center">
+                                                        <Input type="number" className="w-min" min={0} max={5} defaultValue={data.teleop.defense} onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { teleop: { defense: e.target.valueAsNumber } }, index) })} />
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                        <span className="text-xl font-medium">Comments</span>
+                                        <Textarea defaultValue={data.comments} className="resize-y min-h-10 max-h-40" onChange={(e) => setMatchDataState({ ...matchDataState, blue: mergeMatchData(matchDataState.blue, { comments: e.target.value }, index) })} />
+                                    </section>
+                                )
+                            })}
+                        </div>
+                        <div className="w-full grid grid-rows-3 gap-16">
+                            {matchData.scouting.red.map((data, index) => {
+                                const teamNumber = matchData.alliances.red.teams[index];
 
-                        return (
-                            <section key={teamNumber} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
-                                <Link className="text-2xl font-semibold text-red-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
-                                <span className="text-xl font-medium">Autonomous</span>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>Passed Start Line</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.auto.passedStartLine} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { passedStartLine: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.speakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { speakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amp Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.ampNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { ampNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                                <span className="text-xl font-medium">Teleop</span>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.speakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { speakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amplified Speaker Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.amplifiedSpeakerNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { amplifiedSpeakerNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Amp Notes Scored</TableCell>
-                                            <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.ampNotesScored} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { ampNotesScored: e.target.valueAsNumber } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Parked</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.parked} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { parked: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Climbed</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.climbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { climbed: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Spotlit</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.spotlit} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { spotlit: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Harmonizing</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.harmonizing} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { harmonizing: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Scored Trap</TableCell>
-                                            <TableCell><Checkbox defaultChecked={data.teleop.scoredTrap} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { scoredTrap: !!checked } }, index) })}/></TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>Defense (0-5)</TableCell>
-                                            <TableCell className="flex flex-row items-center">
-                                            <Input type="number" className="w-min" min={0} max={5} defaultValue={data.teleop.defense} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { defense: e.target.valueAsNumber } }, index) })}/>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                                <span className="text-xl font-medium">Comments</span>
-                                <Textarea defaultValue={data.comments} className="resize-y min-h-10 max-h-40" onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { comments: e.target.value }, index) })}/>
-                            </section>
-                        )
-                    })}
+                                return (
+                                    <section key={teamNumber} className={`flex flex-col text-gray-950 dark:text-gray-50 space-y-2`}>
+                                        <Link className="text-2xl font-semibold text-red-700" href={`/teams/${teamNumber}`}>{teamNumber}</Link>
+                                        <span className="text-xl font-medium">Autonomous</span>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>Leave</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.auto.leave} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { leave: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL1} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { coralL1: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL2} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { coralL2: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL3} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { coralL3: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.coralL4} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { coralL4: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.auto.algaeProcessor} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { auto: { algaeProcessor: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                        <span className="text-xl font-medium">Teleop</span>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL1} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { coralL1: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL2} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { coralL2: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL3} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { coralL3: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.coralL4} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { coralL4: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Processor]</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.algaeProcessor} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { algaeProcessor: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Net]</TableCell>
+                                                    <TableCell><Input type="number" className="w-min" min={0} defaultValue={data.teleop.algaeNet} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { algaeNet: e.target.valueAsNumber } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Parked</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.parked} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { parked: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Shallow Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.shallowCageClimbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { shallowCageClimbed: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Deep Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox defaultChecked={data.teleop.deepCageClimbed} onCheckedChange={(checked) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { deepCageClimbed: !!checked } }, index) })} /></TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Defense (0-5)</TableCell>
+                                                    <TableCell className="flex flex-row items-center">
+                                                        <Input type="number" className="w-min" min={0} max={5} defaultValue={data.teleop.defense} onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { teleop: { defense: e.target.valueAsNumber } }, index) })} />
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                        <span className="text-xl font-medium">Comments</span>
+                                        <Textarea defaultValue={data.comments} className="resize-y min-h-10 max-h-40" onChange={(e) => setMatchDataState({ ...matchDataState, red: mergeMatchData(matchDataState.red, { comments: e.target.value }, index) })} />
+                                    </section>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <Savebar showing={showSaveBar} setShowing={setShowSaveBar} saveCallback={() => setConfirmSave(true)} resetCallback={cancelSaveCallback} />
+                    <AlertDialog open={confirmSave}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will save over any and all current team data as it is shown to you currently. This action cannot be undone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel onClick={() => { cancelSaveCallback(); setConfirmSave(false) }}>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => { saveCallback(); toast(`Saved Match Data for match ${matchNumber}`); setConfirmSave(false) }}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
-            </div>
-            <Savebar showing={showSaveBar} setShowing={setShowSaveBar} saveCallback={() => setConfirmSave(true)} resetCallback={cancelSaveCallback}/>
-            <AlertDialog open={confirmSave}>
-                <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        This will save over any and all current team data as it is shown to you currently. This action cannot be undone.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => {cancelSaveCallback(); setConfirmSave(false)}}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => {saveCallback(); toast(`Saved Match Data for match ${matchNumber}`); setConfirmSave(false)}}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </div>
-      }
-    </>
-  )
+            }
+        </>
+    )
 }

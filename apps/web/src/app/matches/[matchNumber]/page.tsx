@@ -1,15 +1,15 @@
 "use client";
+import { useEventData } from "@/app/context/EventDataContext";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table";
-import { useEventData } from "@/hooks/useEventData";
 import { calculatePoints } from "@/lib/calculate";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function MatchDetails({ params: { matchNumber } }: { params: { matchNumber: string } }) {
-    const [eventData] = useEventData();
+    const { eventData } = useEventData();
     const matchData = eventData?.matches.find(match => match.matchNumber === parseInt(matchNumber))
 
     const router = useRouter();
@@ -33,12 +33,16 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.didCoopertition} /></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Melody Bonus</TableCell>
-                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.melody} /></TableCell>
+                                        <TableCell>Auto RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.autoRP} /></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Ensemble Bonus</TableCell>
-                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.ensemble} /></TableCell>
+                                        <TableCell>Coral RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.coralRP} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Barge RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.bargeRP} /></TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -52,12 +56,16 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.red.didCoopertition} /></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Melody Bonus</TableCell>
-                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.melody} /></TableCell>
+                                        <TableCell>Auto RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.red.autoRP} /></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Ensemble Bonus</TableCell>
-                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.blue.ensemble} /></TableCell>
+                                        <TableCell>Coral RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.red.coralRP} /></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Barge RP</TableCell>
+                                        <TableCell><Checkbox className="pointer-events-none" checked={matchData.alliances.red.bargeRP} /></TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -76,16 +84,28 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <Table>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Passed Start Line</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.auto.passedStartLine} /></TableCell>
+                                                    <TableCell>Leave</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.auto.leave} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.auto.speakerNotesScored}</TableCell>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL1}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amp Notes Scored</TableCell>
-                                                    <TableCell>{data.auto.ampNotesScored}</TableCell>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL2}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL3}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL4}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored</TableCell>
+                                                    <TableCell>{data.auto.algaeProcessor}</TableCell>
                                                 </TableRow>
                                             </TableBody>
                                         </Table>
@@ -93,36 +113,40 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <Table>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.speakerNotesScored}</TableCell>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL1}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amplified Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.amplifiedSpeakerNotesScored}</TableCell>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL2}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amp Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.ampNotesScored}</TableCell>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL3}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL4}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Processor]</TableCell>
+                                                    <TableCell>{data.teleop.algaeProcessor}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Net]</TableCell>
+                                                    <TableCell>{data.teleop.algaeNet}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Parked</TableCell>
                                                     <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.parked} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Climbed</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.climbed} /></TableCell>
+                                                    <TableCell>Shallow Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.shallowCageClimbed} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Spotlit</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.spotlit} /></TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Harmonizing</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.harmonizing} /></TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Scored Trap</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.scoredTrap} /></TableCell>
+                                                    <TableCell>Deep Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.deepCageClimbed} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Defense</TableCell>
@@ -151,16 +175,28 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <Table>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Passed Start Line</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.auto.passedStartLine} /></TableCell>
+                                                    <TableCell>Leave</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.auto.leave} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.auto.speakerNotesScored}</TableCell>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL1}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amp Notes Scored</TableCell>
-                                                    <TableCell>{data.auto.ampNotesScored}</TableCell>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL2}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL3}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell>{data.auto.coralL4}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored</TableCell>
+                                                    <TableCell>{data.auto.algaeProcessor}</TableCell>
                                                 </TableRow>
                                             </TableBody>
                                         </Table>
@@ -168,36 +204,40 @@ export default function MatchDetails({ params: { matchNumber } }: { params: { ma
                                         <Table>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.speakerNotesScored}</TableCell>
+                                                    <TableCell>L1 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL1}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amplified Speaker Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.amplifiedSpeakerNotesScored}</TableCell>
+                                                    <TableCell>L2 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL2}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Amp Notes Scored</TableCell>
-                                                    <TableCell>{data.teleop.ampNotesScored}</TableCell>
+                                                    <TableCell>L3 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL3}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>L4 Coral Scored</TableCell>
+                                                    <TableCell>{data.teleop.coralL4}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Processor]</TableCell>
+                                                    <TableCell>{data.teleop.algaeProcessor}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Algae Scored [Net]</TableCell>
+                                                    <TableCell>{data.teleop.algaeNet}</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Parked</TableCell>
                                                     <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.parked} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Climbed</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.climbed} /></TableCell>
+                                                    <TableCell>Shallow Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.shallowCageClimbed} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Spotlit</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.spotlit} /></TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Harmonizing</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.harmonizing} /></TableCell>
-                                                </TableRow>
-                                                <TableRow>
-                                                    <TableCell>Scored Trap</TableCell>
-                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.scoredTrap} /></TableCell>
+                                                    <TableCell>Deep Cage Climbed</TableCell>
+                                                    <TableCell><Checkbox className="pointer-events-none" checked={data.teleop.deepCageClimbed} /></TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Defense</TableCell>

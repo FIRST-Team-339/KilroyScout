@@ -1,7 +1,27 @@
 "use server";
 
-import { EventData, MatchScoutingData } from "@/hooks/useEventData";
+import { EventData, MatchScoutingData } from "@/lib/eventDataSchemas";
 import { frc } from "@/lib/frc";
+import fs from "fs/promises";
+import path from "path";
+
+const filePath = path.join(process.cwd(), "eventData.json");
+
+// Function to read the current event data
+export async function getEventData(): Promise<EventData | null> {
+  try {
+    const data = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return null; // Return null if the file doesn't exist
+  }
+}
+
+// Function to update the event data
+export async function updateEventData(newData: EventData) {
+  await fs.writeFile(filePath, JSON.stringify(newData, null, 2), "utf-8");
+  return newData;
+}
 
 const defaultMatchScoutingData: MatchScoutingData = {
   auto: {
@@ -32,7 +52,7 @@ const defaultMatchScoutingData: MatchScoutingData = {
 };
 
 export async function initEvent(
-  _: never,
+  _: EventData | null, // unused previous state
   formData: FormData
 ): Promise<EventData | null> {
   try {
@@ -55,8 +75,8 @@ export async function initEvent(
         name: eventInfo.name,
         venue: eventInfo.venue,
         location: `${eventInfo.city}, ${eventInfo.stateprov}, ${eventInfo.country}`,
-        dateStart: eventInfo.dateStart,
-        dateEnd: eventInfo.dateEnd,
+        dateStart: eventInfo.dateStart.toString(),
+        dateEnd: eventInfo.dateEnd.toString(),
       },
       teams: teamListings.data.teams.map((team) => {
         return {
@@ -66,8 +86,8 @@ export async function initEvent(
           rookieYear: team.rookieYear,
           robotName: team.robotName,
           scouting: {
-            drivetrain: "" as "other",
-            programmingLanguage: "" as "java",
+            drivetrain: "",
+            programmingLanguage: "",
             canScoreCoral: false,
             canScoreAlgae: false,
             averageCoralCycled: 0,
@@ -85,7 +105,7 @@ export async function initEvent(
       matches: matches.data.Schedule.map((match) => {
         return {
           matchNumber: match.matchNumber,
-          startTime: match.startTime,
+          startTime: match.startTime.toString(),
           rankMatchData: false,
           alliances: {
             red: {
@@ -95,8 +115,9 @@ export async function initEvent(
                 match.teams[2].teamNumber,
               ],
               didCoopertition: false,
-              melody: false,
-              ensemble: false,
+              autoRP: false,
+              coralRP: false,
+              bargeRP: false,
             },
             blue: {
               teams: [
@@ -105,8 +126,9 @@ export async function initEvent(
                 match.teams[5].teamNumber,
               ],
               didCoopertition: false,
-              melody: false,
-              ensemble: false,
+              autoRP: false,
+              coralRP: false,
+              bargeRP: false,
             },
           },
           scouting: {

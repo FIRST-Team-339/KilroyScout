@@ -1,17 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EventData, eventDataSchema, useEventData } from "@/hooks/useEventData";
+import { EventData, eventDataSchema } from "@/lib/eventDataSchemas";
 import { initEvent } from "./actions";
 import { useFormState } from "react-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 import Loading from "@/components/loading";
 import { toast } from "sonner";
-import { search } from "@/lib/bluetooth";
+import { useEventData } from "./context/EventDataContext";
 
 export default function Home() {
-  const [eventData, setEventData] = useEventData();
+  const { eventData, updateData } = useEventData();
   const [eventCode, setEventCode] = useState(eventData?.event.eventCode ?? "");
   const [initEventState, initEventAction, pending] = useFormState(initEvent, eventData);
   const [importEventState, setImportEventState] = useState<EventData | null>(null);
@@ -41,6 +41,7 @@ export default function Home() {
         setConfirmImportEvent(true);
       } else {
         toast.error(`Error importing data: ${data.error.message}`)
+        console.log(data.error.message);
       }
     };
   }
@@ -73,7 +74,7 @@ export default function Home() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setConfirmSetEvent(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setConfirmSetEvent(false); setEventData(initEventState); toast(`Initialized event data using event code ${initEventState?.event.eventCode.toUpperCase() ?? ""}`) }}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => { setConfirmSetEvent(false); updateData(initEventState!); toast(`Initialized event data using event code ${initEventState?.event.eventCode.toUpperCase() ?? ""}`) }}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -87,7 +88,7 @@ export default function Home() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setConfirmImportEvent(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setConfirmImportEvent(false); setEventData(importEventState); setEventCode(importEventState?.event.eventCode.toUpperCase() ?? eventCode); toast(`Imported event data from file with event code ${importEventState?.event.eventCode ?? ""}`) }}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => { setConfirmImportEvent(false); updateData(importEventState!); setEventCode(importEventState?.event.eventCode.toUpperCase() ?? eventCode); toast(`Imported event data from file with event code ${importEventState?.event.eventCode ?? ""}`) }}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -104,10 +105,6 @@ export default function Home() {
           <Button type="button" onClick={() => document.getElementById("import")?.click()}>Import Data</Button>
           <Input id="import" type="file" className="hidden" accept=".scouting.json" onChange={importData} />
           <Button type="button" onClick={exportData}>Export Data</Button>
-        </section>
-        <section className="flex flex-col space-y-2">
-          <span className="text-2xl font-semibold">Sync</span>
-          <Button type="button" onClick={() => search(navigator.bluetooth)}>Scan For Devices</Button>
         </section>
       </div>
     </>

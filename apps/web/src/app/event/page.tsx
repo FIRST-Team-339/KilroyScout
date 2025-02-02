@@ -1,15 +1,15 @@
 "use client";
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { useEventData } from "@/hooks/useEventData"
 import Link from "next/link";
+import { useEventData } from "../context/EventDataContext";
 
 export default function Event() {
-    const [eventData] = useEventData();
+    const { eventData } = useEventData();
 
     return (
         <>
             {!eventData && <span className="text-gray-950 dark:text-gray-100 text-2xl w-full text-center font-bold">No Event Data to Pull From</span>}
-            {eventData && 
+            {eventData &&
                 <div className="flex flex-col space-y-4">
                     <section className="flex flex-col">
                         <span className="text-2xl font-semibold text-gray-950 dark:text-gray-100">{eventData.event.name}</span>
@@ -44,7 +44,7 @@ export default function Event() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {eventData.teams.map(team => (
+                            {eventData.teams.sort((a, b) => a.teamNumber - b.teamNumber).map(team => (
                                 <TableRow key={team.teamNumber}>
                                     <TableCell className="font-medium"><Link href={`/teams/${team.teamNumber}`}>{team.teamNumber}</Link></TableCell>
                                     <TableCell>{team.name}</TableCell>

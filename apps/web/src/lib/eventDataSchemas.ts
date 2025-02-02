@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { useLocalStorage } from "./useLocalStorage";
 
 export const teamDataSchema = z.object({
   teamNumber: z.number().int().nonnegative(),
@@ -107,15 +106,3 @@ export const eventDataSchema = z.object({
   matches: matchDataSchema.array(),
 });
 export type EventData = z.TypeOf<typeof eventDataSchema>;
-
-export const useEventData = (): [
-  EventData | null,
-  (value: EventData | null) => void
-] => {
-  const [eventData, setEventData] = useLocalStorage<EventData | null>(
-    "eventData",
-    null
-  );
-
-  return [eventData, setEventData];
-};

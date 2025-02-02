@@ -1,29 +1,30 @@
 "use client";
+import { useEventData } from "@/app/context/EventDataContext";
+import Loading from "@/components/loading";
 import Savebar from "@/components/savebar";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { TeamData, useEventData } from "@/hooks/useEventData"
+import { TeamData } from "@/lib/eventDataSchemas"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function Team({ params: { teamNumber } }: { params: { teamNumber: string } }) {
-    const [eventData, setEventData] = useEventData();
-    const teamData = eventData?.teams.find(team => team.teamNumber === parseInt(teamNumber));
-    const teamMatches = eventData?.matches.filter(match => match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)));
-    const calculatedTeamMatches = eventData?.matches.filter(match => match.rankMatchData && match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)));
-    const matchesScoutingData = calculatedTeamMatches?.map(teamMatch => {
-        const blueIndex = teamMatch.alliances.blue.teams.findIndex((team) => team === parseInt(teamNumber));
-        const redIndex = teamMatch.alliances.red.teams.findIndex((team) => team === parseInt(teamNumber));
+    const { eventData, updateData } = useEventData();
 
-        return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex] : teamMatch.scouting.red[redIndex];
-    })
+    const teamData = eventData?.teams.find(team => team.teamNumber === parseInt(teamNumber));
 
     const [showSaveBar, setShowSaveBar] = useState(false);
     const [confirmSave, setConfirmSave] = useState(false);
-    const [teamDataState, setTeamDataState] = useState<TeamData["scouting"]>(teamData?.scouting ?? ({} as unknown as TeamData["scouting"]));
+    const [teamDataState, setTeamDataState] = useState<TeamData["scouting"] | null>(null);
+
+    useEffect(() => {
+        if (eventData && teamData) {
+            setTeamDataState(teamData.scouting);
+        }
+    }, [eventData, teamData]);
 
     const cancelSaveCallback = () => {
         setTeamDataState(teamData!.scouting);
@@ -31,12 +32,12 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
     };
 
     const saveCallback = () => {
-        setEventData({
+        updateData({
             ...eventData!,
             teams: eventData!.teams.map(team => {
                 if (team.teamNumber === parseInt(teamNumber)) return {
                     ...team,
-                    scouting: teamDataState
+                    scouting: teamDataState!
                 };
 
                 return team;
@@ -45,9 +46,10 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
     }
 
     useEffect(() => {
+        if (!teamDataState) return;
         let valueModified = false;
         Object.keys(teamDataState).forEach(key => {
-            if (teamDataState[key as keyof TeamData["scouting"]] !== teamData!.scouting[key as keyof TeamData["scouting"]]) valueModified = true;
+            if (teamDataState![key as keyof TeamData["scouting"]] !== teamData!.scouting[key as keyof TeamData["scouting"]]) valueModified = true;
         });
 
         setShowSaveBar(valueModified);
@@ -95,11 +97,11 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
     return (
         <>
             {(!eventData || !teamData) && <span className="text-gray-950 dark:text-gray-50 text-2xl w-full text-center font-bold">No Event Data to Pull From or Invalid Team #</span>}
-            {(eventData && teamData) &&
+            {(eventData && teamData && teamDataState) &&
                 <div className="flex flex-col w-full">
                     <section className="flex flex-col">
                         <span className="text-2xl font-semibold text-gray-950 dark:text-gray-50">{teamData.teamNumber} &#x2022; {teamData.name}</span>
-                        <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span></span>
+                        <span className="text-lg text-gray-700 dark:text-gray-300">Robot Name: <span className="font-medium">{teamData.robotName !== "" ? teamData.robotName : "N/A"}</span> &#x2022; Rookie Year: <span className="font-medium">{teamData.rookieYear}</span></span>
                     </section>
                     <section className="flex flex-col pt-2">
                         <span className="text-xl font-semibold text-gray-950 dark:text-gray-50">Pre-Scouting Data</span>
@@ -107,11 +109,11 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                             <TableBody>
                                 <TableRow>
                                     <TableCell>Drivetrain</TableCell>
-                                    <TableCell><Combobox placeholder="Select a drivetrain" emptyResult="Invalid drivetrain" options={drivetrainOptions} defaultValue={drivetrainOptions.find(d => d.value === teamData.scouting.drivetrain)?.label} onChange={(newValue) => setTeamDataState({ ...teamDataState, drivetrain: newValue as "other" })} /></TableCell>
+                                    <TableCell><Combobox placeholder="Select a drivetrain" emptyResult="Invalid drivetrain" options={drivetrainOptions} defaultValue={drivetrainOptions.find(d => d.value === teamDataState.drivetrain)?.label} onChange={(newValue) => setTeamDataState({ ...teamDataState, drivetrain: newValue as "other" })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Programming Language</TableCell>
-                                    <TableCell><Combobox placeholder="Select a programming language" emptyResult="Invalid programming language" options={programmingLanguageOptions} defaultValue={programmingLanguageOptions.find(p => p.value === teamData.scouting.programmingLanguage)?.label} onChange={(newValue) => setTeamDataState({ ...teamDataState, programmingLanguage: newValue as "java" })} /></TableCell>
+                                    <TableCell><Combobox placeholder="Select a programming language" emptyResult="Invalid programming language" options={programmingLanguageOptions} defaultValue={programmingLanguageOptions.find(p => p.value === teamDataState.programmingLanguage)?.label} onChange={(newValue) => setTeamDataState({ ...teamDataState, programmingLanguage: newValue as "java" })} /></TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can Score Coral?</TableCell>

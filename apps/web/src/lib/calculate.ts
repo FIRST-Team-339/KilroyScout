@@ -2,7 +2,7 @@ import {
 	EventData,
 	MatchScoutingData,
 	matchScoutingDataSchema,
-} from "@/hooks/useEventData";
+} from "@/lib/eventDataSchemas";
 
 /**
  * @see https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf#page=49
@@ -88,6 +88,20 @@ export function calculateRanks(matches: EventData["matches"]): Array<number> {
 		match.scouting.blue.forEach((blueScoutingData, index) => {
 			const teamNumber = match.alliances.blue.teams[index];
 			const points = calculatePoints(blueScoutingData);
+
+			const current = teamMatchesMap.get(teamNumber);
+			if (current) {
+				teamMatchesMap.set(teamNumber, {
+					totalPoints: current.totalPoints + points,
+					matches: current.matches + 1,
+				});
+			} else {
+				teamMatchesMap.set(teamNumber, { totalPoints: points, matches: 1 });
+			}
+		});
+		match.scouting.red.forEach((redScoutingData, index) => {
+			const teamNumber = match.alliances.red.teams[index];
+			const points = calculatePoints(redScoutingData);
 
 			const current = teamMatchesMap.get(teamNumber);
 			if (current) {

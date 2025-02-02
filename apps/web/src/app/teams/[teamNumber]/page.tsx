@@ -2,13 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { MatchScoutingData, useEventData } from "@/hooks/useEventData"
+import { MatchScoutingData } from "@/lib/eventDataSchemas"
 import { calculateAverage, calculatePoints, calculateRanks } from "@/lib/calculate";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEventData } from "@/app/context/EventDataContext";
 
 export default function Team({ params: { teamNumber } }: { params: { teamNumber: string } }) {
-    const [eventData] = useEventData();
+    const { eventData } = useEventData();
     const teamData = eventData?.teams.find(team => team.teamNumber === parseInt(teamNumber));
     const teamMatches = eventData?.matches.filter(match => match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)))!;
     const calculatedTeamMatches = eventData?.matches.filter(match => match.rankMatchData && match.alliances.blue.teams.includes(parseInt(teamNumber)) || match.alliances.red.teams.includes(parseInt(teamNumber)));
@@ -56,7 +57,6 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
             } else if (teleop) {
                 const teleopKey = key as keyof MatchScoutingData["teleop"];
 
-                console.log(typeof matchScoutingData.teleop[teleopKey] === "number")
                 amount += typeof matchScoutingData.teleop[teleopKey] === "number" ? matchScoutingData.teleop[teleopKey] as number : 1;
             } else {
                 const autoKey = key as keyof MatchScoutingData["auto"];
@@ -259,12 +259,12 @@ export default function Team({ params: { teamNumber } }: { params: { teamNumber:
                                             minute: "2-digit",
                                             year: "numeric"
                                         })}</TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[0] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[1] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
-                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[2] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[0] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[1] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
-                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[2] === parseInt(teamNumber) ? "font-extrabold" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
+                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}>{match.alliances.blue.teams[0]}</Link></TableCell>
+                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}>{match.alliances.blue.teams[1]}</Link></TableCell>
+                                        <TableCell className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}>{match.alliances.blue.teams[2]}</Link></TableCell>
+                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[0] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}>{match.alliances.red.teams[0]}</Link></TableCell>
+                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[1] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}>{match.alliances.red.teams[1]}</Link></TableCell>
+                                        <TableCell className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[2] === parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}><Link href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}>{match.alliances.red.teams[2]}</Link></TableCell>
                                         <TableCell className="font-medium">{calculatePoints(match.scouting.blue.find(matchScoutingData => match.alliances.blue.teams.findIndex(team => team === parseInt(teamNumber)) !== -1) || match.scouting.red.find(matchScoutingData => match.alliances.red.teams.findIndex(team => team === parseInt(teamNumber)) !== -1)!)}
                                         </TableCell>
                                     </TableRow>

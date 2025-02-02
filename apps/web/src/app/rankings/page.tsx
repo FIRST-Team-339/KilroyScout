@@ -1,17 +1,17 @@
 "use client";
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { useEventData } from "@/hooks/useEventData"
 import { calculateAverage, calculateRanks } from "@/lib/calculate";
 import Link from "next/link";
+import { useEventData } from "../context/EventDataContext";
 
 export default function Rankings() {
-    const [eventData] = useEventData();
+    const { eventData } = useEventData();
     const ranks = eventData ? calculateRanks(eventData.matches) : [];
 
     return (
         <>
             {!eventData && <span className="text-gray-950 text-2xl w-full text-center font-bold">No Event Data to Pull From</span>}
-            {eventData && 
+            {eventData &&
                 <Table id="teams">
                     <TableCaption>Teams Attending</TableCaption>
                     <TableHeader>
@@ -30,12 +30,12 @@ export default function Rankings() {
                             const calculatedTeamMatches = eventData?.matches.filter(match => {
                                 return match.rankMatchData && (match.alliances.blue.teams.includes(team.teamNumber) || match.alliances.red.teams.includes(team.teamNumber))
                             });
-                            
+
                             const matchesScoutingData = calculatedTeamMatches?.map(teamMatch => {
                                 const blueIndex = teamMatch.alliances.blue.teams.findIndex((nTeam) => nTeam === team.teamNumber);
                                 const redIndex = teamMatch.alliances.red.teams.findIndex((nTeam) => nTeam === team.teamNumber);
-                        
-                                return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex]: teamMatch.scouting.red[redIndex];
+
+                                return blueIndex !== -1 ? teamMatch.scouting.blue[blueIndex] : teamMatch.scouting.red[redIndex];
                             })
 
                             const average = calculateAverage(matchesScoutingData);
@@ -51,7 +51,7 @@ export default function Rankings() {
                                     <TableCell>{team.location}</TableCell>
                                 </TableRow>
                             )
-                            })}
+                        })}
                     </TableBody>
                 </Table>
             }
