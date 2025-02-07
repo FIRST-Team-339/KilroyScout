@@ -1,6 +1,6 @@
 import {
-	EventData,
-	MatchScoutingData,
+	type EventData,
+	type MatchScoutingData,
 	matchScoutingDataSchema,
 } from "@/lib/eventDataSchemas";
 
@@ -18,8 +18,8 @@ export const pointValues = {
 		coralL4: 7,
 		algaeProcessor: 4,
 		allianceGotAutoRP: 10,
-	  },
-	  teleop: {
+	},
+	teleop: {
 		coralL1: 1,
 		coralL2: 2,
 		coralL3: 3,
@@ -31,7 +31,7 @@ export const pointValues = {
 		deepCageClimbed: 5,
 		allianceGotCoralRP: 10,
 		allianceGotBargeRP: 10,
-	  },
+	},
 } as const;
 
 export function calculatePoints(matchScoutingData: MatchScoutingData) {
@@ -43,23 +43,35 @@ export function calculatePoints(matchScoutingData: MatchScoutingData) {
 	points += matchScoutingData.auto.coralL2 * pointValues.auto.coralL2;
 	points += matchScoutingData.auto.coralL3 * pointValues.auto.coralL3;
 	points += matchScoutingData.auto.coralL4 * pointValues.auto.coralL4;
-	points += matchScoutingData.auto.algaeProcessor * pointValues.auto.algaeProcessor;
-	points += +matchScoutingData.auto.allianceGotAutoRP * pointValues.auto.allianceGotAutoRP;
+	points +=
+		matchScoutingData.auto.algaeProcessor * pointValues.auto.algaeProcessor;
+	points +=
+		+matchScoutingData.auto.allianceGotAutoRP *
+		pointValues.auto.allianceGotAutoRP;
 
 	// Teleop
 	points += matchScoutingData.teleop.coralL1 * pointValues.teleop.coralL1;
 	points += matchScoutingData.teleop.coralL2 * pointValues.teleop.coralL2;
 	points += matchScoutingData.teleop.coralL3 * pointValues.teleop.coralL3;
 	points += matchScoutingData.teleop.coralL4 * pointValues.teleop.coralL4;
-	points += matchScoutingData.teleop.algaeProcessor * pointValues.teleop.algaeProcessor;
+	points +=
+		matchScoutingData.teleop.algaeProcessor * pointValues.teleop.algaeProcessor;
 	points += matchScoutingData.teleop.algaeNet * pointValues.teleop.algaeNet;
-	points += +matchScoutingData.teleop.allianceGotCoralRP * pointValues.teleop.allianceGotCoralRP;
-	points += +matchScoutingData.teleop.allianceGotBargeRP * pointValues.teleop.allianceGotBargeRP;
-	
+	points +=
+		+matchScoutingData.teleop.allianceGotCoralRP *
+		pointValues.teleop.allianceGotCoralRP;
+	points +=
+		+matchScoutingData.teleop.allianceGotBargeRP *
+		pointValues.teleop.allianceGotBargeRP;
+
 	// Endgame
 	points += +matchScoutingData.teleop.parked * pointValues.teleop.parked;
-	points += +matchScoutingData.teleop.shallowCageClimbed * pointValues.teleop.shallowCageClimbed;
-	points += +matchScoutingData.teleop.deepCageClimbed * pointValues.teleop.deepCageClimbed;
+	points +=
+		+matchScoutingData.teleop.shallowCageClimbed *
+		pointValues.teleop.shallowCageClimbed;
+	points +=
+		+matchScoutingData.teleop.deepCageClimbed *
+		pointValues.teleop.deepCageClimbed;
 
 	return points;
 }
