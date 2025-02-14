@@ -37,4 +37,6 @@ export async function POST(
 			return team;
 		}),
 	});
+
+	return new Response("OK", { status: 200 });
 }
