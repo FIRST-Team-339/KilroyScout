@@ -53,7 +53,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.blue.didCoopertition}
+												checked={
+													matchData.scouting.blue[0].allianceDidCoopertition ||
+													matchData.scouting.blue[1].allianceDidCoopertition ||
+													matchData.scouting.blue[2].allianceDidCoopertition
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -62,7 +66,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.blue.autoRP}
+												checked={
+													matchData.scouting.blue[0].auto.allianceGotAutoRP ||
+													matchData.scouting.blue[1].auto.allianceGotAutoRP ||
+													matchData.scouting.blue[2].auto.allianceGotAutoRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -71,7 +79,13 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.blue.coralRP}
+												checked={
+													matchData.scouting.blue[0].teleop
+														.allianceGotCoralRP ||
+													matchData.scouting.blue[1].teleop
+														.allianceGotCoralRP ||
+													matchData.scouting.blue[2].teleop.allianceGotCoralRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -80,7 +94,13 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.blue.bargeRP}
+												checked={
+													matchData.scouting.blue[0].teleop
+														.allianceGotBargeRP ||
+													matchData.scouting.blue[1].teleop
+														.allianceGotBargeRP ||
+													matchData.scouting.blue[2].teleop.allianceGotBargeRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -101,7 +121,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.red.didCoopertition}
+												checked={
+													matchData.scouting.red[0].allianceDidCoopertition ||
+													matchData.scouting.red[1].allianceDidCoopertition ||
+													matchData.scouting.red[2].allianceDidCoopertition
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -110,7 +134,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.red.autoRP}
+												checked={
+													matchData.scouting.red[0].auto.allianceGotAutoRP ||
+													matchData.scouting.red[1].auto.allianceGotAutoRP ||
+													matchData.scouting.red[2].auto.allianceGotAutoRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -119,7 +147,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.red.coralRP}
+												checked={
+													matchData.scouting.red[0].teleop.allianceGotCoralRP ||
+													matchData.scouting.red[1].teleop.allianceGotCoralRP ||
+													matchData.scouting.red[2].teleop.allianceGotCoralRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -128,7 +160,11 @@ export default function MatchDetails({
 										<TableCell>
 											<Checkbox
 												className="pointer-events-none"
-												checked={matchData.alliances.red.bargeRP}
+												checked={
+													matchData.scouting.red[0].teleop.allianceGotBargeRP ||
+													matchData.scouting.red[1].teleop.allianceGotBargeRP ||
+													matchData.scouting.red[2].teleop.allianceGotBargeRP
+												}
 											/>
 										</TableCell>
 									</TableRow>
@@ -139,7 +175,7 @@ export default function MatchDetails({
 					<div className="w-full grid grid-cols-2 pb-24 gap-x-24">
 						<div className="w-full grid grid-rows-3 gap-y-16">
 							{matchData.scouting.blue.map((data, index) => {
-								const teamNumber = matchData.alliances.blue.teams[index];
+								const teamNumber = matchData.blueAllianceTeams[index];
 
 								return (
 									<section
@@ -271,7 +307,7 @@ export default function MatchDetails({
 						</div>
 						<div className="w-full grid grid-rows-3 gap-16">
 							{matchData.scouting.red.map((data, index) => {
-								const teamNumber = matchData.alliances.red.teams[index];
+								const teamNumber = matchData.redAllianceTeams[index];
 
 								return (
 									<section

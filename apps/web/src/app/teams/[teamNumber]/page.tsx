@@ -29,20 +29,20 @@ export default function Team({
 	);
 	const teamMatches = eventData?.matches.filter(
 		(match) =>
-			match.alliances.blue.teams.includes(Number.parseInt(teamNumber)) ||
-			match.alliances.red.teams.includes(Number.parseInt(teamNumber)),
+			match.blueAllianceTeams.includes(Number.parseInt(teamNumber)) ||
+			match.redAllianceTeams.includes(Number.parseInt(teamNumber)),
 	)!;
 	const calculatedTeamMatches = eventData?.matches.filter(
 		(match) =>
 			(match.rankMatchData &&
-				match.alliances.blue.teams.includes(Number.parseInt(teamNumber))) ||
-			match.alliances.red.teams.includes(Number.parseInt(teamNumber)),
+				match.blueAllianceTeams.includes(Number.parseInt(teamNumber))) ||
+			match.redAllianceTeams.includes(Number.parseInt(teamNumber)),
 	);
 	const matchesScoutingData = calculatedTeamMatches?.map((teamMatch) => {
-		const blueIndex = teamMatch.alliances.blue.teams.findIndex(
+		const blueIndex = teamMatch.blueAllianceTeams.findIndex(
 			(team) => team === Number.parseInt(teamNumber),
 		);
-		const redIndex = teamMatch.alliances.red.teams.findIndex(
+		const redIndex = teamMatch.redAllianceTeams.findIndex(
 			(team) => team === Number.parseInt(teamNumber),
 		);
 
@@ -454,12 +454,12 @@ export default function Team({
 							<TableBody>
 								{teamMatches.map((match) => {
 									let alliance: "blue" | "red" = "blue";
-									let teamIndex = match.alliances.blue.teams.findIndex(
+									let teamIndex = match.blueAllianceTeams.findIndex(
 										(team) => team === Number.parseInt(teamNumber),
 									);
 									if (teamIndex === -1) {
 										alliance = "red";
-										teamIndex = match.alliances.red.teams.findIndex(
+										teamIndex = match.redAllianceTeams.findIndex(
 											(team) => team === Number.parseInt(teamNumber),
 										);
 									}
@@ -490,57 +490,57 @@ export default function Team({
 												)}
 											</TableCell>
 											<TableCell
-												className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[0] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-blue-800 dark:text-blue-400 ${match.blueAllianceTeams[0] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}
+													href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[0]}`}
 												>
-													{match.alliances.blue.teams[0]}
+													{match.blueAllianceTeams[0]}
 												</Link>
 											</TableCell>
 											<TableCell
-												className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[1] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-blue-800 dark:text-blue-400 ${match.blueAllianceTeams[1] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}
+													href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[1]}`}
 												>
-													{match.alliances.blue.teams[1]}
+													{match.blueAllianceTeams[1]}
 												</Link>
 											</TableCell>
 											<TableCell
-												className={`text-blue-800 dark:text-blue-400 ${match.alliances.blue.teams[2] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-blue-800 dark:text-blue-400 ${match.blueAllianceTeams[2] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}
+													href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[2]}`}
 												>
-													{match.alliances.blue.teams[2]}
+													{match.blueAllianceTeams[2]}
 												</Link>
 											</TableCell>
 											<TableCell
-												className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[0] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-red-800 dark:text-red-400 ${match.redAllianceTeams[0] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}
+													href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[0]}`}
 												>
-													{match.alliances.red.teams[0]}
+													{match.redAllianceTeams[0]}
 												</Link>
 											</TableCell>
 											<TableCell
-												className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[1] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-red-800 dark:text-red-400 ${match.redAllianceTeams[1] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}
+													href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[1]}`}
 												>
-													{match.alliances.red.teams[1]}
+													{match.redAllianceTeams[1]}
 												</Link>
 											</TableCell>
 											<TableCell
-												className={`text-red-800 dark:text-red-400 ${match.alliances.red.teams[2] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
+												className={`text-red-800 dark:text-red-400 ${match.redAllianceTeams[2] === Number.parseInt(teamNumber) ? "font-extrabold underline" : "font-medium"}`}
 											>
 												<Link
-													href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}
+													href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[2]}`}
 												>
-													{match.alliances.red.teams[2]}
+													{match.redAllianceTeams[2]}
 												</Link>
 											</TableCell>
 											<TableCell className="font-medium">

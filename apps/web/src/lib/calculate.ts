@@ -98,7 +98,7 @@ export function calculateRanks(matches: EventData["matches"]): Array<number> {
 
 	matches.forEach((match) => {
 		match.scouting.blue.forEach((blueScoutingData, index) => {
-			const teamNumber = match.alliances.blue.teams[index];
+			const teamNumber = match.blueAllianceTeams[index];
 			const points = calculatePoints(blueScoutingData);
 
 			const current = teamMatchesMap.get(teamNumber);
@@ -112,7 +112,7 @@ export function calculateRanks(matches: EventData["matches"]): Array<number> {
 			}
 		});
 		match.scouting.red.forEach((redScoutingData, index) => {
-			const teamNumber = match.alliances.red.teams[index];
+			const teamNumber = match.redAllianceTeams[index];
 			const points = calculatePoints(redScoutingData);
 
 			const current = teamMatchesMap.get(teamNumber);

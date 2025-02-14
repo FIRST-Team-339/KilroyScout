@@ -47,6 +47,7 @@ const defaultMatchScoutingData: MatchScoutingData = {
 		allianceGotBargeRP: false,
 		drivingSkill: 0,
 	},
+	allianceDidCoopertition: false,
 	brokeDown: false,
 	comments: "",
 };
@@ -107,30 +108,16 @@ export async function initEvent(
 					matchNumber: match.matchNumber,
 					startTime: match.startTime.toString(),
 					rankMatchData: false,
-					alliances: {
-						red: {
-							teams: [
-								match.teams[0].teamNumber,
-								match.teams[1].teamNumber,
-								match.teams[2].teamNumber,
-							],
-							didCoopertition: false,
-							autoRP: false,
-							coralRP: false,
-							bargeRP: false,
-						},
-						blue: {
-							teams: [
-								match.teams[3].teamNumber,
-								match.teams[4].teamNumber,
-								match.teams[5].teamNumber,
-							],
-							didCoopertition: false,
-							autoRP: false,
-							coralRP: false,
-							bargeRP: false,
-						},
-					},
+					blueAllianceTeams: [
+						match.teams[0].teamNumber,
+						match.teams[1].teamNumber,
+						match.teams[2].teamNumber,
+					],
+					redAllianceTeams: [
+						match.teams[3].teamNumber,
+						match.teams[4].teamNumber,
+						match.teams[5].teamNumber,
+					],
 					scouting: {
 						blue: [
 							defaultMatchScoutingData,

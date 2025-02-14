@@ -52,18 +52,18 @@ export default function Rankings() {
 									(match) => {
 										return (
 											match.rankMatchData &&
-											(match.alliances.blue.teams.includes(team.teamNumber) ||
-												match.alliances.red.teams.includes(team.teamNumber))
+											(match.blueAllianceTeams.includes(team.teamNumber) ||
+												match.redAllianceTeams.includes(team.teamNumber))
 										);
 									},
 								);
 
 								const matchesScoutingData = calculatedTeamMatches?.map(
 									(teamMatch) => {
-										const blueIndex = teamMatch.alliances.blue.teams.findIndex(
+										const blueIndex = teamMatch.blueAllianceTeams.findIndex(
 											(nTeam) => nTeam === team.teamNumber,
 										);
-										const redIndex = teamMatch.alliances.red.teams.findIndex(
+										const redIndex = teamMatch.redAllianceTeams.findIndex(
 											(nTeam) => nTeam === team.teamNumber,
 										);
 

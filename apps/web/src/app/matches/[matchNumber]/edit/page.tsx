@@ -16,11 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableRow, TableBody, TableCell } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import type {
-	MatchData,
-	MatchAlliancesData,
-	MatchScoutingData,
-} from "@/lib/eventDataSchemas";
+import type { MatchData, MatchScoutingData } from "@/lib/eventDataSchemas";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -35,9 +31,6 @@ export default function MatchDetails({
 
 	const [showSaveBar, setShowSaveBar] = useState(false);
 	const [confirmSave, setConfirmSave] = useState(false);
-	const [matchAllianceDataState, setMatchAllianceDataState] = useState<
-		MatchData["alliances"] | undefined
-	>();
 	const [matchDataState, setMatchDataState] = useState<
 		MatchData["scouting"] | undefined
 	>();
@@ -55,7 +48,6 @@ export default function MatchDetails({
 					return {
 						...match,
 						rankMatchData: true,
-						alliances: matchAllianceDataState!,
 						scouting: matchDataState!,
 					};
 
@@ -68,11 +60,10 @@ export default function MatchDetails({
 	useEffect(() => {
 		if (!matchData) return;
 		setMatchDataState(structuredClone(matchData.scouting));
-		setMatchAllianceDataState(structuredClone(matchData.alliances));
 	}, [matchData]);
 
 	useEffect(() => {
-		if (!matchData || !matchDataState || !matchAllianceDataState) return;
+		if (!matchData || !matchDataState) return;
 		let valueModified = false;
 
 		matchDataState.blue.forEach((blueMatchDataState, index) => {
@@ -142,32 +133,8 @@ export default function MatchDetails({
 				valueModified = true;
 		});
 
-		Object.keys(matchAllianceDataState.blue).forEach((key) => {
-			if (
-				JSON.stringify(
-					matchAllianceDataState.blue[key as keyof MatchAlliancesData],
-				) !==
-				JSON.stringify(
-					matchData!.alliances.blue[key as keyof MatchAlliancesData],
-				)
-			)
-				valueModified = true;
-		});
-
-		Object.keys(matchAllianceDataState.red).forEach((key) => {
-			if (
-				JSON.stringify(
-					matchAllianceDataState.red[key as keyof MatchAlliancesData],
-				) !==
-				JSON.stringify(
-					matchData!.alliances.red[key as keyof MatchAlliancesData],
-				)
-			)
-				valueModified = true;
-		});
-
 		setShowSaveBar(valueModified);
-	}, [matchData, matchDataState, matchAllianceDataState]);
+	}, [matchData, matchDataState]);
 
 	type DeepPartial<T> = T extends object
 		? {
@@ -219,6 +186,8 @@ export default function MatchDetails({
 				drivingSkill:
 					dataToMerge.teleop?.drivingSkill ?? original.teleop.drivingSkill,
 			},
+			allianceDidCoopertition:
+				dataToMerge.allianceDidCoopertition ?? original.allianceDidCoopertition,
 			brokeDown: dataToMerge.brokeDown ?? original.brokeDown,
 			comments: dataToMerge.comments ?? original.comments,
 		};
@@ -233,181 +202,17 @@ export default function MatchDetails({
 					No Event Data to Pull From or Invalid Match #
 				</span>
 			)}
-			{eventData && matchData && matchDataState && matchAllianceDataState && (
+			{eventData && matchData && matchDataState && (
 				<div className="flex flex-col w-full">
 					<section className="flex flex-col py-2">
 						<span className="font-bold text-3xl text-center">
 							Match {matchNumber}
 						</span>
 					</section>
-					<div className="flex w-full mb-16 gap-x-24">
-						<section
-							id="blue-alliance"
-							className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2"
-						>
-							<span className="text-2xl font-semibold text-blue-700">
-								Blue Alliance
-							</span>
-							<Table>
-								<TableBody>
-									<TableRow>
-										<TableCell>Did Coopertition</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={
-													matchData.alliances.blue.didCoopertition
-												}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														blue: {
-															...matchAllianceDataState.blue,
-															didCoopertition: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Auto RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.blue.autoRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														blue: {
-															...matchAllianceDataState.blue,
-															autoRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Coral RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.blue.coralRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														blue: {
-															...matchAllianceDataState.blue,
-															coralRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Barge RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.blue.bargeRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														blue: {
-															...matchAllianceDataState.blue,
-															bargeRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-								</TableBody>
-							</Table>
-						</section>
-						<section
-							id="red-alliance"
-							className="flex w-full flex-col text-gray-950 dark:text-gray-50 space-y-2"
-						>
-							<span className="text-2xl font-semibold text-red-700">
-								Red Alliance
-							</span>
-							<Table>
-								<TableBody>
-									<TableRow>
-										<TableCell>Did Coopertition</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.red.didCoopertition}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														red: {
-															...matchAllianceDataState.red,
-															didCoopertition: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Auto RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.red.autoRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														red: {
-															...matchAllianceDataState.red,
-															autoRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Coral RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.red.coralRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														red: {
-															...matchAllianceDataState.red,
-															coralRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell>Barge RP</TableCell>
-										<TableCell>
-											<Checkbox
-												defaultChecked={matchData.alliances.red.bargeRP}
-												onCheckedChange={(checked) =>
-													setMatchAllianceDataState({
-														...matchAllianceDataState,
-														red: {
-															...matchAllianceDataState.red,
-															bargeRP: !!checked,
-														},
-													})
-												}
-											/>
-										</TableCell>
-									</TableRow>
-								</TableBody>
-							</Table>
-						</section>
-					</div>
 					<div className="w-full grid grid-cols-2 pb-24 gap-x-24">
 						<div className="w-full grid grid-rows-3 gap-y-16">
 							{matchData.scouting.blue.map((data, index) => {
-								const teamNumber = matchData.alliances.blue.teams[index];
+								const teamNumber = matchData.blueAllianceTeams[index];
 
 								return (
 									<section
@@ -821,7 +626,7 @@ export default function MatchDetails({
 						</div>
 						<div className="w-full grid grid-rows-3 gap-16">
 							{matchData.scouting.red.map((data, index) => {
-								const teamNumber = matchData.alliances.red.teams[index];
+								const teamNumber = matchData.redAllianceTeams[index];
 
 								return (
 									<section

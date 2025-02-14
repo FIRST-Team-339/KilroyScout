@@ -28,15 +28,6 @@ export const teamDataSchema = z.object({
 });
 export type TeamData = z.TypeOf<typeof teamDataSchema>;
 
-export const matchAlliancesDataSchema = z.object({
-	teams: z.tuple([z.number(), z.number(), z.number()]),
-	didCoopertition: z.boolean(),
-	autoRP: z.boolean(),
-	coralRP: z.boolean(),
-	bargeRP: z.boolean(),
-});
-export type MatchAlliancesData = z.TypeOf<typeof matchAlliancesDataSchema>;
-
 export const matchScoutingDataSchema = z.object({
 	auto: z.object({
 		leave: z.boolean(),
@@ -61,6 +52,7 @@ export const matchScoutingDataSchema = z.object({
 		allianceGotBargeRP: z.boolean(),
 		drivingSkill: z.number().int().gte(0).lte(5),
 	}),
+	allianceDidCoopertition: z.boolean(),
 	brokeDown: z.boolean(),
 	comments: z.string(),
 });
@@ -70,10 +62,8 @@ export const matchDataSchema = z.object({
 	matchNumber: z.number(),
 	startTime: z.string(),
 	rankMatchData: z.boolean(),
-	alliances: z.object({
-		blue: matchAlliancesDataSchema,
-		red: matchAlliancesDataSchema,
-	}),
+	blueAllianceTeams: z.tuple([z.number(), z.number(), z.number()]),
+	redAllianceTeams: z.tuple([z.number(), z.number(), z.number()]),
 	scouting: z.object({
 		blue: z.tuple([
 			matchScoutingDataSchema,

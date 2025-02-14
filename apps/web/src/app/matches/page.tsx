@@ -61,42 +61,42 @@ export default function Matches() {
 								</TableCell>
 								<TableCell className="text-blue-800 dark:text-blue-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[0]}`}
+										href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[0]}`}
 									>
-										{match.alliances.blue.teams[0]}
+										{match.blueAllianceTeams[0]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-blue-800 dark:text-blue-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[1]}`}
+										href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[1]}`}
 									>
-										{match.alliances.blue.teams[1]}
+										{match.blueAllianceTeams[1]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-blue-800 dark:text-blue-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.blue.teams[2]}`}
+										href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[2]}`}
 									>
 										{match.alliances.blue.teams[2]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-red-800 dark:text-red-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[0]}`}
+										href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[0]}`}
 									>
-										{match.alliances.red.teams[0]}
+										{match.redAllianceTeams[0]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-red-800 dark:text-red-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[1]}`}
+										href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[1]}`}
 									>
-										{match.alliances.red.teams[1]}
+										{match.redAllianceTeams[1]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-red-800 dark:text-red-400 font-medium">
 									<Link
-										href={`/matches/${match.matchNumber}#team${match.alliances.red.teams[2]}`}
+										href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[2]}`}
 									>
 										{match.alliances.red.teams[2]}
 									</Link>
