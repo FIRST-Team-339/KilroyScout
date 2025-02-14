@@ -59,7 +59,7 @@ export const matchScoutingDataSchema = z.object({
 		deepCageClimbed: z.boolean(),
 		allianceGotCoralRP: z.boolean(),
 		allianceGotBargeRP: z.boolean(),
-		defense: z.number().int().gte(0).lte(5),
+		drivingSkill: z.number().int().gte(0).lte(5),
 	}),
 	brokeDown: z.boolean(),
 	comments: z.string(),

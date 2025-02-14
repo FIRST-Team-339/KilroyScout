@@ -216,7 +216,8 @@ export default function MatchDetails({
 				allianceGotBargeRP:
 					dataToMerge.teleop?.allianceGotBargeRP ??
 					original.teleop.allianceGotBargeRP,
-				defense: dataToMerge.teleop?.defense ?? original.teleop.defense,
+				drivingSkill:
+					dataToMerge.teleop?.drivingSkill ?? original.teleop.drivingSkill,
 			},
 			brokeDown: dataToMerge.brokeDown ?? original.brokeDown,
 			comments: dataToMerge.comments ?? original.comments,
@@ -769,14 +770,17 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>Defense (0-5)</TableCell>
+													<TableCell>
+														Driving Skill (Movability, Defense, etc... rated
+														0-5)
+													</TableCell>
 													<TableCell className="flex flex-row items-center">
 														<Input
 															type="number"
 															className="w-min"
 															min={0}
 															max={5}
-															defaultValue={data.teleop.defense}
+															defaultValue={data.teleop.drivingSkill}
 															onChange={(e) =>
 																setMatchDataState({
 																	...matchDataState,
@@ -784,7 +788,7 @@ export default function MatchDetails({
 																		matchDataState.blue,
 																		{
 																			teleop: {
-																				defense: e.target.valueAsNumber,
+																				drivingSkill: e.target.valueAsNumber,
 																			},
 																		},
 																		index,
@@ -1180,14 +1184,17 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>Defense (0-5)</TableCell>
+													<TableCell>
+														Driving Skill (Movability, Defense, etc... rated
+														0-5)
+													</TableCell>
 													<TableCell className="flex flex-row items-center">
 														<Input
 															type="number"
 															className="w-min"
 															min={0}
 															max={5}
-															defaultValue={data.teleop.defense}
+															defaultValue={data.teleop.drivingSkill}
 															onChange={(e) =>
 																setMatchDataState({
 																	...matchDataState,
@@ -1195,7 +1202,7 @@ export default function MatchDetails({
 																		matchDataState.red,
 																		{
 																			teleop: {
-																				defense: e.target.valueAsNumber,
+																				drivingSkill: e.target.valueAsNumber,
 																			},
 																		},
 																		index,

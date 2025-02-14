@@ -248,13 +248,15 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>Defense</TableCell>
+													<TableCell>Driving Skill</TableCell>
 													<TableCell className="flex flex-row items-center">
 														<span className="text-md pr-2">
-															{data.teleop.defense}
+															{data.teleop.drivingSkill}
 															<span className="font-bold">/5</span>
 														</span>
-														<Progress value={(data.teleop.defense / 5) * 100} />
+														<Progress
+															value={(data.teleop.drivingSkill / 5) * 100}
+														/>
 													</TableCell>
 												</TableRow>
 											</TableBody>
@@ -378,13 +380,15 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>Defense</TableCell>
+													<TableCell>Driving Skill</TableCell>
 													<TableCell className="flex flex-row items-center">
 														<span className="text-md pr-2">
-															{data.teleop.defense}
+															{data.teleop.drivingSkill}
 															<span className="font-bold">/5</span>
 														</span>
-														<Progress value={(data.teleop.defense / 5) * 100} />
+														<Progress
+															value={(data.teleop.drivingSkill / 5) * 100}
+														/>
 													</TableCell>
 												</TableRow>
 											</TableBody>

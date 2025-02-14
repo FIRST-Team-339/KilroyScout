@@ -45,7 +45,7 @@ const defaultMatchScoutingData: MatchScoutingData = {
 		deepCageClimbed: false,
 		allianceGotCoralRP: false,
 		allianceGotBargeRP: false,
-		defense: 0,
+		drivingSkill: 0,
 	},
 	brokeDown: false,
 	comments: "",
