@@ -77,7 +77,7 @@ export default function Matches() {
 									<Link
 										href={`/matches/${match.matchNumber}#team${match.blueAllianceTeams[2]}`}
 									>
-										{match.alliances.blue.teams[2]}
+										{match.blueAllianceTeams[2]}
 									</Link>
 								</TableCell>
 								<TableCell className="text-red-800 dark:text-red-400 font-medium">
@@ -98,7 +98,7 @@ export default function Matches() {
 									<Link
 										href={`/matches/${match.matchNumber}#team${match.redAllianceTeams[2]}`}
 									>
-										{match.alliances.red.teams[2]}
+										{match.redAllianceTeams[2]}
 									</Link>
 								</TableCell>
 							</TableRow>
