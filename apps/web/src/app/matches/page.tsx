@@ -32,7 +32,7 @@ export default function Matches() {
 					<TableHeader>
 						<TableRow>
 							<TableHead className="w-[100px]">#</TableHead>
-							<TableHead>Start Time</TableHead>
+							<TableHead>Est. Start Time</TableHead>
 							<TableHead>Blue 1</TableHead>
 							<TableHead>Blue 2</TableHead>
 							<TableHead>Blue 3</TableHead>
