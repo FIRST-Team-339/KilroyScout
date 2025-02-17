@@ -18,9 +18,14 @@ export async function getEventData(): Promise<EventData | null> {
 }
 
 // Function to update the event data
+let writeQueue: Promise<void> = Promise.resolve();
 export async function updateEventData(newData: EventData) {
-	await fs.writeFile(filePath, JSON.stringify(newData, null, 2), "utf-8");
-	return newData;
+	writeQueue = writeQueue
+		.then(async () => {
+			await fs.writeFile(filePath, JSON.stringify(newData, null, 2), "utf-8");
+		})
+		.catch(console.error);
+	return writeQueue;
 }
 
 const defaultMatchScoutingData: MatchScoutingData = {

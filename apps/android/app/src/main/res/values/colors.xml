@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Grayscale -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="gray_50">#F9FAFB</color>
+    <color name="gray_100">#F3F4F6</color>
+    <color name="gray_200">#E5E7EB</color>
+    <color name="gray_300">#D1D5DB</color>
+    <color name="gray_400">#9CA3AF</color>
+    <color name="gray_500">#6B7280</color>
+    <color name="gray_600">#4B5563</color>
+    <color name="gray_700">#374151</color>
+    <color name="gray_800">#1F2937</color>
+    <color name="gray_900">#111827</color>
+
+    <!-- Orange -->
+    <color name="orange_50">#FFF7ED</color>
+    <color name="orange_100">#FFEDD5</color>
+    <color name="orange_200">#FED7AA</color>
+    <color name="orange_300">#FDBA74</color>
+    <color name="orange_400">#FB923C</color>
+    <color name="orange_500">#F97316</color>
+    <color name="orange_600">#EA580C</color>
+    <color name="orange_700">#C2410C</color>
+    <color name="orange_800">#9A3400</color>
+    <color name="orange_900">#7C2D12</color>
+
+    <!-- Yellow -->
+    <color name="yellow_50">#FFFBEB</color>
+    <color name="yellow_100">#FEF3C7</color>
+    <color name="yellow_200">#FDE68A</color>
+    <color name="yellow_300">#FCD34D</color>
+    <color name="yellow_400">#FBBF24</color>
+    <color name="yellow_500">#F59E0B</color>
+    <color name="yellow_600">#D97706</color>
+    <color name="yellow_700">#B45309</color>
+    <color name="yellow_800">#9A4D00</color>
+    <color name="yellow_900">#7C2D12</color>
+
+    <!-- Alliance Blue/Red -->
+    <color name="blue">#1E40AF</color>
+    <color name="red">#991B1B</color>
+</resources>

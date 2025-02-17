@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Kilroy Scout</string>
+    <string name="event_dialog_title">Are you absolutely sure?</string>
+    <string name="event_dialog_message">This action cannot be undone. This will override all event data. If you haven\'t already exported the data and you need to. Please do so and try again.</string>
+    <string name="event_dialog_continue">Continue</string>
+    <string name="event_dialog_cancel">Cancel</string>
+    <string name="savebar_message">Careful — you have unsaved changes!</string>
+    <string name="savebar_save">Save Changes</string>
+    <string name="savebar_dialog_message">This will save over any and all current team data as it is shown to you currently. This action cannot be undone.</string>
+    <string name="send_data_dialog_title">The following items will be sent to the server</string>
+</resources>

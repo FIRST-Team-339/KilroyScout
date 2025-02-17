@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1"
+            android:verticalScrollbarPosition="right"
+            android:id="@+id/matches">
+            <TableRow>
+                <TextView
+                    android:text="#"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingHorizontal="12dp" />
+                <TextView
+                    android:text="Est. Start Time"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="16dp"
+                    />
+                <TextView
+                    android:text="Blue 1"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+                <TextView
+                    android:text="Blue 2"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+                <TextView
+                    android:text="Blue 3"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+                <TextView
+                    android:text="Red 1"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+                <TextView
+                    android:text="Red 2"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+                <TextView
+                    android:text="Red 3"
+                    android:fontFamily="@font/lexend_medium"
+                    android:paddingRight="24dp"
+                    />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>

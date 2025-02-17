@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.KilroyScout" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/lexend</item>
+
+        <item name="colorPrimary">@color/orange_500</item>
+        <item name="colorPrimaryVariant">@color/orange_200</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondaryContainer">@color/orange_50</item>
+
+        <item name="android:statusBarColor">@color/orange_500</item>
+    </style>
+</resources>

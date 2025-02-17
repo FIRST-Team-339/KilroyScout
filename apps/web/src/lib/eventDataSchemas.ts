@@ -1,5 +1,21 @@
 import { z } from "zod";
 
+export const teamPrescoutingDataSchema = z.object({
+	drivetrain: z.enum(["swerve", "mecanum", "tank", "other", ""]),
+	programmingLanguage: z.enum(["java", "kotlin", "cpp", "python", ""]),
+	canScoreCoral: z.boolean(),
+	canScoreAlgae: z.boolean(),
+	averageCoralCycled: z.number().int().nonnegative(),
+	mostCoralCycled: z.number().int().nonnegative(),
+	maxCoralScoredInAuto: z.number().int().nonnegative(),
+	canLeaveInAuto: z.boolean(),
+	canScoreCoralInAuto: z.boolean(),
+	canScoreAlgaeInAuto: z.boolean(),
+	canShallowCageClimb: z.boolean(),
+	canDeepCageClimb: z.boolean(),
+	comments: z.string(),
+});
+
 export const teamDataSchema = z.object({
 	teamNumber: z.number().int().nonnegative(),
 	name: z.string(),
@@ -10,21 +26,7 @@ export const teamDataSchema = z.object({
 		.nonnegative()
 		.gte(1989, "Must be a year greater than or equal to 1989"),
 	robotName: z.string(),
-	scouting: z.object({
-		drivetrain: z.enum(["swerve", "mecanum", "tank", "other", ""]),
-		programmingLanguage: z.enum(["java", "kotlin", "cpp", "python", ""]),
-		canScoreCoral: z.boolean(),
-		canScoreAlgae: z.boolean(),
-		averageCoralCycled: z.number().int().nonnegative(),
-		mostCoralCycled: z.number().int().nonnegative(),
-		maxCoralScoredInAuto: z.number().int().nonnegative(),
-		canLeaveInAuto: z.boolean(),
-		canScoreCoralInAuto: z.boolean(),
-		canScoreAlgaeInAuto: z.boolean(),
-		canShallowCageClimb: z.boolean(),
-		canDeepCageClimb: z.boolean(),
-		comments: z.string(),
-	}),
+	scouting: teamPrescoutingDataSchema,
 });
 export type TeamData = z.TypeOf<typeof teamDataSchema>;
 
