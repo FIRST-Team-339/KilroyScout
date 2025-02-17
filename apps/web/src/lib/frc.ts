@@ -5,6 +5,7 @@ declare global {
 		interface ProcessEnv {
 			FRC_EVENTS_USER: string;
 			FRC_EVENTS_AUTH: string;
+			FRC_SEASON: number;
 		}
 	}
 }
@@ -12,5 +13,5 @@ declare global {
 export const frc = FRC({
 	username: process.env.FRC_EVENTS_USER,
 	auth: process.env.FRC_EVENTS_AUTH,
-	season: 2024,
+	season: process.env.FRC_SEASON,
 });
