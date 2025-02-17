@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import type { TeamData } from "@/lib/eventDataSchemas";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -335,6 +336,17 @@ export default function Team({
 								</TableRow>
 							</TableBody>
 						</Table>
+						<span className="text-xl font-medium">Comments</span>
+						<Textarea
+							defaultValue={teamDataState.comments}
+							className="resize-y min-h-10 max-h-40 mb-40"
+							onChange={(e) =>
+								setTeamDataState({
+									...teamDataState,
+									comments: e.target.value,
+								})
+							}
+						/>
 					</section>
 					<Savebar
 						showing={showSaveBar}

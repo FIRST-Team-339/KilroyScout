@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class TeamFragment(private val team: EventData.Team, private val eventData: MutableLiveData<EventData?>, private val mainActivity: MainActivity, private val supportFragmentManager: FragmentManager) : Fragment(R.layout.fragment_team) {
@@ -188,6 +189,25 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
             prescoutingData = prescoutingData.copy(canDeepCageClimb = state)
             runSaveCheck(view)
         }
+
+        val comments: TextInputEditText = view.findViewById(R.id.comments)
+        comments.setText(prescoutingData.comments)
+        comments?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Called *before* the text is changed.  Useful for tracking changes.
+                // 's' is the current text
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Called *during* the text change.  Also useful for tracking changes.
+                // 's' is the current text
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                prescoutingData = prescoutingData.copy(comments = s.toString())
+                runSaveCheck(view)
+            }
+        })
 
         return view
     }

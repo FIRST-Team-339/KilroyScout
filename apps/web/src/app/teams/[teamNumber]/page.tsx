@@ -426,6 +426,14 @@ export default function Team({
 							</TableBody>
 						</Table>
 					</section>
+					<section className="flex flex-col">
+						<span className="text-xl font-semibold text-gray-950 dark:text-gray-50">
+							Comments
+						</span>
+						<span className="border border-gray-300 rounded-md p-2 min-h-10 min-w-96">
+							{teamData.scouting.comments}
+						</span>
+					</section>
 					<section>
 						<span className="text-xl font-semibold text-gray-950 dark:text-gray-50">
 							Matches

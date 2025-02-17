@@ -300,6 +300,21 @@
                     android:layout_gravity="left"
                     />
             </TableRow>
+            <TableRow>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:layout_span="2">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/comments"
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Comments"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            </TableRow>
         </TableLayout>
     </ScrollView>
 </LinearLayout>
