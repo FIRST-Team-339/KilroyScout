@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:text="Team Number • Team Name"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -23,298 +23,341 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
+        android:textColor="?android:attr/textColorSecondary"
         android:text="Robot Name • Rookie Year" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:paddingTop="8dp"
         android:text="Pre-Scouting Data" />
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dp">
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1"
-            android:verticalScrollbarPosition="right"
-            android:id="@+id/teams"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:paddingTop="10dp">
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Drivetrain"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/drivetrain"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Select a Drivetrain">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Programming Language"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/programmingLanguage"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Select a Programming Language">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Score Coral?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canScoreCoral"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Score Algae?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canScoreAlgae"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Average Coral Cycled"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <LinearLayout android:orientation="horizontal">
+            <TableLayout
+                android:layout_width="550dp"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:verticalScrollbarPosition="right"
+                android:id="@+id/teams"
+                android:paddingTop="10dp">
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Drivetrain"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="50dp"
+                        android:id="@+id/drivetrain"
+                        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false">
+                        android:hint="Select a Drivetrain">
 
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Programming Language"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/programmingLanguage"
+                        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select a Programming Language">
+
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Score Coral?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canScoreCoral"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Score Algae?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canScoreAlgae"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Max Coral Scoring Level"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/maxCoralScoringLevelAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/maxCoralScoringLevelRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/maxCoralScoringLevelAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Average Coral Cycled"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/averageCoralCycledAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/averageCoralCycledRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/averageCoralCycledAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Most Coral Cycled"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/mostCoralCycledAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/mostCoralCycledRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/mostCoralCycledAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Max Coral Cycled in Auto"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/maxCoralCycledInAutoAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/maxCoralCycledInAutoRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/maxCoralCycledInAutoAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Score Coral in Auto?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canScoreCoralInAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Score Algae in Auto?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canScoreAlgaeInAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Leave In Auto?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canLeaveInAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Shallow Cage Climb?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canShallowCageClimb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Deep Cage Climb?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canDeepCageClimb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:layout_span="2">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/averageCoralCycledAmount"
+                            android:id="@+id/comments"
                             style="?attr/textInputOutlinedStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false" />
+                            android:hint="Comments"
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/averageCoralCycledAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/add_24px"
-                        />
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/averageCoralCycledRemove"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/remove_24px"
-                        />
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Most Coral Cycled"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <LinearLayout android:orientation="horizontal">
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:enabled="false">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/mostCoralCycledAmount"
-                            style="?attr/textInputOutlinedStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/mostCoralCycledAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/add_24px"
-                        />
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/mostCoralCycledRemove"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/remove_24px"
-                        />
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Max Coral Cycled in Auto"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <LinearLayout android:orientation="horizontal">
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:enabled="false">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/maxCoralCycledInAutoAmount"
-                            style="?attr/textInputOutlinedStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/maxCoralCycledInAutoAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/add_24px"
-                        />
-                    <Button
-                        style="?attr/materialIconButtonOutlinedStyle"
-                        android:id="@+id/maxCoralCycledInAutoRemove"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        app:icon="@drawable/remove_24px"
-                        />
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Score Coral in Auto?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canScoreCoralInAuto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Score Algae in Auto?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canScoreAlgaeInAuto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Leave In Auto?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canLeaveInAuto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Shallow Cage Climb?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canShallowCageClimb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow
-                android:paddingVertical="10dp">
-                <TextView
-                    android:text="Can Deep Cage Climb?"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:layout_gravity="left|center"/>
-                <CheckBox
-                    android:id="@+id/canDeepCageClimb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    />
-            </TableRow>
-            <TableRow>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:layout_span="2">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/comments"
-                        style="?attr/textInputOutlinedStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Comments"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+    </HorizontalScrollView>
 </LinearLayout>

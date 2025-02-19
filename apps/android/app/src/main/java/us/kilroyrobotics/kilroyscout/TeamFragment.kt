@@ -104,6 +104,25 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
             runSaveCheck(view)
         }
 
+        val maxCoralScoringLevelAmount: TextView = view.findViewById(R.id.maxCoralScoringLevelAmount)
+        maxCoralScoringLevelAmount.text = prescoutingData.maxCoralScoringLevel.toString()
+        val maxCoralScoringLevelAdd: Button = view.findViewById(R.id.maxCoralScoringLevelAdd)
+        maxCoralScoringLevelAdd.setOnClickListener {
+            if (prescoutingData.maxCoralScoringLevel < 4u) {
+                prescoutingData = prescoutingData.copy(maxCoralScoringLevel = prescoutingData.maxCoralScoringLevel + 1u)
+                maxCoralScoringLevelAmount.text = prescoutingData.maxCoralScoringLevel.toString()
+                runSaveCheck(view)
+            }
+        }
+        val maxCoralScoringLevelRemove: Button = view.findViewById(R.id.maxCoralScoringLevelRemove)
+        maxCoralScoringLevelRemove.setOnClickListener {
+            if (prescoutingData.maxCoralScoringLevel > 0u) {
+                prescoutingData = prescoutingData.copy(maxCoralScoringLevel = prescoutingData.maxCoralScoringLevel - 1u)
+                maxCoralScoringLevelAmount.text = prescoutingData.maxCoralScoringLevel.toString()
+                runSaveCheck(view)
+            }
+        }
+
         val averageCoralCycledAmount: TextView = view.findViewById(R.id.averageCoralCycledAmount)
         averageCoralCycledAmount.text = prescoutingData.averageCoralCycled.toString()
         val averageCoralCycledAdd: Button = view.findViewById(R.id.averageCoralCycledAdd)
@@ -222,7 +241,7 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
                         .setNegativeButton(resources.getString(R.string.event_dialog_cancel)) { _, _ ->
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, mainActivity, supportFragmentManager))
-                                .commit()
+                                .commitNow()
                         }
                         .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
                             prescoutingData.modified = true
@@ -236,9 +255,11 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
                 .addCallback(object : Snackbar.Callback() {
                     override fun onDismissed(snackbar: Snackbar, event: Int) {
                         if (event == DISMISS_EVENT_SWIPE) {
+                            val currentTeamData = eventData.value!!.teams.find { t -> t.teamNumber == team.teamNumber }
+
                             supportFragmentManager.beginTransaction()
-                                .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, mainActivity, supportFragmentManager))
-                                .commit()
+                                .replace(R.id.nav_host_fragment, TeamFragment(currentTeamData!!, eventData, mainActivity, supportFragmentManager))
+                                .commitNow()
                         }
                     }
                 })

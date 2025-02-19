@@ -1,13 +1,14 @@
 import { getEventData } from "@/app/actions";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
 	try {
 		const result = await getEventData();
 		if (result == null) throw new Error("No Data");
 
-		return Response.json(result);
+		return NextResponse.json(result);
 	} catch (err) {
-		return Response.json(
+		return NextResponse.json(
 			{ error: "No Data" },
 			{
 				status: 500,

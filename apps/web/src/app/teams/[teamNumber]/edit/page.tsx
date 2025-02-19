@@ -214,6 +214,24 @@ export default function Team({
 									</TableCell>
 								</TableRow>
 								<TableRow>
+									<TableCell>Max Coral Scoring Level</TableCell>
+									<TableCell>
+										<Input
+											type="number"
+											className="w-min"
+											min={0}
+											max={4}
+											defaultValue={teamDataState.maxCoralScoringLevel}
+											onChange={(e) =>
+												setTeamDataState({
+													...teamDataState,
+													maxCoralScoringLevel: e.target.valueAsNumber,
+												})
+											}
+										/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
 									<TableCell>Average Coral Cycled</TableCell>
 									<TableCell>
 										<Input

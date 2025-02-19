@@ -1,10 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-<!--    <style name="Theme.KilroyScout" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/orange_500</item>-->
-<!--        <item name="colorPrimaryVariant">@color/orange_200</item>-->
-<!--        <item name="colorOnPrimary">@android:color/white</item>-->
+    <style name="Theme.KilroyScout" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:fontFamily">@font/lexend</item>
 
-<!--        <item name="android:statusBarColor">@color/orange_500</item>-->
-<!--    </style>-->
+        <item name="colorPrimary">@color/orange_500</item>
+        <item name="colorPrimaryVariant">@color/orange_200</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/orange_50</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/gray_300</item>
+        <item name="colorSurfaceContainer">@color/orange_500</item>
+        <item name="android:statusBarColor">@color/orange_500</item>
+    </style>
 </resources>

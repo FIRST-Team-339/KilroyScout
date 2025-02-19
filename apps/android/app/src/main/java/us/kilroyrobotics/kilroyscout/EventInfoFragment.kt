@@ -16,7 +16,7 @@ class EventInfoFragment(private var eventData: MutableLiveData<EventData?>, priv
     private val parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
     private val outputFormat = DateTimeFormat.forPattern("MMMM dd, yyyy")
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,12 +44,12 @@ class EventInfoFragment(private var eventData: MutableLiveData<EventData?>, priv
             eventData.value!!.teams.forEach { team ->
                 val teamNumber = TextView(context)
                 teamNumber.text = team.teamNumber.toString()
-                teamNumber.setTextColor(resources.getColor(R.color.black))
+//                teamNumber.setTextColor(resources.getColor(android.R.attr.textColorPrimary))
                 teamNumber.textSize = 15F
 
                 val teamName = TextView(context)
                 teamName.text = team.name
-                teamName.setTextColor(resources.getColor(R.color.black))
+//                teamName.setTextColor(resources.getColor(android.R.attr.textColorPrimary))
                 teamName.textSize = 15F
 
                 val tableRow = TableRow(context)
@@ -84,7 +84,7 @@ class EventInfoFragment(private var eventData: MutableLiveData<EventData?>, priv
         return fun(view: View) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, mainActivity, supportFragmentManager))
-                .commit()
+                .commitNow()
         }
     }
 }

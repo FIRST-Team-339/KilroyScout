@@ -5,57 +5,69 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dp">
-        <TableLayout
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:stretchColumns="1"
-            android:verticalScrollbarPosition="right"
-            android:id="@+id/matches">
-            <TableRow>
-                <TextView
-                    android:text="#"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingHorizontal="12dp" />
-                <TextView
-                    android:text="Est. Start Time"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="16dp"
-                    />
-                <TextView
-                    android:text="Blue 1"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-                <TextView
-                    android:text="Blue 2"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-                <TextView
-                    android:text="Blue 3"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-                <TextView
-                    android:text="Red 1"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-                <TextView
-                    android:text="Red 2"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-                <TextView
-                    android:text="Red 3"
-                    android:fontFamily="@font/lexend_medium"
-                    android:paddingRight="24dp"
-                    />
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
+            android:paddingTop="10dp">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="1"
+                android:verticalScrollbarPosition="right"
+                android:id="@+id/matches">
+                <TableRow>
+                    <TextView
+                        android:text="#"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingHorizontal="12dp" />
+                    <TextView
+                        android:text="Est. Start Time"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="16dp"
+                        />
+                    <TextView
+                        android:text="Blue 1"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                    <TextView
+                        android:text="Blue 2"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                    <TextView
+                        android:text="Blue 3"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                    <TextView
+                        android:text="Red 1"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                    <TextView
+                        android:text="Red 2"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                    <TextView
+                        android:text="Red 3"
+                        android:fontFamily="@font/lexend_medium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingRight="24dp"
+                        />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+    </HorizontalScrollView>
 </LinearLayout>

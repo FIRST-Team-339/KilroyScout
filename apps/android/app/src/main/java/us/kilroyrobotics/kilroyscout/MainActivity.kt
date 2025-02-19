@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, selectedFragment)
-                .commit()
+                .commitNow()
 
             true
         }

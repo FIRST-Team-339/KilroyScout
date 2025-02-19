@@ -40,6 +40,8 @@
     <color name="yellow_900">#7C2D12</color>
 
     <!-- Alliance Blue/Red -->
-    <color name="blue">#1E40AF</color>
-    <color name="red">#991B1B</color>
+    <color name="blue_light">#1E40AF</color>
+    <color name="red_light">#991B1B</color>
+    <color name="blue_dark">#60A5FA</color>
+    <color name="red_dark">#F87171</color>
 </resources>

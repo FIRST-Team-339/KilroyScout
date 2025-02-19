@@ -96,6 +96,7 @@ export async function initEvent(
 						programmingLanguage: "",
 						canScoreCoral: false,
 						canScoreAlgae: false,
+						maxCoralScoringLevel: 0,
 						averageCoralCycled: 0,
 						mostCoralCycled: 0,
 						maxCoralScoredInAuto: 0,

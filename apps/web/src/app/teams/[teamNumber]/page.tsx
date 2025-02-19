@@ -365,6 +365,12 @@ export default function Team({
 									</TableCell>
 								</TableRow>
 								<TableRow>
+									<TableCell>Max Coral Scoring Level</TableCell>
+									<TableCell>
+										{teamData.scouting.maxCoralScoringLevel}
+									</TableCell>
+								</TableRow>
+								<TableRow>
 									<TableCell>Average Coral Cycled</TableCell>
 									<TableCell>{teamData.scouting.averageCoralCycled}</TableCell>
 								</TableRow>

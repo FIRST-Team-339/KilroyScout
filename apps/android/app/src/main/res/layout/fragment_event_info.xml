@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/eventName"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:text="Event Name"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
+        android:textColor="?android:attr/textColorSecondary"
         android:text="EventCode • Week #" />
 
     <TextView
@@ -28,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:paddingTop="8dp"
         android:text="From: Date" />
 
@@ -37,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:paddingBottom="8dp"
         android:text="To: Date" />
 
@@ -46,13 +48,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:text="Venue" />
 
     <TextView
         android:id="@+id/venue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary"
         android:text="Venue Location" />
 
     <ScrollView
@@ -69,11 +72,13 @@
                 <TextView
                     android:text="#"
                     android:fontFamily="@font/lexend_medium"
+                    android:textColor="?android:attr/textColorSecondary"
                     android:paddingLeft="12dp"
                     android:paddingRight="24dp"/>
                 <TextView
                     android:text="Name"
                     android:fontFamily="@font/lexend_medium"
+                    android:textColor="?android:attr/textColorSecondary"
                     />
             </TableRow>
         </TableLayout>

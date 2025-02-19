@@ -29,6 +29,7 @@ data class EventData(
             var programmingLanguage: String,
             var canScoreCoral: Boolean,
             var canScoreAlgae: Boolean,
+            var maxCoralScoringLevel: UInt,
             var averageCoralCycled: UInt,
             var mostCoralCycled: UInt,
             var maxCoralScoredInAuto: UInt,

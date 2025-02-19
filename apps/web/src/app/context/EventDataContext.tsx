@@ -34,7 +34,7 @@ export function EventDataProvider({ children }: { children: React.ReactNode }) {
 	const updateData = (newData: EventData) => {
 		startTransition(() => {
 			updateEventData(newData).then((updated) => {
-				setEventData(updated);
+				setEventData(newData);
 			});
 		});
 	};

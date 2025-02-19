@@ -1,5 +1,6 @@
 import { getEventData, updateEventData } from "@/app/actions";
 import { teamPrescoutingDataSchema } from "@/lib/eventDataSchemas";
+import { NextResponse } from "next/server";
 
 export async function POST(
 	request: Request,
@@ -9,13 +10,13 @@ export async function POST(
 	const body = await request.json();
 
 	if (!body) {
-		return Response.json({ message: "No request body" }, { status: 400 });
+		return NextResponse.json({ message: "No request body" }, { status: 400 });
 	}
 
 	const eventData = await getEventData();
 
 	if (!eventData) {
-		return Response.json(
+		return NextResponse.json(
 			{ message: "No event data found. Please initialize an event first" },
 			{ status: 500 },
 		);
@@ -23,7 +24,7 @@ export async function POST(
 
 	const parsedBody = teamPrescoutingDataSchema.safeParse(body);
 	if (!parsedBody.success)
-		return Response.json({ message: parsedBody.error }, { status: 400 });
+		return NextResponse.json({ message: parsedBody.error }, { status: 400 });
 
 	await updateEventData({
 		...eventData,
@@ -38,5 +39,5 @@ export async function POST(
 		}),
 	});
 
-	return Response.json({ message: "OK" }, { status: 200 });
+	return NextResponse.json({ message: "OK" }, { status: 200 });
 }

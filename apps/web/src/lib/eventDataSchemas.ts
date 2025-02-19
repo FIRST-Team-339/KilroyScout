@@ -5,6 +5,7 @@ export const teamPrescoutingDataSchema = z.object({
 	programmingLanguage: z.enum(["java", "kotlin", "cpp", "python", ""]),
 	canScoreCoral: z.boolean(),
 	canScoreAlgae: z.boolean(),
+	maxCoralScoringLevel: z.number().int().nonnegative().max(4),
 	averageCoralCycled: z.number().int().nonnegative(),
 	mostCoralCycled: z.number().int().nonnegative(),
 	maxCoralScoredInAuto: z.number().int().nonnegative(),
