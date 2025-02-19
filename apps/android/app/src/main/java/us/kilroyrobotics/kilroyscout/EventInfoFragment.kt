@@ -83,7 +83,7 @@ class EventInfoFragment(private var eventData: MutableLiveData<EventData?>, priv
     private fun showTeamPage(team: EventData.Team): (View) -> Unit {
         return fun(view: View) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, mainActivity, supportFragmentManager))
+                .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, supportFragmentManager))
                 .commitNow()
         }
     }

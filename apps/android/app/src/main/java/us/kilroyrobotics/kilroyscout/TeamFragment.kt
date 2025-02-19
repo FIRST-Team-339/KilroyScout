@@ -20,7 +20,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class TeamFragment(private val team: EventData.Team, private val eventData: MutableLiveData<EventData?>, private val mainActivity: MainActivity, private val supportFragmentManager: FragmentManager) : Fragment(R.layout.fragment_team) {
+class TeamFragment(private val team: EventData.Team, private val eventData: MutableLiveData<EventData?>, private val supportFragmentManager: FragmentManager) : Fragment(R.layout.fragment_team) {
     private var prescoutingData = team.scouting.copy()
     private var savebar: Snackbar? = null
 
@@ -235,12 +235,14 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
         if (prescoutingData != team.scouting) {
             savebar = Snackbar.make(view, R.string.savebar_message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.savebar_save) {
-                    MaterialAlertDialogBuilder(mainActivity)
+                    MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.event_dialog_title))
                         .setMessage(resources.getString(R.string.savebar_dialog_message))
                         .setNegativeButton(resources.getString(R.string.event_dialog_cancel)) { _, _ ->
+                            val currentTeamData = eventData.value!!.teams.find { t -> t.teamNumber == team.teamNumber }
+
                             supportFragmentManager.beginTransaction()
-                                .replace(R.id.nav_host_fragment, TeamFragment(team, eventData, mainActivity, supportFragmentManager))
+                                .replace(R.id.nav_host_fragment, TeamFragment(currentTeamData!!, eventData, supportFragmentManager))
                                 .commitNow()
                         }
                         .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
@@ -258,7 +260,7 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
                             val currentTeamData = eventData.value!!.teams.find { t -> t.teamNumber == team.teamNumber }
 
                             supportFragmentManager.beginTransaction()
-                                .replace(R.id.nav_host_fragment, TeamFragment(currentTeamData!!, eventData, mainActivity, supportFragmentManager))
+                                .replace(R.id.nav_host_fragment, TeamFragment(currentTeamData!!, eventData, supportFragmentManager))
                                 .commitNow()
                         }
                     }
