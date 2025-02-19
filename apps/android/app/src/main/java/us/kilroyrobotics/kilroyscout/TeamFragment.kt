@@ -231,6 +231,11 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        savebar?.dismiss()
+    }
+
     private fun runSaveCheck(view: View) {
         if (prescoutingData != team.scouting) {
             savebar = Snackbar.make(view, R.string.savebar_message, Snackbar.LENGTH_INDEFINITE)
