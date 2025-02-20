@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button;
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -19,7 +20,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import org.joda.time.format.DateTimeFormat
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,6 +65,29 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
 
         val sendDataButton: Button = view.findViewById(R.id.sendDataButton)
         sendDataButton.setOnClickListener(this::sendData)
+
+        val station: TextInputLayout = view.findViewById(R.id.station)
+        val stationItems = arrayOf("Blue 1", "Blue 2", "Blue 3", "Red 1", "Red 2", "Red 3")
+        val stationAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, stationItems)
+        val stationEditText = station.editText as? MaterialAutoCompleteTextView
+        stationEditText?.setAdapter(stationAdapter)
+        stationEditText?.threshold = Integer.MAX_VALUE
+        stationEditText?.setText(preferences.getString("station", "Blue 1"))
+        stationEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Called *before* the text is changed.  Useful for tracking changes.
+                // 's' is the current text
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Called *during* the text change.  Also useful for tracking changes.
+                // 's' is the current text
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                preferences.edit().putString("station", s.toString()).commit()
+            }
+        })
 
         val eventName: TextView = view.findViewById(R.id.eventName)
         val eventCodeWeekName: TextView = view.findViewById(R.id.eventCodeWeekNumber)

@@ -1,6 +1,7 @@
 package us.kilroyrobotics.kilroyscout
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
@@ -16,7 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import org.joda.time.format.DateTimeFormat
 
 
-class MatchesFragment(private var eventData: MutableLiveData<EventData?>, private val supportFragmentManager: FragmentManager) : Fragment(R.layout.fragment_matches) {
+class MatchesFragment(private var eventData: MutableLiveData<EventData?>, private val preferences: SharedPreferences, private val supportFragmentManager: FragmentManager) : Fragment(R.layout.fragment_matches) {
     private val parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
     private val outputFormat = DateTimeFormat.forPattern("E, hh:mma")
 
@@ -34,6 +35,8 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
         val blueAllianceColor = if (isDarkModeOn()) resources.getColor(R.color.blue_dark) else resources.getColor(R.color.blue_light)
         val redAllianceColor = if (isDarkModeOn()) resources.getColor(R.color.red_dark) else resources.getColor(R.color.red_light)
         val primaryTextColor = if (isDarkModeOn()) resources.getColor(R.color.white) else resources.getColor(R.color.black)
+
+        val station = preferences.getString("station", "Blue 1")
 
         eventData.value?.matches?.forEach { match ->
             val matchNumber = TextView(context)
@@ -53,7 +56,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val blue1 = TextView(context)
             blue1.text = match.blueAllianceTeams[0].toString()
             blue1.setTextColor(blueAllianceColor)
-            blue1.setTypeface(blue1.typeface, Typeface.BOLD)
+            if (station == "Blue 1") blue1.setTypeface(blue1.typeface, Typeface.BOLD_ITALIC)
             blue1.isClickable = true
             blue1.textSize = 15F
             blue1.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[0], 0, true))
@@ -61,7 +64,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val blue2 = TextView(context)
             blue2.text = match.blueAllianceTeams[1].toString()
             blue2.setTextColor(blueAllianceColor)
-            blue2.setTypeface(blue2.typeface, Typeface.BOLD)
+            if (station == "Blue 2") blue2.setTypeface(blue2.typeface, Typeface.BOLD_ITALIC)
             blue2.isClickable = true
             blue2.textSize = 15F
             blue2.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[1], 1, true))
@@ -69,7 +72,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val blue3 = TextView(context)
             blue3.text = match.blueAllianceTeams[2].toString()
             blue3.setTextColor(blueAllianceColor)
-            blue3.setTypeface(blue3.typeface, Typeface.BOLD)
+            if (station == "Blue 3") blue3.setTypeface(blue3.typeface, Typeface.BOLD_ITALIC)
             blue3.isClickable = true
             blue3.textSize = 15F
             blue3.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[2], 2, true))
@@ -77,7 +80,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val red1 = TextView(context)
             red1.text = match.redAllianceTeams[0].toString()
             red1.setTextColor(redAllianceColor)
-            red1.setTypeface(red1.typeface, Typeface.BOLD)
+            if (station == "Red 1") red1.setTypeface(red1.typeface, Typeface.BOLD_ITALIC)
             red1.isClickable = true
             red1.textSize = 15F
             red1.setOnClickListener(showMatchPage(match, match.redAllianceTeams[0], 0, false))
@@ -85,7 +88,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val red2 = TextView(context)
             red2.text = match.redAllianceTeams[1].toString()
             red2.setTextColor(redAllianceColor)
-            red2.setTypeface(red2.typeface, Typeface.BOLD)
+            if (station == "Red 2") red2.setTypeface(red2.typeface, Typeface.BOLD_ITALIC)
             red2.isClickable = true
             red2.textSize = 15F
             red2.setOnClickListener(showMatchPage(match, match.redAllianceTeams[1], 1, false))
@@ -93,7 +96,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val red3 = TextView(context)
             red3.text = match.redAllianceTeams[2].toString()
             red3.setTextColor(redAllianceColor)
-            red3.setTypeface(red3.typeface, Typeface.BOLD)
+            if (station == "Red 3") red3.setTypeface(red3.typeface, Typeface.BOLD_ITALIC)
             red3.isClickable = true
             red3.textSize = 15F
             red3.setOnClickListener(showMatchPage(match, match.redAllianceTeams[2], 2, false))

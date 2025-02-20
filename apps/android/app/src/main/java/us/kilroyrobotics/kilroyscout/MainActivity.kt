@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             val selectedFragment: Fragment = when (item.itemId) {
                 R.id.nav_home -> HomeFragment(this, eventData, preferences, apiService, supportFragmentManager)
                 R.id.nav_teams -> TeamsFragment(eventData, this, supportFragmentManager)
-                R.id.nav_matches -> MatchesFragment(eventData, supportFragmentManager)
+                R.id.nav_matches -> MatchesFragment(eventData, preferences, supportFragmentManager)
                 else -> HomeFragment(this, eventData, preferences, apiService, supportFragmentManager) // Default fragment
             }
 
