@@ -33,7 +33,7 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
         val view = inflater.inflate(R.layout.fragment_match, container, false)
 
         val matchIdentifier: TextView = view.findViewById(R.id.matchIdentifier)
-        matchIdentifier.text = "Match ${match.matchNumber} • $team"
+        matchIdentifier.text = "Match ${match.matchNumber} • $team • ${if (blue) "Blue" else "Red"} ${teamIndex + 1}"
 
         val brokeDown: CheckBox = view.findViewById(R.id.brokeDown)
         brokeDown.isChecked = teamMatchScoutingData.brokeDown
