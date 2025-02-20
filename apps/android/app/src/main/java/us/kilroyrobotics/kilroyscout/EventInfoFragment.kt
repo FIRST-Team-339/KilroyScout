@@ -1,5 +1,6 @@
 package us.kilroyrobotics.kilroyscout
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,18 +45,18 @@ class EventInfoFragment(private var eventData: MutableLiveData<EventData?>, priv
             eventData.value!!.teams.forEach { team ->
                 val teamNumber = TextView(context)
                 teamNumber.text = team.teamNumber.toString()
-//                teamNumber.setTextColor(resources.getColor(android.R.attr.textColorPrimary))
+                teamNumber.setTypeface(teamNumber.typeface, Typeface.BOLD)
                 teamNumber.textSize = 15F
 
                 val teamName = TextView(context)
+                teamName.setTypeface(teamName.typeface, Typeface.BOLD)
                 teamName.text = team.name
-//                teamName.setTextColor(resources.getColor(android.R.attr.textColorPrimary))
                 teamName.textSize = 15F
 
                 val tableRow = TableRow(context)
                 tableRow.addView(teamNumber)
                 tableRow.addView(teamName)
-                tableRow.setPadding(0, 10, 0, 10)
+                tableRow.setPadding(0, 15, 0, 15)
                 tableRow.isClickable = true
 
                 tableRow.setOnClickListener(showTeamPage(team))

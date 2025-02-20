@@ -71,13 +71,13 @@
             <TableRow>
                 <TextView
                     android:text="#"
-                    android:fontFamily="@font/lexend_medium"
+                    android:textStyle="bold"
                     android:textColor="?android:attr/textColorSecondary"
                     android:paddingLeft="12dp"
                     android:paddingRight="24dp"/>
                 <TextView
                     android:text="Name"
-                    android:fontFamily="@font/lexend_medium"
+                    android:textStyle="bold"
                     android:textColor="?android:attr/textColorSecondary"
                     />
             </TableRow>

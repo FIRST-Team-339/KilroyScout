@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:ignore="HardcodedText">
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -21,48 +23,48 @@
                 <TableRow>
                     <TextView
                         android:text="#"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingHorizontal="12dp" />
                     <TextView
                         android:text="Est. Start Time"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="16dp"
                         />
                     <TextView
                         android:text="Blue 1"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
                     <TextView
                         android:text="Blue 2"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
                     <TextView
                         android:text="Blue 3"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
                     <TextView
                         android:text="Red 1"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
                     <TextView
                         android:text="Red 2"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
                     <TextView
                         android:text="Red 3"
-                        android:fontFamily="@font/lexend_medium"
+                        android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
                         android:paddingRight="24dp"
                         />
