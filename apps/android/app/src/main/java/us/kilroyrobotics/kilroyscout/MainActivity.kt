@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
-                R.id.nav_home -> HomeFragment(this, eventData, preferences, apiService)
+                R.id.nav_home -> HomeFragment(this, eventData, preferences, apiService, supportFragmentManager)
                 R.id.nav_teams -> TeamsFragment(eventData, this, supportFragmentManager)
                 R.id.nav_matches -> MatchesFragment(eventData, supportFragmentManager)
-                else -> HomeFragment(this, eventData, preferences, apiService) // Default fragment
+                else -> HomeFragment(this, eventData, preferences, apiService, supportFragmentManager) // Default fragment
             }
 
             supportFragmentManager.beginTransaction()

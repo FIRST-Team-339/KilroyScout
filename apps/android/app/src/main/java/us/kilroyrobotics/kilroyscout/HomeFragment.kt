@@ -16,6 +16,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -25,7 +26,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment(private val mainActivity: MainActivity, private var eventData: MutableLiveData<EventData?>,
-                   private val preferences: SharedPreferences, private val apiService: ApiService) : Fragment(R.layout.fragment_home) {
+                   private val preferences: SharedPreferences, private val apiService: ApiService, private val supportFragmentManager: FragmentManager
+) : Fragment(R.layout.fragment_home) {
     private val parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
     private val outputFormat = DateTimeFormat.forPattern("MMMM dd, yyyy")
 
@@ -98,6 +100,7 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
 
     private fun fetchData(view: View) {
         apiService.getEventData().enqueue(object: Callback<EventData> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<EventData>, response: Response<EventData>) {
                 if (response.isSuccessful) {
                     val data = response.body()
@@ -111,6 +114,10 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
                             }
                             .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
                                 eventData.value = data
+
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.nav_host_fragment, HomeFragment(mainActivity, eventData, preferences, apiService, supportFragmentManager))
+                                    .commitNow()
                             }
                             .show()
                     }
