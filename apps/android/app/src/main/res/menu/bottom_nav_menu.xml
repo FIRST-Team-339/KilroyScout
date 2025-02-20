@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="HardcodedText">
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home_24px"
-        android:title="Home"
-        />
+        android:title="Home" />
     <item
-        android:id="@+id/nav_event_info"
-        android:icon="@drawable/event_24px"
-        android:title="Event Info" />
+        android:id="@+id/nav_teams"
+        android:icon="@drawable/groups_24px"
+        android:title="Teams" />
     <item
         android:id="@+id/nav_matches"
         android:icon="@drawable/schedule_24px"

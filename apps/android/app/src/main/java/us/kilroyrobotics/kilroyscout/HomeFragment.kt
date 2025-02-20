@@ -3,6 +3,7 @@ package us.kilroyrobotics.kilroyscout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,17 +11,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button;
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import org.joda.time.format.DateTimeFormat
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment(private val mainActivity: MainActivity, private var eventData: MutableLiveData<EventData?>,
                    private val preferences: SharedPreferences, private val apiService: ApiService) : Fragment(R.layout.fragment_home) {
+    private val parser = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+    private val outputFormat = DateTimeFormat.forPattern("MMMM dd, yyyy")
+
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +60,33 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
 
         val sendDataButton: Button = view.findViewById(R.id.sendDataButton)
         sendDataButton.setOnClickListener(this::sendData)
+
+        val eventName: TextView = view.findViewById(R.id.eventName)
+        val eventCodeWeekName: TextView = view.findViewById(R.id.eventCodeWeekNumber)
+        val startDate: TextView = view.findViewById(R.id.startDate)
+        val endDate: TextView = view.findViewById(R.id.endDate)
+        val venue: TextView = view.findViewById(R.id.venue)
+
+        if (eventData.value != null) {
+            eventName.text = eventData.value!!.event.name
+            eventCodeWeekName.text = "${eventData.value!!.event.eventCode.uppercase()} • Week ${eventData.value!!.event.weekNumber}"
+            val parsedStartDate = parser.parseDateTime(eventData.value!!.event.dateStart)
+            val parsedEndDate = parser.parseDateTime(eventData.value!!.event.dateEnd)
+            startDate.text = "From: ${parsedStartDate.toString(outputFormat)}"
+            endDate.text = "To: ${parsedEndDate.toString(outputFormat)}"
+            venue.text = eventData.value!!.event.venue + "\n" + eventData.value!!.event.location
+
+            eventCodeWeekName.visibility = View.VISIBLE
+            startDate.visibility = View.VISIBLE
+            endDate.visibility = View.VISIBLE
+            venue.visibility = View.VISIBLE
+        } else {
+            eventName.text = eventData.value?.event?.name ?: "No Event Data"
+            eventCodeWeekName.visibility = View.INVISIBLE
+            startDate.visibility = View.INVISIBLE
+            endDate.visibility = View.INVISIBLE
+            venue.visibility = View.INVISIBLE
+        }
 
         return view
     }
