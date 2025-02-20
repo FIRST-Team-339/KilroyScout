@@ -90,6 +90,7 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
         })
     }
 
+    @OptIn(ExperimentalUnsignedTypes::class)
     private fun sendData(view: View) {
         if (eventData.value == null) {
             Toast.makeText(context, "No Event Data", Toast.LENGTH_SHORT).show()
@@ -100,9 +101,33 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
             return@filter team.scouting.modified
         }
 
+        val modifiedMatchScoutingData = eventData.value!!.matches.flatMap { match ->
+            val blueFiltered = match.scouting.blue.withIndex().filter { it.value.modified }
+                .map { Triple(match.matchNumber, match.blueAllianceTeams[it.index], it.value) }
+
+            val redFiltered = match.scouting.red.withIndex().filter { it.value.modified }
+                .map { Triple(match.matchNumber, match.redAllianceTeams[it.index], it.value) }
+
+            blueFiltered + redFiltered
+        }
+
         MaterialAlertDialogBuilder(mainActivity)
             .setTitle(resources.getString(R.string.send_data_dialog_title))
-            .setMessage("Team Prescouting Data:\n   ${modifiedTeams.map { team -> "   • ${team.teamNumber}\n" }.toString().substringAfter("[").substringBefore("]").split(",").joinToString("  ")}\n\nPressing 'cancel' will not remove any local/edited data, and you can send at a later time.")
+            .setMessage(
+                """Team Prescouting Data:
+                ${
+                    modifiedTeams.map { team -> "   • Team ${team.teamNumber}\n" }.toString()
+                        .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
+                }
+                
+Match Data:
+                ${
+                    modifiedMatchScoutingData.map { (matchNumber, teamNumber) -> "   • Match $matchNumber - Team $teamNumber\n" }.toString()
+                        .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
+                }
+
+Pressing 'cancel' will not remove any local/edited data, and you can send at a later time."""
+            )
             .setNeutralButton(resources.getString(R.string.event_dialog_cancel)) { _, _ -> }
             .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
                 modifiedTeams.forEach { team ->
@@ -122,7 +147,32 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
                         }
 
                         override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
-                            Toast.makeText(context, "Data for ${team.teamNumber} failed to send", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Prescout Data for Team ${team.teamNumber} failed to send", Toast.LENGTH_SHORT).show()
+                            println("Send Data Failed: ${t.message}")
+                        }
+                    })
+                }
+
+                modifiedMatchScoutingData.forEach { (matchNumber, teamNumber, matchScoutingData) ->
+                    apiService.setMatchDataForTeam(matchNumber, teamNumber, matchScoutingData).enqueue(object: Callback<ApiService.GenericRequestResponse> {
+                        override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
+                            if (response.isSuccessful) {
+                                eventData.value = eventData.value?.copy(matches = eventData.value!!.matches.map { match ->
+                                    match.scouting.blue.forEach { it.modified = false }
+                                    match.scouting.red.forEach { it.modified = false }
+
+                                    return@map match
+                                }.toTypedArray())
+                                Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
+                            } else {
+                                // Handle error
+                                Toast.makeText(context, "Match Data for Match $matchNumber, Team $teamNumber failed to send", Toast.LENGTH_SHORT).show()
+                                println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
+                            Toast.makeText(context, "Match Data for Match $matchNumber, Team $teamNumber failed to send", Toast.LENGTH_SHORT).show()
                             println("Send Data Failed: ${t.message}")
                         }
                     })

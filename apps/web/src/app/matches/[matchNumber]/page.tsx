@@ -227,6 +227,15 @@ export default function MatchDetails({
 													<TableCell>Algae Scored</TableCell>
 													<TableCell>{data.auto.algaeProcessor}</TableCell>
 												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Auto RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.auto.allianceGotAutoRP}
+														/>
+													</TableCell>
+												</TableRow>
 											</TableBody>
 										</Table>
 										<span className="text-xl font-medium">Teleop</span>
@@ -280,6 +289,24 @@ export default function MatchDetails({
 														<Checkbox
 															className="pointer-events-none"
 															checked={data.teleop.deepCageClimbed}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Coral RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.teleop.allianceGotCoralRP}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Barge RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.teleop.allianceGotBargeRP}
 														/>
 													</TableCell>
 												</TableRow>
@@ -359,6 +386,15 @@ export default function MatchDetails({
 													<TableCell>Algae Scored</TableCell>
 													<TableCell>{data.auto.algaeProcessor}</TableCell>
 												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Auto RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.auto.allianceGotAutoRP}
+														/>
+													</TableCell>
+												</TableRow>
 											</TableBody>
 										</Table>
 										<span className="text-xl font-medium">Teleop</span>
@@ -412,6 +448,24 @@ export default function MatchDetails({
 														<Checkbox
 															className="pointer-events-none"
 															checked={data.teleop.deepCageClimbed}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Coral RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.teleop.allianceGotCoralRP}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Barge RP</TableCell>
+													<TableCell>
+														<Checkbox
+															className="pointer-events-none"
+															checked={data.teleop.allianceGotBargeRP}
 														/>
 													</TableCell>
 												</TableRow>

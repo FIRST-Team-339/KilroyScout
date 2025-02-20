@@ -270,7 +270,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L2 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -293,7 +293,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L3 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -316,7 +316,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L4 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -356,6 +356,24 @@ export default function MatchDetails({
 																				algaeProcessor: e.target.valueAsNumber,
 																			},
 																		},
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Auto RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.auto.allianceGotAutoRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	blue: mergeMatchData(
+																		matchDataState.blue,
+																		{ auto: { allianceGotAutoRP: !!checked } },
 																		index,
 																	),
 																})
@@ -567,6 +585,46 @@ export default function MatchDetails({
 																	blue: mergeMatchData(
 																		matchDataState.blue,
 																		{ teleop: { deepCageClimbed: !!checked } },
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Coral RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.teleop.allianceGotCoralRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	blue: mergeMatchData(
+																		matchDataState.blue,
+																		{
+																			teleop: { allianceGotCoralRP: !!checked },
+																		},
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Barge RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.teleop.allianceGotBargeRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	blue: mergeMatchData(
+																		matchDataState.blue,
+																		{
+																			teleop: { allianceGotBargeRP: !!checked },
+																		},
 																		index,
 																	),
 																})
@@ -684,7 +742,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L2 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -707,7 +765,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L3 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -730,7 +788,7 @@ export default function MatchDetails({
 													</TableCell>
 												</TableRow>
 												<TableRow>
-													<TableCell>L1 Coral Scored</TableCell>
+													<TableCell>L4 Coral Scored</TableCell>
 													<TableCell>
 														<Input
 															type="number"
@@ -770,6 +828,24 @@ export default function MatchDetails({
 																				algaeProcessor: e.target.valueAsNumber,
 																			},
 																		},
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Auto RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.auto.allianceGotAutoRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	red: mergeMatchData(
+																		matchDataState.red,
+																		{ auto: { allianceGotAutoRP: !!checked } },
 																		index,
 																	),
 																})
@@ -981,6 +1057,46 @@ export default function MatchDetails({
 																	red: mergeMatchData(
 																		matchDataState.red,
 																		{ teleop: { deepCageClimbed: !!checked } },
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Coral RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.teleop.allianceGotCoralRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	blue: mergeMatchData(
+																		matchDataState.blue,
+																		{
+																			teleop: { allianceGotCoralRP: !!checked },
+																		},
+																		index,
+																	),
+																})
+															}
+														/>
+													</TableCell>
+												</TableRow>
+												<TableRow>
+													<TableCell>Alliance got Barge RP</TableCell>
+													<TableCell>
+														<Checkbox
+															defaultChecked={data.teleop.allianceGotBargeRP}
+															onCheckedChange={(checked) =>
+																setMatchDataState({
+																	...matchDataState,
+																	blue: mergeMatchData(
+																		matchDataState.blue,
+																		{
+																			teleop: { allianceGotBargeRP: !!checked },
+																		},
 																		index,
 																	),
 																})

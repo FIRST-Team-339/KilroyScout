@@ -211,7 +211,7 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
 
         val comments: TextInputEditText = view.findViewById(R.id.comments)
         comments.setText(prescoutingData.comments)
-        comments?.addTextChangedListener(object : TextWatcher {
+        comments.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Called *before* the text is changed.  Useful for tracking changes.
                 // 's' is the current text

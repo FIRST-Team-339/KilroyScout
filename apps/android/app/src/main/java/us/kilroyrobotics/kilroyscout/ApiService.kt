@@ -13,12 +13,6 @@ interface ApiService {
     @POST("/api/setData/prescout/{team}")
     fun setPrescoutData(@Path("team") team: UInt, @Body body: EventData.Team.PrescoutData): Call<GenericRequestResponse>
 
-    @POST("/api/setData/match/{match}/alliance/blue")
-    fun setMatchDataForBlueAlliance(@Path("match") match: UInt)
-
-    @POST("/api/setData/match/{match}/alliance/red")
-    fun setMatchDataForRedAlliance(@Path("match") match: UInt)
-
     @POST("/api/setData/match/{match}/{team}")
     fun setMatchDataForTeam(@Path("match") match: UInt, @Path("team") team: UInt, @Body body: EventData.Match.MatchScoutingData.TeamMatchScoutingData): Call<GenericRequestResponse>
 

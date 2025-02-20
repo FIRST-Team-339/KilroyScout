@@ -50,38 +50,44 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             val blue1 = TextView(context)
             blue1.text = match.blueAllianceTeams[0].toString()
             blue1.setTextColor(blueAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            blue1.isClickable = true
+            blue1.textSize = 15F
+            blue1.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[0], 0, true))
 
             val blue2 = TextView(context)
             blue2.text = match.blueAllianceTeams[1].toString()
             blue2.setTextColor(blueAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            blue2.isClickable = true
+            blue2.textSize = 15F
+            blue2.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[1], 1, true))
 
             val blue3 = TextView(context)
             blue3.text = match.blueAllianceTeams[2].toString()
             blue3.setTextColor(blueAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            blue3.isClickable = true
+            blue3.textSize = 15F
+            blue3.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[2], 2, true))
 
             val red1 = TextView(context)
             red1.text = match.redAllianceTeams[0].toString()
             red1.setTextColor(redAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            red1.isClickable = true
+            red1.textSize = 15F
+            red1.setOnClickListener(showMatchPage(match, match.redAllianceTeams[0], 0, false))
 
             val red2 = TextView(context)
             red2.text = match.redAllianceTeams[1].toString()
             red2.setTextColor(redAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            red2.isClickable = true
+            red2.textSize = 15F
+            red2.setOnClickListener(showMatchPage(match, match.redAllianceTeams[1], 1, false))
 
             val red3 = TextView(context)
             red3.text = match.redAllianceTeams[2].toString()
             red3.setTextColor(redAllianceColor)
-            matchNumber.isClickable = true
-            matchNumber.textSize = 15F
+            red3.isClickable = true
+            red3.textSize = 15F
+            red3.setOnClickListener(showMatchPage(match, match.redAllianceTeams[2], 2, false))
 
             val tableRow = TableRow(context)
             tableRow.addView(matchNumber)
@@ -104,5 +110,13 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
     private fun isDarkModeOn(): Boolean {
         val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun showMatchPage(match: EventData.Match, team: UInt, teamIndex: Int, blue: Boolean): (View) -> Unit {
+        return fun(view: View) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, MatchFragment(match, team, teamIndex, blue, eventData, supportFragmentManager))
+                .commitNow()
+        }
     }
 }

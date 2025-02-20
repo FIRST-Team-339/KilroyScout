@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
         android:textColor="?android:attr/textColorSecondary"
+        android:textSize="16dp"
         android:text="Robot Name • Rookie Year" />
 
     <TextView
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_medium"
         android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16dp"
         android:paddingTop="8dp"
         android:text="Pre-Scouting Data" />
 

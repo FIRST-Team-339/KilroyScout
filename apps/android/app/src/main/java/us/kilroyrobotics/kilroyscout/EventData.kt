@@ -52,8 +52,8 @@ data class EventData(
     ) {
 
         data class MatchScoutingData(
-            var blue: Collection<TeamMatchScoutingData>,
-            var red: Collection<TeamMatchScoutingData>
+            var blue: Array<TeamMatchScoutingData>,
+            var red: Array<TeamMatchScoutingData>
         ) {
             data class TeamMatchScoutingData(
                 @Volatile var modified: Boolean,
