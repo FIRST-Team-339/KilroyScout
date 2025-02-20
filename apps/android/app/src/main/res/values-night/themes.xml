@@ -6,10 +6,12 @@
         <item name="colorPrimary">@color/orange_500</item>
         <item name="colorPrimaryVariant">@color/orange_200</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondaryContainer">@color/orange_50</item>
+        <item name="colorSecondaryContainer">@color/orange_400</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/gray_300</item>
         <item name="colorSurfaceContainer">@color/orange_500</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
         <item name="android:statusBarColor">@color/orange_500</item>
     </style>
 </resources>
