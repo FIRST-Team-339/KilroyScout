@@ -251,6 +251,7 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
                                 .commitNow()
                         }
                         .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
+                            prescoutingData.recentlyModified = true
                             prescoutingData.modified = true
                             val updatedTeams = eventData.value!!.teams.map { if (it.teamNumber == team.teamNumber) team.copy(scouting = prescoutingData) else it }
 

@@ -352,6 +352,7 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
                             if (!blue) updatedRedMatchScoutingData[teamIndex] = teamMatchScoutingData
                             val updatedMatchScoutingData = match.scouting.copy(blue = updatedBlueMatchScoutingData, red = updatedRedMatchScoutingData)
 
+                            teamMatchScoutingData.recentlyModified = true
                             teamMatchScoutingData.modified = true
                             val updatedMatches = eventData.value!!.matches.map { if (it.matchNumber == match.matchNumber) match.copy(rankMatchData = true, scouting = updatedMatchScoutingData) else it }
 

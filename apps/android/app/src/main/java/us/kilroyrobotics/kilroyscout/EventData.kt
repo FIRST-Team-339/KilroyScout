@@ -25,6 +25,7 @@ data class EventData(
     ) {
         data class PrescoutData(
             @Volatile var modified: Boolean = false,
+            @Volatile var recentlyModified: Boolean = false,
             var drivetrain: String,
             var programmingLanguage: String,
             var canScoreCoral: Boolean,
@@ -56,7 +57,8 @@ data class EventData(
             var red: Array<TeamMatchScoutingData>
         ) {
             data class TeamMatchScoutingData(
-                @Volatile var modified: Boolean,
+                @Volatile var modified: Boolean = false,
+                @Volatile var recentlyModified: Boolean = false,
                 var auto: AutoScoutingData,
                 var teleop: TeleopScoutingData,
                 var allianceDidCoopertition: Boolean,
