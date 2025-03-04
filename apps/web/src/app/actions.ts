@@ -114,12 +114,12 @@ export async function initEvent(
 					matchNumber: match.matchNumber,
 					startTime: match.startTime.toString(),
 					rankMatchData: false,
-					blueAllianceTeams: [
+					redAllianceTeams: [
 						match.teams[0].teamNumber,
 						match.teams[1].teamNumber,
 						match.teams[2].teamNumber,
 					],
-					redAllianceTeams: [
+					blueAllianceTeams: [
 						match.teams[3].teamNumber,
 						match.teams[4].teamNumber,
 						match.teams[5].teamNumber,
