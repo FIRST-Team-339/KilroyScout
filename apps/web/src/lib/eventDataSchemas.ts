@@ -62,7 +62,7 @@ export const matchScoutingDataSchema = z.object({
 export type MatchScoutingData = z.TypeOf<typeof matchScoutingDataSchema>;
 
 export const matchDataSchema = z.object({
-	matchNumber: z.number(),
+	matchNumber: z.number().int().nonnegative(),
 	startTime: z.string(),
 	rankMatchData: z.boolean(),
 	blueAllianceTeams: z.tuple([z.number(), z.number(), z.number()]),
