@@ -16,5 +16,11 @@ interface ApiService {
     @POST("/api/setData/match/{match}/{team}")
     fun setMatchDataForTeam(@Path("match") match: UInt, @Path("team") team: UInt, @Body body: EventData.Match.MatchScoutingData.TeamMatchScoutingData): Call<GenericRequestResponse>
 
+    @POST("/api/setData/batch/prescout")
+    fun setBatchPrescoutData(@Body body: Array<EventData.Team.BatchPrescoutData>): Call<GenericRequestResponse>
+
+    @POST("/api/setData/batch/match")
+    fun setBatchMatchData(@Body body: Array<EventData.Match.MatchScoutingData.BatchTeamMatchScoutingData>): Call<GenericRequestResponse>
+
     data class GenericRequestResponse(val message: String) {}
 }

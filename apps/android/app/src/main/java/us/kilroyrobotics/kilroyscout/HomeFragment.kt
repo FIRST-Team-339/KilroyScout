@@ -162,16 +162,16 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
             return
         }
 
-        val recentlyModifiedTeams = eventData.value!!.teams.filter { team ->
-            return@filter team.scouting.recentlyModified
-        }
+        val recentlyModifiedTeams = eventData.value!!.teams.filter {
+            it.scouting.recentlyModified
+        }.map { team -> EventData.Team.BatchPrescoutData(teamNumber = team.teamNumber, scouting = team.scouting) }
 
         val recentlyModifiedMatchScoutingData = eventData.value!!.matches.flatMap { match ->
             val blueFiltered = match.scouting.blue.withIndex().filter { it.value.recentlyModified }
-                .map { Triple(match.matchNumber, match.blueAllianceTeams[it.index], it.value) }
+                .map { EventData.Match.MatchScoutingData.BatchTeamMatchScoutingData(matchNumber = match.matchNumber, teamNumber = match.blueAllianceTeams[it.index], scouting = it.value) }
 
             val redFiltered = match.scouting.red.withIndex().filter { it.value.recentlyModified }
-                .map { Triple(match.matchNumber, match.redAllianceTeams[it.index], it.value) }
+                .map { EventData.Match.MatchScoutingData.BatchTeamMatchScoutingData(matchNumber = match.matchNumber, teamNumber = match.redAllianceTeams[it.index], scouting = it.value) }
 
             blueFiltered + redFiltered
         }
@@ -181,13 +181,13 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
             .setMessage(
                 """Team Prescouting Data:
                 ${
-                    recentlyModifiedTeams.map { team -> "   • Team ${team.teamNumber}\n" }.toString()
+                    recentlyModifiedTeams.map { "   • Team ${it.teamNumber}\n" }.toString()
                         .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
                 }
                 
 Match Data:
                 ${
-                    recentlyModifiedMatchScoutingData.map { (matchNumber, teamNumber) -> "   • Match $matchNumber - Team $teamNumber\n" }.toString()
+                    recentlyModifiedMatchScoutingData.map { "   • Match ${it.matchNumber} - Team ${it.teamNumber}\n" }.toString()
                         .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
                 }
 
@@ -195,53 +195,49 @@ Pressing 'cancel' will not remove any local/edited data, and you can send at a l
             )
             .setNeutralButton(resources.getString(R.string.event_dialog_cancel)) { _, _ -> }
             .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
-                recentlyModifiedTeams.forEach { team ->
-                    apiService.setPrescoutData(team.teamNumber, team.scouting).enqueue(object: Callback<ApiService.GenericRequestResponse> {
-                        override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
-                            if (response.isSuccessful) {
-                                eventData.value = eventData.value?.copy(teams = eventData.value!!.teams.map { t ->
-                                    if (t.teamNumber == team.teamNumber) team.scouting.recentlyModified = false
-                                    t
-                                }.toTypedArray())
-                                Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
-                            } else {
-                                // Handle error
-                                Toast.makeText(context, "Data for ${team.teamNumber} failed to send", Toast.LENGTH_SHORT).show()
-                                println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
-                            }
+                apiService.setBatchPrescoutData(recentlyModifiedTeams.toTypedArray()).enqueue(object: Callback<ApiService.GenericRequestResponse> {
+                    override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
+                        if (response.isSuccessful) {
+                            eventData.value = eventData.value?.copy(teams = eventData.value!!.teams.map { team ->
+                                team.scouting.recentlyModified = false
+                                return@map team
+                            }.toTypedArray())
+                            Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Handle error
+                            Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                            println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
                         }
+                    }
 
-                        override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
-                            Toast.makeText(context, "Prescout Data for Team ${team.teamNumber} failed to send", Toast.LENGTH_SHORT).show()
-                            println("Send Data Failed: ${t.message}")
+                    override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
+                        Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                        println("Send Data Failed: ${t.message}")
+                    }
+                })
+
+                apiService.setBatchMatchData(recentlyModifiedMatchScoutingData.toTypedArray()).enqueue(object: Callback<ApiService.GenericRequestResponse> {
+                    override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
+                        if (response.isSuccessful) {
+                            eventData.value = eventData.value?.copy(matches = eventData.value!!.matches.map { match ->
+                                match.scouting.blue.forEach { it.recentlyModified = false }
+                                match.scouting.red.forEach { it.recentlyModified = false }
+
+                                return@map match
+                            }.toTypedArray())
+                            Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Handle error
+                            Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                            println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
                         }
-                    })
-                }
+                    }
 
-                recentlyModifiedMatchScoutingData.forEach { (matchNumber, teamNumber, matchScoutingData) ->
-                    apiService.setMatchDataForTeam(matchNumber, teamNumber, matchScoutingData).enqueue(object: Callback<ApiService.GenericRequestResponse> {
-                        override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
-                            if (response.isSuccessful) {
-                                eventData.value = eventData.value?.copy(matches = eventData.value!!.matches.map { match ->
-                                    match.scouting.blue.forEach { it.recentlyModified = false }
-                                    match.scouting.red.forEach { it.recentlyModified = false }
-
-                                    return@map match
-                                }.toTypedArray())
-                                Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
-                            } else {
-                                // Handle error
-                                Toast.makeText(context, "Match Data for Match $matchNumber, Team $teamNumber failed to send", Toast.LENGTH_SHORT).show()
-                                println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
-                            }
-                        }
-
-                        override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
-                            Toast.makeText(context, "Match Data for Match $matchNumber, Team $teamNumber failed to send", Toast.LENGTH_SHORT).show()
-                            println("Send Data Failed: ${t.message}")
-                        }
-                    })
-                }
+                    override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
+                        Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                        println("Send Data Failed: ${t.message}")
+                    }
+                })
             }
             .show()
     }

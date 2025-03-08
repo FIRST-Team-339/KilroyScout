@@ -41,6 +41,11 @@ data class EventData(
             var canDeepCageClimb: Boolean,
             var comments: String
         ) {}
+
+        data class BatchPrescoutData(
+            var teamNumber: UInt,
+            var scouting: PrescoutData
+        )
     }
 
     data class Match(
@@ -90,6 +95,12 @@ data class EventData(
                     var drivingSkill: UInt
                 ) {}
             }
+
+            data class BatchTeamMatchScoutingData(
+                var matchNumber: UInt,
+                var teamNumber: UInt,
+                var scouting: TeamMatchScoutingData
+            )
         }
     }
 }
