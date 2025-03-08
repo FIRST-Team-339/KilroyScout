@@ -12,12 +12,11 @@ export async function POST(request: Request) {
 
 	const eventData = await getEventData();
 
-	if (!eventData) {
+	if (!eventData)
 		return NextResponse.json(
 			{ message: "No event data found. Please initialize an event first" },
 			{ status: 500 },
 		);
-	}
 
 	const parsedBody = z
 		.array(
@@ -28,8 +27,10 @@ export async function POST(request: Request) {
 		)
 		.safeParse(body);
 
-	if (!parsedBody.success)
+	if (!parsedBody.success) {
+		console.log(parsedBody.error);
 		return NextResponse.json({ message: parsedBody.error }, { status: 400 });
+	}
 
 	await updateEventData({
 		...eventData,
