@@ -118,7 +118,7 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
         }
 
         val autoAlgaeAmount: TextView = view.findViewById(R.id.auto_algaeAmount)
-        autoAlgaeAmount.text = teamMatchScoutingData.auto.coralL4.toString()
+        autoAlgaeAmount.text = teamMatchScoutingData.auto.algaeProcessor.toString()
         val autoAlgaeAdd: Button = view.findViewById(R.id.auto_algaeAdd)
         autoAlgaeAdd.setOnClickListener {
             teamMatchScoutingData = teamMatchScoutingData.copy(auto = teamMatchScoutingData.auto.copy(algaeProcessor = teamMatchScoutingData.auto.algaeProcessor + 1u))
