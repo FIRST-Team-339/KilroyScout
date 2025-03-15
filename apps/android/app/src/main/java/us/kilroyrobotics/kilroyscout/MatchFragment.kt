@@ -42,13 +42,6 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
             runSaveCheck(view)
         }
 
-        val autoLeave: CheckBox = view.findViewById(R.id.auto_leave)
-        autoLeave.isChecked = teamMatchScoutingData.auto.leave
-        autoLeave.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(auto = teamMatchScoutingData.auto.copy(leave = state))
-            runSaveCheck(view)
-        }
-
         val autoCoralL1Amount: TextView = view.findViewById(R.id.auto_coralL1Amount)
         autoCoralL1Amount.text = teamMatchScoutingData.auto.coralL1.toString()
         val autoCoralL1Add: Button = view.findViewById(R.id.auto_coralL1Add)
@@ -117,6 +110,23 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
             }
         }
 
+        val autoAlgaeRemovedAmount: TextView = view.findViewById(R.id.auto_algaeRemovedAmount)
+        autoAlgaeRemovedAmount.text = teamMatchScoutingData.auto.algaeRemoved.toString()
+        val autoAlgaeRemovedAdd: Button = view.findViewById(R.id.auto_algaeRemovedAdd)
+        autoAlgaeRemovedAdd.setOnClickListener {
+            teamMatchScoutingData = teamMatchScoutingData.copy(auto = teamMatchScoutingData.auto.copy(algaeRemoved = teamMatchScoutingData.auto.algaeRemoved + 1u))
+            autoAlgaeRemovedAmount.text = teamMatchScoutingData.auto.algaeRemoved.toString()
+            runSaveCheck(view)
+        }
+        val autoAlgaeRemovedRemove: Button = view.findViewById(R.id.auto_algaeRemovedRemove)
+        autoAlgaeRemovedRemove.setOnClickListener {
+            if (teamMatchScoutingData.auto.algaeRemoved > 0u) {
+                teamMatchScoutingData = teamMatchScoutingData.copy(auto = teamMatchScoutingData.auto.copy(algaeRemoved = teamMatchScoutingData.auto.algaeRemoved - 1u))
+                autoAlgaeRemovedAmount.text = teamMatchScoutingData.auto.algaeRemoved.toString()
+                runSaveCheck(view)
+            }
+        }
+
         val autoAlgaeAmount: TextView = view.findViewById(R.id.auto_algaeAmount)
         autoAlgaeAmount.text = teamMatchScoutingData.auto.algaeProcessor.toString()
         val autoAlgaeAdd: Button = view.findViewById(R.id.auto_algaeAdd)
@@ -132,13 +142,6 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
                 autoAlgaeAmount.text = teamMatchScoutingData.auto.algaeProcessor.toString()
                 runSaveCheck(view)
             }
-        }
-
-        val allianceGotAutoRP: CheckBox = view.findViewById(R.id.allianceGotAutoRP)
-        allianceGotAutoRP.isChecked = teamMatchScoutingData.auto.allianceGotAutoRP
-        allianceGotAutoRP.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(auto = teamMatchScoutingData.auto.copy(allianceGotAutoRP = state))
-            runSaveCheck(view)
         }
 
         val teleopCoralL1Amount: TextView = view.findViewById(R.id.teleop_coralL1Amount)
@@ -209,6 +212,23 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
             }
         }
 
+        val teleopAlgaeRemovedAmount: TextView = view.findViewById(R.id.teleop_algaeRemovedAmount)
+        teleopAlgaeRemovedAmount.text = teamMatchScoutingData.teleop.algaeRemoved.toString()
+        val teleopAlgaeRemovedAdd: Button = view.findViewById(R.id.teleop_algaeRemovedAdd)
+        teleopAlgaeRemovedAdd.setOnClickListener {
+            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(algaeRemoved = teamMatchScoutingData.teleop.algaeRemoved + 1u))
+            teleopAlgaeRemovedAmount.text = teamMatchScoutingData.teleop.algaeRemoved.toString()
+            runSaveCheck(view)
+        }
+        val teleopAlgaeRemovedRemove: Button = view.findViewById(R.id.teleop_algaeRemovedRemove)
+        teleopAlgaeRemovedRemove.setOnClickListener {
+            if (teamMatchScoutingData.teleop.algaeRemoved > 0u) {
+                teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(algaeRemoved = teamMatchScoutingData.teleop.algaeRemoved - 1u))
+                teleopAlgaeRemovedAmount.text = teamMatchScoutingData.auto.algaeRemoved.toString()
+                runSaveCheck(view)
+            }
+        }
+
         val teleopAlgaeProcessorAmount: TextView = view.findViewById(R.id.teleop_algaeProcessorAmount)
         teleopAlgaeProcessorAmount.text = teamMatchScoutingData.teleop.algaeProcessor.toString()
         val teleopAlgaeProcessorAdd: Button = view.findViewById(R.id.teleop_algaeProcessorAdd)
@@ -241,48 +261,6 @@ class MatchFragment(private val match: EventData.Match, private val team: UInt, 
                 teleopAlgaeNetAmount.text = teamMatchScoutingData.teleop.algaeNet.toString()
                 runSaveCheck(view)
             }
-        }
-
-        val allianceDidCoopertition: CheckBox = view.findViewById(R.id.allianceDidCoopertition)
-        allianceDidCoopertition.isChecked = teamMatchScoutingData.allianceDidCoopertition
-        allianceDidCoopertition.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(allianceDidCoopertition = state)
-            runSaveCheck(view)
-        }
-
-        val teleopParked: CheckBox = view.findViewById(R.id.teleop_parked)
-        teleopParked.isChecked = teamMatchScoutingData.teleop.parked
-        teleopParked.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(parked = state))
-            runSaveCheck(view)
-        }
-
-        val teleopShallowCageClimbed: CheckBox = view.findViewById(R.id.teleop_shallowCageClimbed)
-        teleopShallowCageClimbed.isChecked = teamMatchScoutingData.teleop.shallowCageClimbed
-        teleopShallowCageClimbed.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(shallowCageClimbed = state))
-            runSaveCheck(view)
-        }
-
-        val teleopDeepCageClimbed: CheckBox = view.findViewById(R.id.teleop_deepCageClimbed)
-        teleopDeepCageClimbed.isChecked = teamMatchScoutingData.teleop.deepCageClimbed
-        teleopDeepCageClimbed.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(deepCageClimbed = state))
-            runSaveCheck(view)
-        }
-
-        val teleopAllianceGotCoralRP: CheckBox = view.findViewById(R.id.allianceGotCoralRP)
-        teleopAllianceGotCoralRP.isChecked = teamMatchScoutingData.teleop.allianceGotCoralRP
-        teleopAllianceGotCoralRP.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(allianceGotCoralRP = state))
-            runSaveCheck(view)
-        }
-
-        val teleopAllianceGotBargeRP: CheckBox = view.findViewById(R.id.allianceGotBargeRP)
-        teleopAllianceGotBargeRP.isChecked = teamMatchScoutingData.teleop.allianceGotBargeRP
-        teleopAllianceGotBargeRP.setOnCheckedChangeListener { _, state ->
-            teamMatchScoutingData = teamMatchScoutingData.copy(teleop = teamMatchScoutingData.teleop.copy(allianceGotBargeRP = state))
-            runSaveCheck(view)
         }
 
         val teleopDrivingSkillAmount: TextView = view.findViewById(R.id.teleop_drivingSkillAmount)

@@ -97,6 +97,13 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
             runSaveCheck(view)
         }
 
+        val canRemoveAlgae: CheckBox = view.findViewById(R.id.canRemoveAlgae)
+        canRemoveAlgae.isChecked = prescoutingData.canRemoveAlgae
+        canRemoveAlgae.setOnCheckedChangeListener { _, state ->
+            prescoutingData = prescoutingData.copy(canRemoveAlgae = state)
+            runSaveCheck(view)
+        }
+
         val canScoreAlgae: CheckBox = view.findViewById(R.id.canScoreAlgae)
         canScoreAlgae.isChecked = prescoutingData.canScoreAlgae
         canScoreAlgae.setOnCheckedChangeListener { _, state ->
@@ -178,6 +185,13 @@ class TeamFragment(private val team: EventData.Team, private val eventData: Muta
         canScoreCoralInAuto.isChecked = prescoutingData.canScoreCoralInAuto
         canScoreCoralInAuto.setOnCheckedChangeListener { _, state ->
             prescoutingData = prescoutingData.copy(canScoreCoralInAuto = state)
+            runSaveCheck(view)
+        }
+
+        val canRemoveAlgaeInAuto: CheckBox = view.findViewById(R.id.canRemoveAlgaeInAuto)
+        canRemoveAlgaeInAuto.isChecked = prescoutingData.canRemoveAlgaeInAuto
+        canRemoveAlgaeInAuto.setOnCheckedChangeListener { _, state ->
+            prescoutingData = prescoutingData.copy(canRemoveAlgaeInAuto = state)
             runSaveCheck(view)
         }
 

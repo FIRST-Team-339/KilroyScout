@@ -29,6 +29,7 @@ data class EventData(
             var drivetrain: String,
             var programmingLanguage: String,
             var canScoreCoral: Boolean,
+            var canRemoveAlgae: Boolean,
             var canScoreAlgae: Boolean,
             var maxCoralScoringLevel: UInt,
             var averageCoralCycled: UInt,
@@ -36,6 +37,7 @@ data class EventData(
             var maxCoralScoredInAuto: UInt,
             var canLeaveInAuto: Boolean,
             var canScoreCoralInAuto: Boolean,
+            var canRemoveAlgaeInAuto: Boolean,
             var canScoreAlgaeInAuto: Boolean,
             var canShallowCageClimb: Boolean,
             var canDeepCageClimb: Boolean,
@@ -76,8 +78,8 @@ data class EventData(
                     var coralL2: UInt,
                     var coralL3: UInt,
                     var coralL4: UInt,
+                    var algaeRemoved: UInt,
                     var algaeProcessor: UInt,
-                    var allianceGotAutoRP: Boolean
                 ) {}
 
                 data class TeleopScoutingData(
@@ -85,13 +87,12 @@ data class EventData(
                     var coralL2: UInt,
                     var coralL3: UInt,
                     var coralL4: UInt,
+                    var algaeRemoved: UInt,
                     var algaeProcessor: UInt,
                     var algaeNet: UInt,
                     var parked: Boolean,
                     var shallowCageClimbed: Boolean,
                     var deepCageClimbed: Boolean,
-                    var allianceGotCoralRP: Boolean,
-                    var allianceGotBargeRP: Boolean,
                     var drivingSkill: UInt
                 ) {}
             }

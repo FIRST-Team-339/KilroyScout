@@ -59,8 +59,11 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
         val fetchDataButton: Button = view.findViewById(R.id.fetchDataButton)
         fetchDataButton.setOnClickListener(this::fetchData)
 
-        val sendDataButton: Button = view.findViewById(R.id.sendDataButton)
-        sendDataButton.setOnClickListener(this::sendData)
+        val sendRecentDataButton: Button = view.findViewById(R.id.sendRecentDataButton)
+        sendRecentDataButton.setOnClickListener(this::sendRecentData)
+
+        val sendModifiedDataButton: Button = view.findViewById(R.id.sendModifiedDataButton)
+        sendModifiedDataButton.setOnClickListener(this::sendModifiedData)
 
         val station: TextInputLayout = view.findViewById(R.id.station)
         val stationItems = arrayOf("Blue 1", "Blue 2", "Blue 3", "Red 1", "Red 2", "Red 3")
@@ -156,7 +159,7 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
     }
 
     @OptIn(ExperimentalUnsignedTypes::class)
-    private fun sendData(view: View) {
+    private fun sendRecentData(view: View) {
         if (eventData.value == null) {
             Toast.makeText(context, "No Event Data", Toast.LENGTH_SHORT).show()
             return
@@ -181,7 +184,94 @@ class HomeFragment(private val mainActivity: MainActivity, private var eventData
             .setMessage(
                 """Team Prescouting Data:
                 ${
-                    recentlyModifiedTeams.map { "   • Team ${it.teamNumber}\n" }.toString()
+                    recentlyModifiedTeams.map { "• Team ${it.teamNumber}\n" }.toString()
+                        .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
+                }
+                
+Match Data:
+                ${
+                    recentlyModifiedMatchScoutingData.map { "   • Match ${it.matchNumber} - Team ${it.teamNumber}\n" }.toString()
+                        .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
+                }
+
+Pressing 'cancel' will not remove any local/edited data, and you can send at a later time."""
+            )
+            .setNeutralButton(resources.getString(R.string.event_dialog_cancel)) { _, _ -> }
+            .setPositiveButton(resources.getString(R.string.event_dialog_continue)) { _, _ ->
+                apiService.setBatchPrescoutData(recentlyModifiedTeams.toTypedArray()).enqueue(object: Callback<ApiService.GenericRequestResponse> {
+                    override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
+                        if (response.isSuccessful) {
+                            eventData.value = eventData.value?.copy(teams = eventData.value!!.teams.map { team ->
+                                team.scouting.recentlyModified = false
+                                return@map team
+                            }.toTypedArray())
+                            Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Handle error
+                            Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                            println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
+                        Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                        println("Send Data Failed: ${t.message}")
+                    }
+                })
+
+                apiService.setBatchMatchData(recentlyModifiedMatchScoutingData.toTypedArray()).enqueue(object: Callback<ApiService.GenericRequestResponse> {
+                    override fun onResponse(call: Call<ApiService.GenericRequestResponse>, response: Response<ApiService.GenericRequestResponse>) {
+                        if (response.isSuccessful) {
+                            eventData.value = eventData.value?.copy(matches = eventData.value!!.matches.map { match ->
+                                match.scouting.blue.forEach { it.recentlyModified = false }
+                                match.scouting.red.forEach { it.recentlyModified = false }
+
+                                return@map match
+                            }.toTypedArray())
+                            Toast.makeText(context, "Sent Data Successfully", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Handle error
+                            Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                            println("Send Data Failed: ${response.code()} | ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiService.GenericRequestResponse>, t: Throwable) {
+                        Toast.makeText(context, "Some or all data failed to send, check server for details", Toast.LENGTH_SHORT).show()
+                        println("Send Data Failed: ${t.message}")
+                    }
+                })
+            }
+            .show()
+    }
+
+    @OptIn(ExperimentalUnsignedTypes::class)
+    private fun sendModifiedData(view: View) {
+        if (eventData.value == null) {
+            Toast.makeText(context, "No Event Data", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val recentlyModifiedTeams = eventData.value!!.teams.filter {
+            it.scouting.modified
+        }.map { team -> EventData.Team.BatchPrescoutData(teamNumber = team.teamNumber, scouting = team.scouting) }
+
+        val recentlyModifiedMatchScoutingData = eventData.value!!.matches.flatMap { match ->
+            val blueFiltered = match.scouting.blue.withIndex().filter { it.value.modified }
+                .map { EventData.Match.MatchScoutingData.BatchTeamMatchScoutingData(matchNumber = match.matchNumber, teamNumber = match.blueAllianceTeams[it.index], scouting = it.value) }
+
+            val redFiltered = match.scouting.red.withIndex().filter { it.value.modified }
+                .map { EventData.Match.MatchScoutingData.BatchTeamMatchScoutingData(matchNumber = match.matchNumber, teamNumber = match.redAllianceTeams[it.index], scouting = it.value) }
+
+            blueFiltered + redFiltered
+        }
+
+        MaterialAlertDialogBuilder(mainActivity)
+            .setTitle(resources.getString(R.string.send_data_dialog_title))
+            .setMessage(
+                """Team Prescouting Data:
+                ${
+                    recentlyModifiedTeams.map { "• Team ${it.teamNumber}\n" }.toString()
                         .substringAfter("[").substringBefore("]").split(",").joinToString("  ")
                 }
                 

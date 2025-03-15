@@ -37,7 +37,7 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
         val redAllianceColor = if (isDarkModeOn()) resources.getColor(R.color.red_dark) else resources.getColor(R.color.red_light)
         val primaryTextColor = if (isDarkModeOn()) resources.getColor(R.color.white) else resources.getColor(R.color.black)
 
-        val station = preferences.getString("station", "Blue 1")
+        val station = preferences.getString("station", "Blue 1") ?: "Blue 1"
 
         eventData.value?.matches?.forEach { match ->
             val matchNumber = TextView(context)
@@ -54,81 +54,41 @@ class MatchesFragment(private var eventData: MutableLiveData<EventData?>, privat
             startTime.setTypeface(startTime.typeface, Typeface.BOLD)
             startTime.textSize = 15F
 
-            val blue1 = TextView(context)
-            blue1.text = match.blueAllianceTeams[0].toString()
-            blue1.setTextColor(blueAllianceColor)
-            if (station == "Blue 1") {
-                blue1.paint.isUnderlineText = true;
-                blue1.setTypeface(blue1.typeface, Typeface.BOLD_ITALIC)
-            }
-            blue1.isClickable = true
-            blue1.textSize = 15F
-            blue1.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[0], 0, true))
-
-            val blue2 = TextView(context)
-            blue2.text = match.blueAllianceTeams[1].toString()
-            blue2.setTextColor(blueAllianceColor)
+            var team = match.blueAllianceTeams[0]
+            var teamIndex = 0
             if (station == "Blue 2") {
-                blue2.paint.isUnderlineText = true;
-                blue2.setTypeface(blue2.typeface, Typeface.BOLD_ITALIC)
+                team = match.blueAllianceTeams[1]
+                teamIndex = 0
             }
-            blue2.isClickable = true
-            blue2.textSize = 15F
-            blue2.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[1], 1, true))
-
-            val blue3 = TextView(context)
-            blue3.text = match.blueAllianceTeams[2].toString()
-            blue3.setTextColor(blueAllianceColor)
             if (station == "Blue 3") {
-                blue3.paint.isUnderlineText = true;
-                blue3.setTypeface(blue3.typeface, Typeface.BOLD_ITALIC)
+                team = match.blueAllianceTeams[2]
+                teamIndex = 1
             }
-            blue3.isClickable = true
-            blue3.textSize = 15F
-            blue3.setOnClickListener(showMatchPage(match, match.blueAllianceTeams[2], 2, true))
-
-            val red1 = TextView(context)
-            red1.text = match.redAllianceTeams[0].toString()
-            red1.setTextColor(redAllianceColor)
             if (station == "Red 1") {
-                red1.paint.isUnderlineText = true;
-                red1.setTypeface(red1.typeface, Typeface.BOLD_ITALIC)
+                team = match.redAllianceTeams[0]
+                teamIndex = 0
             }
-            red1.isClickable = true
-            red1.textSize = 15F
-            red1.setOnClickListener(showMatchPage(match, match.redAllianceTeams[0], 0, false))
-
-            val red2 = TextView(context)
-            red2.text = match.redAllianceTeams[1].toString()
-            red2.setTextColor(redAllianceColor)
             if (station == "Red 2") {
-                red2.paint.isUnderlineText = true;
-                red2.setTypeface(red2.typeface, Typeface.BOLD_ITALIC)
+                team = match.redAllianceTeams[1]
+                teamIndex = 1
             }
-            red2.isClickable = true
-            red2.textSize = 15F
-            red2.setOnClickListener(showMatchPage(match, match.redAllianceTeams[1], 1, false))
-
-            val red3 = TextView(context)
-            red3.text = match.redAllianceTeams[2].toString()
-            red3.setTextColor(redAllianceColor)
             if (station == "Red 3") {
-                red3.paint.isUnderlineText = true;
-                red3.setTypeface(red3.typeface, Typeface.BOLD_ITALIC)
+                team = match.redAllianceTeams[2]
+                teamIndex = 2
             }
-            red3.isClickable = true
-            red3.textSize = 15F
-            red3.setOnClickListener(showMatchPage(match, match.redAllianceTeams[2], 2, false))
+
+            val correctStation = TextView(context)
+            correctStation.text = team.toString()
+            if (station.contains("Blue")) correctStation.setTextColor(blueAllianceColor)
+            if (station.contains("Red")) correctStation.setTextColor(redAllianceColor)
+            correctStation.isClickable = true
+            correctStation.textSize = 15F
+            correctStation.setOnClickListener(showMatchPage(match, team, teamIndex, station.contains("Blue")))
 
             val tableRow = TableRow(context)
             tableRow.addView(matchNumber)
             tableRow.addView(startTime)
-            tableRow.addView(blue1)
-            tableRow.addView(blue2)
-            tableRow.addView(blue3)
-            tableRow.addView(red1)
-            tableRow.addView(red2)
-            tableRow.addView(red3)
+            tableRow.addView(correctStation)
             tableRow.setPadding(0, 15, 0, 15)
 
             matches.addView(tableRow)

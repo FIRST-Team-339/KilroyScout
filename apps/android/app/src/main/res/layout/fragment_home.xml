@@ -45,12 +45,24 @@
             android:textSize="16dp" />
 
         <Button
-            android:id="@+id/sendDataButton"
+            android:id="@+id/sendRecentDataButton"
             style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Send Data"
+            android:text="Send Recent"
+            android:fontFamily="@font/lexend_medium"
+            android:textColor="@color/orange_600"
+            android:backgroundTint="@color/orange_50"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/sendModifiedDataButton"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Send Modified"
             android:fontFamily="@font/lexend_medium"
             android:textColor="@color/orange_600"
             android:backgroundTint="@color/orange_50"

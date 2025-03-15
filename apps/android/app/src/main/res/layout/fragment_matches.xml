@@ -33,40 +33,10 @@
                         android:paddingRight="16dp"
                         />
                     <TextView
-                        android:text="Blue 1"
+                        android:text="Team"
                         android:textStyle="bold"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
-                        />
-                    <TextView
-                        android:text="Blue 2"
-                        android:textStyle="bold"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
-                        />
-                    <TextView
-                        android:text="Blue 3"
-                        android:textStyle="bold"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
-                        />
-                    <TextView
-                        android:text="Red 1"
-                        android:textStyle="bold"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
-                        />
-                    <TextView
-                        android:text="Red 2"
-                        android:textStyle="bold"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
-                        />
-                    <TextView
-                        android:text="Red 3"
-                        android:textStyle="bold"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:paddingRight="24dp"
+                        android:paddingRight="32dp"
                         />
                 </TableRow>
             </TableLayout>

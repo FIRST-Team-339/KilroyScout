@@ -38,6 +38,7 @@ export async function POST(request: Request) {
 			const updatedMatchData = parsedBody.data.filter(
 				(matchData) => matchData.matchNumber === match.matchNumber,
 			);
+
 			if (updatedMatchData.length > 0) {
 				return {
 					...match,
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
 							const updatedTeamData = updatedMatchData.find(
 								(matchData) => matchData.teamNumber === teamNumber,
 							);
+
 							if (updatedTeamData) return updatedTeamData.scouting;
 
 							return existingData;

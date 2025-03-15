@@ -356,6 +356,15 @@ export default function Team({
 									</TableCell>
 								</TableRow>
 								<TableRow>
+									<TableCell>Can Remove Algae?</TableCell>
+									<TableCell>
+										<Checkbox
+											className="pointer-events-none"
+											checked={teamData.scouting.canRemoveAlgae}
+										/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
 									<TableCell>Can Score Algae?</TableCell>
 									<TableCell>
 										<Checkbox
@@ -386,6 +395,15 @@ export default function Team({
 								</TableRow>
 								<TableRow>
 									<TableCell>Can Score Coral in Auto?</TableCell>
+									<TableCell>
+										<Checkbox
+											className="pointer-events-none"
+											checked={teamData.scouting.canScoreCoralInAuto}
+										/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
+									<TableCell>Can Remove Algae in Auto?</TableCell>
 									<TableCell>
 										<Checkbox
 											className="pointer-events-none"

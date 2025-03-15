@@ -111,6 +111,20 @@
                 <TableRow
                     android:paddingVertical="10dp">
                     <TextView
+                        android:text="Can Remove Algae?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canRemoveAlgae"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
                         android:text="Can Score Algae?"
                         android:textColor="?android:attr/textColorPrimary"
                         android:paddingHorizontal="20dp"
@@ -283,6 +297,20 @@
                         android:layout_gravity="left|center"/>
                     <CheckBox
                         android:id="@+id/canScoreCoralInAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        />
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:text="Can Remove Algae in Auto?"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <CheckBox
+                        android:id="@+id/canRemoveAlgaeInAuto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"

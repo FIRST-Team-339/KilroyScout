@@ -68,20 +68,6 @@
                 <TableRow
                     android:paddingVertical="10dp">
                     <TextView
-                        android:text="Leave"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/auto_leave"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
                         android:text="L1 Coral Scored"
                         android:textColor="?android:attr/textColorPrimary"
                         android:paddingHorizontal="20dp"
@@ -234,6 +220,44 @@
                 <TableRow
                     android:paddingVertical="10dp">
                     <TextView
+                        android:text="Algae Removed"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/auto_algaeRemovedAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/auto_algaeRemovedRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/auto_algaeRemovedAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
                         android:text="Algae Scored"
                         android:textColor="?android:attr/textColorPrimary"
                         android:paddingHorizontal="20dp"
@@ -268,20 +292,6 @@
                             app:icon="@drawable/add_24px"
                             />
                     </LinearLayout>
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Alliance got Auto RP"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/allianceGotAutoRP"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
                 </TableRow>
                 <TableRow
                     android:paddingVertical="10dp">
@@ -448,6 +458,44 @@
                 <TableRow
                     android:paddingVertical="10dp">
                     <TextView
+                        android:text="Algae Removed"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="left|center"/>
+                    <LinearLayout android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:enabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/teleop_algaeRemovedAmount"
+                                style="?attr/textInputOutlinedStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/teleop_algaeRemovedRemove"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/remove_24px"
+                            />
+                        <Button
+                            style="?attr/materialIconButtonOutlinedStyle"
+                            android:id="@+id/teleop_algaeRemovedAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            app:icon="@drawable/add_24px"
+                            />
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    android:paddingVertical="10dp">
+                    <TextView
                         android:text="Algae Scored [Processor]"
                         android:textColor="?android:attr/textColorPrimary"
                         android:paddingHorizontal="20dp"
@@ -520,90 +568,6 @@
                             app:icon="@drawable/add_24px"
                             />
                     </LinearLayout>
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Alliance did Coopertition"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/allianceDidCoopertition"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Parked"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/teleop_parked"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Shallow Cage Climbed"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/teleop_shallowCageClimbed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Deep Cage Climbed"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/teleop_deepCageClimbed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Alliance got Coral RP"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/allianceGotCoralRP"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
-                </TableRow>
-                <TableRow
-                    android:paddingVertical="10dp">
-                    <TextView
-                        android:text="Alliance got Barge RP"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center"/>
-                    <CheckBox
-                        android:id="@+id/allianceGotBargeRP"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        />
                 </TableRow>
                 <TableRow
                     android:paddingVertical="10dp">

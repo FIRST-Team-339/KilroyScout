@@ -200,6 +200,20 @@ export default function Team({
 									</TableCell>
 								</TableRow>
 								<TableRow>
+									<TableCell>Can Remove Algae?</TableCell>
+									<TableCell>
+										<Checkbox
+											defaultChecked={teamDataState.canRemoveAlgae}
+											onCheckedChange={(checked) =>
+												setTeamDataState({
+													...teamDataState,
+													canScoreCoral: !!checked,
+												})
+											}
+										/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
 									<TableCell>Can Score Algae?</TableCell>
 									<TableCell>
 										<Checkbox
@@ -287,6 +301,20 @@ export default function Team({
 									<TableCell>
 										<Checkbox
 											defaultChecked={teamDataState.canScoreCoralInAuto}
+											onCheckedChange={(checked) =>
+												setTeamDataState({
+													...teamDataState,
+													canScoreCoralInAuto: !!checked,
+												})
+											}
+										/>
+									</TableCell>
+								</TableRow>
+								<TableRow>
+									<TableCell>Can Remove Algae in Auto?</TableCell>
+									<TableCell>
+										<Checkbox
+											defaultChecked={teamDataState.canRemoveAlgaeInAuto}
 											onCheckedChange={(checked) =>
 												setTeamDataState({
 													...teamDataState,
