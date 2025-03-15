@@ -50,7 +50,12 @@ export async function POST(request: Request) {
 								(matchData) => matchData.teamNumber === teamNumber,
 							);
 
-							if (updatedTeamData) return updatedTeamData.scouting;
+							if (updatedTeamData) {
+								console.log(
+									`Updating team ${teamNumber} in match ${match.matchNumber}`,
+								);
+								return updatedTeamData.scouting;
+							}
 
 							return existingData;
 						}) as typeof match.scouting.blue,
@@ -60,7 +65,12 @@ export async function POST(request: Request) {
 							const updatedTeamData = updatedMatchData.find(
 								(matchData) => matchData.teamNumber === teamNumber,
 							);
-							if (updatedTeamData) return updatedTeamData.scouting;
+							if (updatedTeamData) {
+								console.log(
+									`Updating team ${teamNumber} in match ${match.matchNumber}`,
+								);
+								return updatedTeamData.scouting;
+							}
 
 							return existingData;
 						}) as typeof match.scouting.red,
